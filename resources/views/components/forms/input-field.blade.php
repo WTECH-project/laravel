@@ -4,7 +4,7 @@
     'label' => $label
 ])
 
-<div class="flex flex-col">
+<div {{ $attributes->merge(['class' => 'flex flex-col']) }}>
     <label class="text-left text-gray-500" for="{{ $name }}">{{ $label }}</label>
     <input class="
         bg-white border-2 
