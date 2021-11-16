@@ -3,13 +3,13 @@
     <head>
         @include('layouts.partials.head')
     </head>
-    <body>
+    <body class="flex flex-col min-h-screen">
         @include('layouts.partials.nav')
 
-        <main role="main">
+        <main role="main" class="mx-auto flex-grow">
             @yield('content')
         </main>
 
-        @include('layouts.partials.footer-scripts');
+        @include('layouts.partials.footer-scripts')
     </body>
 </html>
