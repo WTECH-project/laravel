@@ -17,4 +17,8 @@ Route::get('/', function () {
     return view('index.index');
 });
 
+Route::get('/settings', function() {
+    return view('settings');
+});
+
 require __DIR__.'/auth.php';
