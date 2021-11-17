@@ -17,4 +17,12 @@ Route::get('/', function () {
     return view('index.index');
 });
 
+Route::get('/categories', function () {
+    return view('products.index');
+});
+
+Route::get('/product', function () {
+    return view('products.show');
+});
+
 require __DIR__.'/auth.php';
