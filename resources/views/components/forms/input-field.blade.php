@@ -15,8 +15,18 @@
         focus:border-black
         px-4 
         py-3
-        mt-2"
+        mt-2
+        @error($name)
+        border-red-500
+        @enderror"
+    value="{{ old($name) }}"
     type="{{ $type }}" 
     id="{{ $name }}" 
     name="{{ $name }}">
+
+    @error($name)
+        <div class='text-red-500 mt-2 text-sm'>
+            {{ $message }}
+        </div>
+    @enderror
 </div>

@@ -11,5 +11,6 @@
         </main>
 
         @include('layouts.partials.footer-scripts')
+        @include('layouts.partials.footer')
     </body>
 </html>

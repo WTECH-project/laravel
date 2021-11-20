@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\RegisteredUserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,26 +16,25 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('index.index');
-});
+})->name('home');
+
+Route::get('/register', [RegisteredUserController::class, 'create'])->name('register');
+Route::post('/register', [RegisteredUserController::class, 'store']);
 
 Route::get('/settings', function() {
     return view('settings');
-});
-
-Route::get('/login', function() {
-    return view('auth.login');
-});
+})->name('settings');
 
 Route::get('/checkout', function() {
     return view('checkout.index');
-});
+})->name('checkout');
 
 Route::get('/categories', function () {
     return view('products.index');
-});
+})->name('categories');
 
 Route::get('/product', function () {
     return view('products.show');
-});
+})->name('product');
 
 require __DIR__.'/auth.php';

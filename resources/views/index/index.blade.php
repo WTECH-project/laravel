@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <section class="grid grid-cols-1 sm:grid-cols-2 gap-4 px-8 py-4">
+    <section class="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <a class="w-full relative shadow-md" href="#">
             <div class="w-full h-full inset-0 top-0 left-0 absolute bg-black opacity-50"></div>
             <div class="w-full h-full absolute flex flex-col top-0 left-0 justify-center items-center">
