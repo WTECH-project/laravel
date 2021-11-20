@@ -27,6 +27,7 @@ Route::get('/login', function() {
 
 Route::get('/checkout', function() {
     return view('checkout.index');
+});
 
 Route::get('/categories', function () {
     return view('products.index');
