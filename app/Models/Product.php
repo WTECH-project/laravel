@@ -22,11 +22,11 @@ class Product extends Model
     ];
 
     public function images() {
-        return $this->hasMany(Image::class);
+        return $this->belongsToMany(Image::class)->withTimestamps();
     }
 
     public function sizes() {
-        return $this->hasMany(Size::class);
+        return $this->belongsToMany(Size::class)->withTimestamps();
     }
 
     public function brand() {

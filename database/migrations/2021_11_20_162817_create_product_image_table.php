@@ -17,6 +17,7 @@ class CreateProductImageTable extends Migration
             $table->id();
             $table->integer('product_id')->unsigned();
             $table->integer('image_id')->unsigned();
+            $table->timestamps();
         });
     }
 
