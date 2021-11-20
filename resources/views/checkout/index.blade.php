@@ -3,67 +3,19 @@
 @section('content')
     <section>
         <ul id="progressbar" class="max-w-4xl mx-auto p-4 list-none flex justify-between text-center w-full">
-            <li class="w-1/6 p-4">
-                <div class="flex items-center justify-start flex-col">
-                    <div class="rounded-full h-12 w-12 flex items-center justify-center border-2 border-gray-600">
-                        <span>1</span>
-                    </div>
-                    <div class="rounded-full h-12 w-12 bg-black flex items-center justify-center border-2 border-gray-600 hidden">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                        </svg>
-                    </div>
-                    Košík
-                </div>
-            </li>
+            <x-checkout.progress span="1" label="Košík" />
             <li class="h-1 relative w-full top-10 rounded-full overflow-hidden">
                 <div class="w-full h-full bg-gray-600 absolute"></div>
             </li>
-            <li class="w-1/6 p-4">
-                <div class="flex items-center justify-start flex-col">
-                    <div class="rounded-full h-12 w-12 flex items-center justify-center border-2 border-gray-600">
-                        <span>2</span>
-                    </div>
-                    <div class="rounded-full h-12 w-12 bg-black flex items-center justify-center border-2 border-gray-600 hidden">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                        </svg>
-                    </div>
-                    Doprava a platba
-                </div>
-            </li>
+            <x-checkout.progress span="2" label="Doprava a platba" />
             <li class="h-1 relative w-full top-10 rounded-full overflow-hidden">
                 <div class="w-full h-full bg-gray-600 absolute"></div>
             </li>
-            <li class="w-1/6 p-4">
-                <div class="flex items-center justify-start flex-col">
-                    <div class="rounded-full h-12 w-12 flex items-center justify-center border-2 border-gray-600">
-                        <span>3</span>
-                    </div>
-                    <div class="rounded-full h-12 w-12 bg-black flex items-center justify-center border-2 border-gray-600 hidden">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                        </svg>
-                    </div>
-                    Dodacie údaje
-                </div>
-            </li>
+            <x-checkout.progress span="3" label="Dodacie údaje" />
             <li class="h-1 relative w-full top-10 rounded-full overflow-hidden">
                 <div class="w-full h-full bg-gray-600 absolute"></div>
             </li>
-            <li class="w-1/6 p-4">
-                <div class="flex items-center justify-start flex-col">
-                    <div class="rounded-full h-12 w-12 flex items-center justify-center border-2 border-gray-600">
-                        <span>4</span>
-                    </div>
-                    <div class="rounded-full h-12 w-12 bg-black flex items-center justify-center border-2 border-gray-600 hidden">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                        </svg>
-                    </div>
-                    Súhrn
-                </div>
-            </li>
+            <x-checkout.progress span="4" label="Súhrn" /> 
         </ul>
     </section>
 
@@ -113,60 +65,16 @@
         <article class="max-w-4xl mx-auto pt-6 px-8 md:pt-12 my-16 md:my-8 hidden">
             <section class="divide-y">
                 <h2 class="font-bold text-2xl mb-4">Doprava</h2>
-                <div class="flex p-4 flex-row items-center justify-between">
-                    <div>
-                        <input type="radio" name="transport" id="gls">
-                        <label for="gls">GLS</label>
-                    </div>
-                    <span>3,20€</span>
-                </div>
-                <div class="flex p-4 flex-row items-center justify-between">
-                    <div>
-                        <input type="radio" name="transport" id="dpd">
-                        <label for="dpd">DPD</label>
-                    </div>
-                    <span>4,00€</span>
-                </div>
-                <div class="flex p-4 flex-row items-center justify-between">
-                    <div>
-                        <input type="radio" name="transport" id="personal">
-                        <label for="personal">Osobný odber</label>
-                    </div>
-                    <span>1,00€</span>
-                </div>
-                <div class="flex p-4 flex-row items-center justify-between">
-                    <div>
-                        <input type="radio" name="transport" id="postOffice">
-                        <label for="postOffice">Balíček na poštu</label>
-                    </div>
-                    <span>3,50€</span>
-                </div>
-                <div></div>
+                <x-checkout.checkout-option type="radio" id="gls" name="transport" for="gls" label="GLS" price="3,20 €"/>
+                <x-checkout.checkout-option type="radio" id="dpd" name="transport" for="dpd" label="DPD" price="4,00 €"/>
+                <x-checkout.checkout-option type="radio" id="personal" name="transport" for="personal" label="Osobný odber" price="1,00 €"/>
+                <x-checkout.checkout-option type="radio" id="postOffice" name="transport" for="postOffice" label="Balíček na poštu" price="3,50 €"/>
             </section>
             <section class="divide-y mt-4">
                 <h2 class="font-bold text-2xl mb-4">Platba</h2>
-                <div class="flex p-4 flex-row items-center justify-between">
-                    <div>
-                        <input type="radio" name="payment" id="card">
-                        <label for="card">Platba kartou</label>
-                    </div>
-                    <span>Zadarmo</span>
-                </div>
-                <div class="flex p-4 flex-row items-center justify-between">
-                    <div>
-                        <input type="radio" name="payment" id="paypal">
-                        <label for="paypal">Paypal</label>
-                    </div>
-                    <span>Zadarmo</span>
-                </div>
-                <div class="flex p-4 flex-row items-center justify-between">
-                    <div>
-                        <input type="radio" name="payment" id="cash">
-                        <label for="cash">Dobierka</label>
-                    </div>
-                    <span>1,00€</span>
-                </div>
-                <div></div>
+                <x-checkout.checkout-option type="radio" id="card" name="payment" for="card" label="Platba kartou" price="Zadarmo"/>
+                <x-checkout.checkout-option type="radio" id="paypal" name="payment" for="paypal" label="Paypal" price="Zadarmo"/>
+                <x-checkout.checkout-option type="radio" id="cash" name="payment" for="cash" label="Dobierka" price="1,00 €"/>
             </section>
             <section>
                 <div class="grid mt-12 grid-cols-1 md:grid-cols-2 gap-8">
@@ -179,46 +87,28 @@
             <section>
                 <h2 class="font-bold text-2xl">Dodacie údaje</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-4">
-                    <div class="flex flex-col">
-                        <label class="text-left text-gray-500" for="name">Meno</label>
-                        <input class="bg-white border-2 border-gray-600 focus:outline-none transition duration-300 focus:border-black px-4 py-3 mt-2" type="text" id="name" name="name">
-                        <span class="text-red-500 hidden" id="nameError">Povinné pole</span>
-                    </div>
-                    <div class="flex flex-col">
-                        <label class="text-left text-gray-500" for="surname">Priezvisko</label>
-                        <input class="bg-white border-2 border-gray-600 focus:outline-none transition duration-300 focus:border-black px-4 py-3 mt-2" type="text" id="surname" name="surname">
-                        <span class="text-red-500 hidden" id="surnameError">Povinné pole</span>
-                    </div>
-                    <div class="flex flex-col">
-                        <label class="text-left text-gray-500" for="email">E-mail</label>
-                        <input class="bg-white border-2 border-gray-600 focus:outline-none transition duration-300 focus:border-black px-4 py-3 mt-2" type="text" id="email" name="surname">
-                        <span class="text-red-500 hidden" id="emailError">Povinné pole</span>
-                    </div>
-                    <div class="flex flex-col">
-                        <label class="text-left text-gray-500" for="phoneNumber">Telefón</label>
-                        <input class="bg-white border-2 border-gray-600 focus:outline-none transition duration-300 focus:border-black px-4 py-3 mt-2" type="text" id="phoneNumber" name="phoneNumber">
-                        <span class="text-red-500 hidden" id="phoneNumberError">Povinné pole</span>
-                    </div>
-                    <div class="flex flex-col">
-                        <label class="text-left text-gray-500" for="country">Krajina</label>
-                        <input class="bg-white border-2 border-gray-600 focus:outline-none transition duration-300 focus:border-black px-4 py-3 mt-2" type="text" id="country" name="country">
-                        <span class="text-red-500 hidden" id="countryError">Povinné pole</span>
-                    </div>
-                    <div class="flex flex-col">
-                        <label class="text-left text-gray-500" for="city">Mesto / obec</label>
-                        <input class="bg-white border-2 border-gray-600 focus:outline-none transition duration-300 focus:border-black px-4 py-3 mt-2" type="text" id="city" name="city">
-                        <span class="text-red-500 hidden" id="cityError">Povinné pole</span>
-                    </div>
-                    <div class="flex flex-col">
-                        <label class="text-left text-gray-500" for="street">Ulica a číslo domu</label>
-                        <input class="bg-white border-2 border-gray-600 focus:outline-none transition duration-300 focus:border-black px-4 py-3 mt-2" type="text" id="street" name="street">
-                        <span class="text-red-500 hidden" id="streetError">Povinné pole</span>
-                    </div>
-                    <div class="flex flex-col">
-                        <label class="text-left text-gray-500" for="psc">Číslo popisné</label>
-                        <input class="bg-white border-2 border-gray-600 focus:outline-none transition duration-300 focus:border-black px-4 py-3 mt-2" type="text" id="psc" name="psc">
-                        <span class="text-red-500 hidden" id="pscError">Povinné pole</span>
-                    </div>
+                    <x-forms.input-field name="name" type="text" label="Meno" />
+                    <x-forms.input-field name="surname" type="text" label="Priezvisko" />
+                    <x-forms.input-field name="email" type="text" label="E-mail" />
+                    <x-forms.input-field name="phoneNumber" type="text" label="Telefón" />
+                    
+                    @php
+                    $country_options = [
+                        'SK' => 'Slovenská republika',
+                        'CZ' => 'Česká republika'    
+                    ]
+                    @endphp
+
+                    <x-forms.select
+                        label="Krajina"
+                        name="country"
+                        placeholder="Krajina"
+                        :options=$country_options
+                    />
+                    
+                    <x-forms.input-field name="city" type="text" label="Mesto / obec" />
+                    <x-forms.input-field name="street" type="text" label="Ulica a číslo domu" />
+                    <x-forms.input-field name="psc" type="text" label="Číslo popisné" />
                 </div>
 
                 <div class="grid mt-12 grid-cols-1 md:grid-cols-2 gap-8">
@@ -252,20 +142,8 @@
             </section>
             <section class="flex flex-col md:flex-row md:items-center md:justify-between mt-4">
                 <div>
-                    <div>
-                        <h2 class="font-bold text-2xl mt-4">Doprava</h2>
-                        <div>
-                            <span class="text-gray-500">GLS</span>
-                            <span class="text-gray-500 ml-4">Cena</span>
-                        </div> 
-                    </div>
-                    <div>
-                        <h2 class="font-bold text-2xl mt-4">Platba</h2>
-                        <div>
-                            <span class="text-gray-500">Platba kartou</span>
-                            <span class="text-gray-500 ml-4">Cena</span>
-                        </div>
-                    </div>
+                    <x-checkout.checkout-info h2="Doprava" label1="GLS" label2="Cena" />
+                    <x-checkout.checkout-info h2="Platba" label1="Platba kartou" label2="Cena" />
                 </div>
                 <div>
                     <h2 class="font-bold text-2xl mt-4">Dodacie údaje</h2>
