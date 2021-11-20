@@ -21,4 +21,12 @@ Route::get('/settings', function() {
     return view('settings');
 });
 
+Route::get('/login', function() {
+    return view('auth.login');
+});
+
+Route::get('/checkout', function() {
+    return view('checkout.index');
+});
+
 require __DIR__.'/auth.php';
