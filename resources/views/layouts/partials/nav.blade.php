@@ -1,22 +1,22 @@
 <header class="bg-black px-8 py-8">
     <div class="flex items-center justify-between">
-        <div class="flex items-center">
+        <div class="flex items-center space-x-8">
             <a class="uppercase text-white font-bold text-xl" href="{{ route('home') }}">Logo</a>
             <nav>
-                <ul class="flex items-center mx-4">
-                    <li class="mx-4">
+                <ul class="flex items-center space-x-8">
+                    <li>
                         <a class="hover:underline text-gray-300" href="#">Ženy</a>
                     </li>
-                    <li class="mx-4">
+                    <li>
                         <a class="hover:underline text-gray-300" href="#">Muži</a>
                     </li>
                 </ul>
             </nav>
         </div>
-        <div class="flex items-center justify-center">
+        <div class="flex items-center justify-center space-x-8">
             <!-- Cart icon -->
             <div>
-                <a href="{{ route('checkout') }}" class="flex relative cursor-pointer mx-4">
+                <a href="{{ route('checkout') }}" class="flex relative cursor-pointer">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
                     </svg>
@@ -26,8 +26,9 @@
                 </a>
             </div>
             <!-- Profile menu -->
-            <div id="profile" class="hidden md:block flex relative cursor-pointer m-4 px-8 py-4 border-2 border-gray-300 md:m-0 md:p-0 md:border-0">
-                <svg xmlns="http://www.w3.org/2000/svg" class="mx-2 h-6 w-6 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            @auth
+            <div id="profile" class="hidden md:block flex relative cursor-pointer px-8 py-4 border-2 border-gray-300 md:m-0 md:p-0 md:border-0">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                 </svg>
                 <p class="text-white hover:underline md:hidden">Profil</p>
@@ -53,13 +54,31 @@
                 </div>
             </div>
             <!-- Hamburger -->
-            <div>
-                <svg id="hamburger" xmlns="http://www.w3.org/2000/svg" class="md:mx-2 h-6 w-6 md:hidden block text-gray-300 cursor-pointer" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <div class="md:hidden">
+                <svg id="hamburger" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-300 cursor-pointer" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                 </svg>
             </div>
+            @endauth
+
+            @guest
+            <div class="flex items-center">
+                <nav>
+                    <ul class="flex items-center space-x-4">
+                        <li>
+                            <a class="hover:underline text-gray-300" href="{{ route('login') }}">Prihlásiť sa</a>
+                        </li>
+                        <li>
+                            <a class="hover:underline text-gray-300" href="{{ route('register') }}">Registrovať</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+            @endguest
         </div>
     </div>
+    <!-- Responsive menu -->
+    @if(auth()->user())
     <div id="menu" class="hidden md:hidden">
         <div class="w-full flex flex-col md:flex-row md:items-center mt-4">
             <a href="{{ route('settings') }}" class="flex items-center gap-2 px-8 py-4 border-2 border-gray-300 md:m-0 md:p-0 md:border-0">
@@ -83,4 +102,5 @@
             </form>
         </div>
     </div>
+    @endif
 </header>
