@@ -32,7 +32,7 @@
                         $country_options = [
                             'SK' => 'Slovenská republika',
                             'CZ' => 'Česká republika'    
-                        ]
+                        ];
                     @endphp
 
                     <x-forms.select

@@ -35,42 +35,32 @@
             <div class="pb-2">
                 {{ $product->description }}
             </div>
-            <div class="pb-2">
-                <select class="border-2 rounded-md w-10/12" id="sizes">
-                    <option selected disabled hidden value="0">Veľkosti</option>
-                    @foreach($product->sizes as $size)
-                    <option value="{{ $size->size }}">{{ $size->size }}</option>
-                    @endforeach
-                </select>
-            </div>
-            <div class="flex flex-col py-2">
-                <button class="p-3 bg-black text-white uppercase font-bold transition duration-300 hover:bg-gray-700 text-sm w-10/12" type="submit" id="btnAdd">
-                    Pridať do košíka
-                </button>
-            </div>
+            <form action="{{ route('checkout') }}" method="POST">
+                @csrf
+                <input type="hidden" name="product_id" value="{{ $product->id }}" />
+                <input type="hidden" name="quantity" value="1" />
+
+                @php
+                $product_sizes = [];
+
+                foreach($product->sizes as $size) {
+                    $product_sizes[strval($size->id)] = $size->size;
+                }
+                @endphp
+
+                <x-forms.select name="size_id" placeholder="Veľkosti" label="" :options=$product_sizes />
+
+                <div class="flex flex-col py-2">
+                    <button class="p-3 bg-black text-white uppercase font-bold transition duration-300 hover:bg-gray-700 text-sm" type="submit" id="btnAdd">
+                        Pridať do košíka
+                    </button>
+                </div>
+            </form>
         </section>
     </article>
 </div>
 
 <script>
-    const selectSizes = document.getElementById('sizes');
-    let shoeSize = false;
-
-    selectSizes.addEventListener('change', (event) => {
-        shoeSize = event.target.value;
-        console.log(shoeSize);
-    });
-
-    let countBasketItems = 1;
-    const btnAdd = document.getElementById('btnAdd');
-
-    btnAdd.addEventListener('click', () => {
-        if (shoeSize) {
-            document.getElementById('numBasketItems').innerHTML = countBasketItems++;
-            console.log(shoeSize);
-        }
-    });
-
     var slideIndex = 0;
 
     showSlides(slideIndex)

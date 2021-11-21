@@ -3,16 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Address;
 
-class SettingsController extends Controller
+class CheckoutController extends Controller
 {
-
-    public function __construct()
-    {
-        $this->middleware(['auth']);
-    }
-
     /**
      * Display a listing of the resource.
      *
@@ -20,7 +13,13 @@ class SettingsController extends Controller
      */
     public function index()
     {
-        return view('settings');
+        $cart = session()->get('cart');
+        if(!$cart) {
+            $cart = array();
+            session()->put('cart', $cart);
+        }
+
+        return view('checkout.index');
     }
 
     /**
@@ -42,14 +41,28 @@ class SettingsController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'name' => 'required',
-            'surname' => 'required',
-            'phoneNumber' => 'required',
-            'country' => 'required',
-            'city' => 'required',
-            'street' => 'required',
-            'psc' => 'required'
+            'product_id' => 'required|numeric',
+            'quantity' => 'required|numeric',
+            'size_id' => 'required|numeric'
         ]);
+
+        $cart = session()->get('cart');
+
+        if(!$cart) {
+            $cart = array();
+            session()->put('cart', $cart);
+        }
+
+        if(isset($cart[$request->product_id]) && isset($cart[$request->product_id][$request->size_id])) {
+            $cart[$request->product_id][$request->size_id]['quantity'] += intval($request->quantity);
+        }
+        else {
+            $cart[$request->product_id][$request->size_id]['quantity'] = intval($request->quantity);
+        }
+
+        session()->put('cart', $cart);
+
+        return back();
     }
 
     /**
