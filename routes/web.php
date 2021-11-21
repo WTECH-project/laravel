@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\SettingsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,17 +23,15 @@ Route::get('/', function () {
 Route::get('/register', [RegisteredUserController::class, 'create'])->name('register');
 Route::post('/register', [RegisteredUserController::class, 'store']);
 
-Route::get('/settings', function() {
-    return view('settings');
-})->name('settings');
+Route::get('/account', [SettingsController::class, 'index'])->name('settings');
+Route::post('/account', [SettingsController::class, 'store']);
+
+Route::get('/products', [ProductController::class, 'index'])->name('products');
+Route::get('/products/{product}', [ProductController::class, 'show'])->name('products.show');
 
 Route::get('/checkout', function() {
     return view('checkout.index');
 })->name('checkout');
-
-Route::get('/categories', function () {
-    return view('products.index');
-})->name('categories');
 
 Route::get('/product', function () {
     return view('products.show');

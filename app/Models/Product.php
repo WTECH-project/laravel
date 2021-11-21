@@ -22,7 +22,7 @@ class Product extends Model
     ];
 
     public function images() {
-        return $this->belongsToMany(Image::class)->withTimestamps();
+        return $this->hasMany(Image::class);
     }
 
     public function sizes() {

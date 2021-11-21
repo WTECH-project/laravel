@@ -21,7 +21,6 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'surname',
-        'phone_number',
         'email',
         'password',
     ];
@@ -46,7 +45,7 @@ class User extends Authenticatable
     ];
 
     public function address() {
-        return $this->belongsTo(Address::class);
+        return $this->hasOne(Address::class);
     }
 
     public function cartItems() {

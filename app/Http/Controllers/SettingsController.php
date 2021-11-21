@@ -3,10 +3,16 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Product;
+use App\Models\Address;
 
-class ProductController extends Controller
+class SettingsController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware(['auth']);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -14,9 +20,8 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::inRandomOrder()->take(8)->get();
-
-        return view('products.index')->with('products', $products);
+        dd(auth()->user()->address);
+        return view('settings');
     }
 
     /**
@@ -37,7 +42,15 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'name' => 'required',
+            'surname' => 'required',
+            'phoneNumber' => 'required',
+            'country' => 'required',
+            'city' => 'required',
+            'street' => 'required',
+            'psc' => 'required'
+        ]);
     }
 
     /**
@@ -46,9 +59,9 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Product $product)
+    public function show($id)
     {
-        return view('products.show')->with('product', $product);
+        //
     }
 
     /**

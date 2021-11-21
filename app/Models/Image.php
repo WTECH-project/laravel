@@ -15,6 +15,6 @@ class Image extends Model
     ];
 
     public function products() {
-        return $this->belongsToMany(Product::class)->withTimestamps();
+        return $this->belongsTo(Product::class);
     }
 }
