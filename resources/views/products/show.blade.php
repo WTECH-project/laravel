@@ -7,7 +7,7 @@
             <div id="slides">
                 @foreach($product->images as $image)
                 <div class="hidden">
-                    <img class="w-full h-max-lg h-80" src="{{ $image->image_path }}" alt="Topanka">
+                    <img class="w-full h-max-lg h-80" src="{{ $image->image_path }}" alt="Topánka">
                 </div>
                 @endforeach
             </div>
@@ -35,7 +35,7 @@
             <div class="pb-2">
                 {{ $product->description }}
             </div>
-            <form action="{{ route('checkout') }}" method="POST">
+            <form action="{{ route('cart') }}" method="POST">
                 @csrf
                 <input type="hidden" name="product_id" value="{{ $product->id }}" />
                 <input type="hidden" name="quantity" value="1" />

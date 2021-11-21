@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
+use App\Models\Size;
 use Illuminate\Http\Request;
 
 class CheckoutController extends Controller
@@ -14,12 +16,28 @@ class CheckoutController extends Controller
     public function index()
     {
         $cart = session()->get('cart');
-        if(!$cart) {
+        if (!$cart) {
             $cart = array();
             session()->put('cart', $cart);
         }
 
-        return view('checkout.index');
+        $products = [];
+
+        foreach ($cart as $product_id => $size_data) {
+            $product = Product::findOrFail($product_id);
+
+            foreach ($size_data as $size_id => $count) {
+                $size = Size::findOrFail($size_id);
+
+                $products[] = [
+                    'product' => $product,
+                    'size' => $size,
+                    'quantity' => $count['quantity']
+                ];
+            }
+        }
+
+        return view('checkout.index')->with('cart_products', $products);
     }
 
     /**
@@ -40,29 +58,7 @@ class CheckoutController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
-            'product_id' => 'required|numeric',
-            'quantity' => 'required|numeric',
-            'size_id' => 'required|numeric'
-        ]);
-
-        $cart = session()->get('cart');
-
-        if(!$cart) {
-            $cart = array();
-            session()->put('cart', $cart);
-        }
-
-        if(isset($cart[$request->product_id]) && isset($cart[$request->product_id][$request->size_id])) {
-            $cart[$request->product_id][$request->size_id]['quantity'] += intval($request->quantity);
-        }
-        else {
-            $cart[$request->product_id][$request->size_id]['quantity'] = intval($request->quantity);
-        }
-
-        session()->put('cart', $cart);
-
-        return back();
+        //
     }
 
     /**
