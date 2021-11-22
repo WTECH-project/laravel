@@ -7,7 +7,7 @@
         </header>
         <section class="mt-8 md:px-8">
             <h2 class="font-bold text-2xl">Dodacie údaje</h2>
-            <form method="POST" action="#" class="mt-4">
+            <form method="POST" action="{{ route('settings') }}" class="mt-4">
                 @csrf
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <x-forms.input-field
@@ -32,7 +32,7 @@
                         $country_options = [
                             'SK' => 'Slovenská republika',
                             'CZ' => 'Česká republika'    
-                        ]
+                        ];
                     @endphp
 
                     <x-forms.select
