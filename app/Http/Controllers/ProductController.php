@@ -19,12 +19,46 @@ class ProductController extends Controller
     {
         $products = Product::query();
 
-        // parse brand filter options
-        foreach($request->get('brand', []) as $brand_name => $brand_id) {
-            $products = $products->where('brand_id', '=', $brand_id);
+        // parse brand filters
+        if($request->get('brand')) {
+            $products = $products->whereIn('brand_id', $request->get('brand'));
         }
 
-        $products = $products->paginate(12);
+        // parse category filters
+        if($request->get('category')) {
+            $products = $products->whereIn('category_id', $request->get('category'));
+        }
+
+        // parse color filters
+        if($request->get('color')) {
+            $products = $products->whereIn('color_id', $request->get('color'));
+        }
+
+        // parse price filters
+        if($request->get('price_from')) {
+            $products = $products->where('price', '>=', $request->get('price_from'));
+        }
+
+        if($request->get('price_to')) {
+            $products = $products->where('price', '<=', $request->get('price_to'));
+        }
+
+        // parse sort
+        if($request->get('sort')) {
+            $sort_type = $request->get('sort');
+
+            if($sort_type === 'asc') {
+                $products = $products->orderBy('price', 'asc');
+            }
+            else if($sort_type === 'desc') {
+                $products = $products->orderBy('price', 'desc');
+            }
+            else if($sort_type === 'alphabet') {
+                $products = $products->orderBy('name', 'asc');
+            }
+        }
+
+        $products = $products->orderBy('created_at', 'desc')->paginate(12);
 
         $brands = Brand::get();
         $colors = Color::get();

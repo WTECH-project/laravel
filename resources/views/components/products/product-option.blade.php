@@ -1,7 +1,7 @@
 @props([
     'name' => $name,
     'type' => $type,
-    'label' => $label
+    'label' => $label,
 ])
 
 <div>

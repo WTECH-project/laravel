@@ -10,6 +10,7 @@
             @yield('content')
         </main>
 
+        @stack('scripts')
         @include('layouts.partials.footer-scripts')
         @include('layouts.partials.footer')
     </body>
