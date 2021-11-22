@@ -6,26 +6,28 @@
             <h1 class="font-bold text-4xl">Nastavenia účtu</h1>
         </header>
         <section class="mt-8 md:px-8">
-            <h2 class="font-bold text-2xl">Dodacie údaje</h2>
-            <form method="POST" action="#" class="mt-4">
+            <form method="POST" action="/settings" class="mt-4">
                 @csrf
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <x-forms.input-field
                         label="Meno"
                         name="name"
                         type="text"
+                        value="{{auth()->user()->name}}"
                     />
 
                     <x-forms.input-field
                         label="Priezvisko"
                         name="surname"
                         type="text"
+                        value="{{auth()->user()->surname}}"
                     />
 
                     <x-forms.input-field
                         label="Telefón"
-                        name="phoneNumber"
+                        name="phone_number"
                         type="text"
+                        value="{{auth()->user()->phone_number}}"
                     />
 
                     @php
@@ -46,18 +48,21 @@
                         label="Mesto / obec"
                         name="city"
                         type="text"
+                        value="{{auth()->user()->city}}"
                     />
 
                     <x-forms.input-field
                         label="Ulica a číslo domu"
                         name="street"
                         type="text"
+                        value="{{auth()->user()->street}}"
                     />
 
                     <x-forms.input-field
-                        label="Číslo popisné"
-                        name="psc"
+                        label="PSČ"
+                        name="postcode"
                         type="text"
+                        value="{{auth()->user()->postcode}}"
                     />
                 </div>
                 <div class="flex flex-col md:items-center mt-8">

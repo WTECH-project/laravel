@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +16,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+/*
+Route::get('/', function () {
+    return view('index.index');
+})->name('home');
+*/
+
 Route::get('/', function () {
     return view('index.index');
 })->name('home');
@@ -22,8 +30,9 @@ Route::get('/register', [RegisteredUserController::class, 'create'])->name('regi
 Route::post('/register', [RegisteredUserController::class, 'store']);
 
 Route::get('/settings', function() {
-    return view('settings');
+    return view('settings.settings');
 })->name('settings');
+
 
 Route::get('/checkout', function() {
     return view('checkout.index');
@@ -36,5 +45,11 @@ Route::get('/categories', function () {
 Route::get('/product', function () {
     return view('products.show');
 })->name('product');
+
+Route::get('/reset_password', function () {
+    return view('auth.reset-password');
+})->name('reset_password');
+
+Route::post('/settings', [UserController::class, 'update']);
 
 require __DIR__.'/auth.php';

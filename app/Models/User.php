@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
-use App\Models\Address;
 use App\Models\CartItem;
 
 class User extends Authenticatable
@@ -24,6 +23,10 @@ class User extends Authenticatable
         'phone_number',
         'email',
         'password',
+        'street',
+        'city',
+        'postcode',
+        'country',
     ];
 
     /**
@@ -44,10 +47,6 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-
-    public function address() {
-        return $this->belongsTo(Address::class);
-    }
 
     public function cartItems() {
         return $this->hasMany(CartItem::class);
