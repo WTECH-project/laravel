@@ -3,8 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Address;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 
 class SettingsController extends Controller
 {

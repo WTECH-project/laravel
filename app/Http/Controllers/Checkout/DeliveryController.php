@@ -35,8 +35,31 @@ class DeliveryController extends Controller
      */
     public function store(Request $request)
     {
+        $this->validate($request, [
+            'name' => ['required', 'max:255', 'regex:/^[a-zA-Z]+$/'],
+            'surname' => ['required', 'max:255', 'regex:/^[a-zA-Z]+$/'],
+            'email' => ['required', 'email', 'max:255'],
+            'phoneNumber' => ['required', 'digits:10'],
+            'country' => ['required'],
+            'city' => ['required', 'max:255', 'regex:/^[a-zA-Z]+$/'],
+            'street' => ['required', 'max:255', 'regex:/^[A-Z][a-z]*[ ][0-9]+$/'],
+            'psc' => ['required', 'digits:5'],
+        ]);
+
+        $delivery_data = [
+            'name' => $request->name,
+            'surname' => $request->surname,
+            'email' => $request->email,
+            'phoneNumber' => $request->phoneNumber,
+            'country' => $request->country,
+            'city' => $request->city,
+            'street' => $request->street,
+            'psc' => $request->psc
+        ];
+
+        session()->put('delivery_data', $delivery_data);
+
         return redirect('/checkout/summary');
-        // return redirect('/checkout/summary');
     }
 
     /**
