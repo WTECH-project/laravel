@@ -10,6 +10,7 @@ use App\Models\Brand;
 use App\Models\Color;
 use App\Models\SexCategory;
 use App\Models\Category;
+use App\Models\OrderItem;
 
 class Product extends Model
 {
@@ -43,6 +44,10 @@ class Product extends Model
 
     public function category() {
         return $this->belongsTo(Category::class);
+    }
+
+    public function orderItems() {
+        return $this->hasMany(OrderItem::class);
     }
 
 }

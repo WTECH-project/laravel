@@ -22,12 +22,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-/*
-Route::get('/', function () {
-    return view('index.index');
-})->name('home');
-*/
-
 Route::get('/', function () {
     return view('index.index');
 })->name('home');
@@ -51,6 +45,8 @@ Route::get('/checkout/delivery', [DeliveryController::class, 'index'])->name('ch
 Route::post('/checkout/delivery', [DeliveryController::class, 'store']);
 
 Route::get('/checkout/summary', [SummaryController::class, 'index'])->name('checkout.summary');
+Route::post('/checkout/summary', [SummaryController::class, 'store']);
+
 Route::get('/checkout/thankyou', [ThankyouController::class, 'index'])->name('checkout.thankyou');
 
 Route::get('/cart', [CartController::class, 'index'])->name('cart');
