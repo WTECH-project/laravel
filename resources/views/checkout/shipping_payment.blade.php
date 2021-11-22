@@ -19,23 +19,33 @@
 @endsection
 
 @section('formContent')
-<section class="divide-y">
-    <h2 class="font-bold text-2xl mb-4">Doprava</h2>
-    <x-checkout.checkout-option type="radio" id="gls" name="transport" for="gls" label="GLS" price="3,20 €" />
-    <x-checkout.checkout-option type="radio" id="dpd" name="transport" for="dpd" label="DPD" price="4,00 €" />
-    <x-checkout.checkout-option type="radio" id="personal" name="transport" for="personal" label="Osobný odber" price="1,00 €" />
-    <x-checkout.checkout-option type="radio" id="postOffice" name="transport" for="postOffice" label="Balíček na poštu" price="3,50 €" />
-</section>
-<section class="divide-y mt-4">
-    <h2 class="font-bold text-2xl mb-4">Platba</h2>
-    <x-checkout.checkout-option type="radio" id="card" name="payment" for="card" label="Platba kartou" price="Zadarmo" />
-    <x-checkout.checkout-option type="radio" id="paypal" name="payment" for="paypal" label="Paypal" price="Zadarmo" />
-    <x-checkout.checkout-option type="radio" id="cash" name="payment" for="cash" label="Dobierka" price="1,00 €" />
-</section>
-<section>
-    <div class="grid mt-12 grid-cols-1 md:grid-cols-2 gap-8 text-center">
-        <a href="{{ route('checkout.delivery') }}" class="p-3 md:order-2 bg-black border-2 text-white uppercase font-bold transition duration-300 hover:bg-gray-700">Dodacie údaje</a>
-        <a href="{{ route('checkout.cart') }}" class="p-3 uppercase border-2 border-black font-bold transition duration-300 hover:text-white hover:bg-gray-700">Späť</a>
-    </div>
-</section>
+<form action="{{ route('checkout.shipping') }}" method="POST">
+    @csrf
+    <section class="divide-y">
+        <h2 class="font-bold text-2xl mb-4">Doprava</h2>
+        @foreach($deliveries as $delivery)
+        @if($shipping_id == $delivery->id)
+        <x-checkout.checkout-option type="radio" checked name="shipping" label="{{ $delivery->name }}" price="{{ number_format($delivery->price, 2, ',') }} €" value="{{ $delivery->id }}" />
+        @else
+        <x-checkout.checkout-option type="radio" name="shipping" label="{{ $delivery->name }}" price="{{ number_format($delivery->price, 2, ',') }} €" value="{{ $delivery->id }}" />
+        @endif
+        @endforeach
+    </section>
+    <section class="divide-y mt-4">
+        <h2 class="font-bold text-2xl mb-4">Platba</h2>
+        @foreach($payments as $payment)
+        @if($payment_id == $payment->id)
+        <x-checkout.checkout-option type="radio" checked name="payment" label="{{ $payment->type }}" price="{{ number_format($payment->price, 2, ',') }} €" value="{{ $payment->id }}" />
+        @else
+        <x-checkout.checkout-option type="radio" name="payment" label="{{ $payment->type }}" price="{{ number_format($payment->price, 2, ',') }} €" value="{{ $payment->id }}" />
+        @endif
+        @endforeach
+    </section>
+    <section>
+        <div class="grid mt-12 grid-cols-1 md:grid-cols-2 gap-8 text-center">
+            <button href="{{ route('checkout.delivery') }}" class="p-3 md:order-2 bg-black border-2 text-white uppercase font-bold transition duration-300 hover:bg-gray-700">Dodacie údaje</button>
+            <a href="{{ route('checkout.cart') }}" class="p-3 uppercase border-2 border-black font-bold transition duration-300 hover:text-white hover:bg-gray-700">Späť</a>
+        </div>
+    </section>
+</form>
 @endsection

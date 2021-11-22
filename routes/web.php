@@ -39,6 +39,8 @@ Route::get('/checkout/cart', [CheckoutController::class, 'index'])->name('checko
 Route::post('/checkout/cart', [CheckoutController::class, 'store']);
 
 Route::get('/checkout/shipping', [ShippingPaymentController::class, 'index'])->name('checkout.shipping');
+Route::post('/checkout/shipping', [ShippingPaymentController::class, 'store']);
+
 Route::get('/checkout/delivery', [DeliveryController::class, 'index'])->name('checkout.delivery');
 Route::get('/checkout/summary', [SummaryController::class, 'index'])->name('checkout.summary');
 Route::get('/checkout/thankyou', [ThankyouController::class, 'index'])->name('checkout.thankyou');

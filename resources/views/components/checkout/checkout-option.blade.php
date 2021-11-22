@@ -1,16 +1,21 @@
 @props([
-    'type' => $type,
-    'id' => $id,
-    'name' => $name,
-    'for' => $for,
-    'label' => $label,
-    'price' => $price
+'type' => $type,
+'name' => $name,
+'label' => $label,
+'price' => $price
 ])
-
-<div class="flex p-4 flex-row items-center justify-between">
-    <div>
-        <input type="{{ $type }}" name="{{ $name }}" id="{{ $id }}">
-        <label for="{{ $for }}">{{ $label }}</label>
+<div>
+    <div class="flex p-4 flex-row items-center justify-between">
+        <div class="flex items-center justify-center gap-4">
+            <input type="{{ $type }}" name="{{ $name }}" id="{{ $name }}" {{$attributes}}>
+            <label for="{{ $name }}">{{ $label }}</label>
+        </div>
+        <span>{{ $price }}</span>
     </div>
-    <span>{{ $price }}</span>
+    
+    @error($name)
+    <div class='text-red-500 mt-2 text-sm'>
+        {{ $message }}
+    </div>
+    @enderror
 </div>

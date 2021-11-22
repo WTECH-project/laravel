@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Checkout;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
+use App\Models\Delivery;
+use App\Models\Payment;
+
 class ShippingPaymentController extends Controller
 {
     /**
@@ -14,7 +17,17 @@ class ShippingPaymentController extends Controller
      */
     public function index()
     {
-        return view('checkout.shipping_payment');
+        $payments = Payment::get();
+        $deliveries = Delivery::get();
+
+        $shipping_id = session()->get('shipping');
+        $payment_id = session()->get('payment');
+
+        return view('checkout.shipping_payment')
+            ->with('payments', $payments)
+            ->with('deliveries', $deliveries)
+            ->with('shipping_id', $shipping_id)
+            ->with('payment_id', $payment_id);
     }
 
     /**
@@ -35,7 +48,15 @@ class ShippingPaymentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'shipping' => 'required|numeric',
+            'payment' => 'required|numeric'
+        ]);
+
+        session()->put('shipping', $request->shipping);
+        session()->put('payment', $request->payment);
+
+        return redirect('/checkout/delivery');
     }
 
     /**

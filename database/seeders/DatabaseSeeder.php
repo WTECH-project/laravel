@@ -9,6 +9,7 @@ use Database\Seeders\SizeSeeder;
 use Database\Seeders\SexCategorySeeder;
 use Database\Seeders\CategorySeeder;
 use Database\Seeders\PaymentSeeder;
+use Database\Seeders\DeliverySeeder;
 use Database\Seeders\ImageSeeder;
 use Database\Seeders\ProductSeeder;
 use Database\Seeders\ProductSizeSeeder;
@@ -29,6 +30,7 @@ class DatabaseSeeder extends Seeder
             SexCategorySeeder::class,
             CategorySeeder::class,
             PaymentSeeder::class,
+            DeliverySeeder::class,
             ProductSeeder::class,
             ImageSeeder::class,
             ProductSizeSeeder::class
