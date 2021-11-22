@@ -74,7 +74,6 @@
                         @endforeach
                     </div>
                 </section>
-
                 <section>
                     <h2 class="ml-2 font-semibold">Cena</h2>
                     <div class="flex flex-row text-sm ml-3 space-x-1 lg:text-base">

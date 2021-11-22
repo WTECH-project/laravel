@@ -16,7 +16,6 @@ class CreateShipmentsTable extends Migration
         Schema::create('shipments', function (Blueprint $table) {
             $table->id();
             $table->foreignId('order_id')->constrained()->onDelete('cascade');
-            $table->foreignId('address_id')->constrained()->onDelete('cascade');
             $table->timestamp('sent_at');
             $table->timestamps();
         });
