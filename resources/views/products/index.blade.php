@@ -20,7 +20,7 @@
                 </svg>
             </div>
 
-            <div id="filter_options" class="hidden lg:block text-base bg-gray-100 border rounded-lg pb-1 lg:text-lg xl:text-lg pb-2 w-3/5 lg:w-full">
+            <form id="filter_options" method="GET" class="hidden lg:block text-base bg-gray-100 border rounded-lg pb-1 lg:text-lg xl:text-lg pb-2 w-3/5 lg:w-full">
                 <section>
                     <h2 class="ml-2 font-semibold">Kategória</h2>
                     <div class="flex flex-col text-sm ml-3 lg:text-base xl:text-base">
@@ -33,9 +33,22 @@
                 <section>
                     <h2 class="ml-2 font-semibold">Značka</h2>
                     <div class="flex flex-col text-sm ml-3 lg:text-base xl:text-base">
-                        <x-products.product-option type="checkbox" id="adidas" name="adidas" for="adidas" label="Adidas" />
-                        <x-products.product-option type="checkbox" id="nike" name="nike" for="nike" label="Nike" />
-                        <x-products.product-option type="checkbox" id="jordan" name="jordan" for="jordan" label="Jordan" />
+                        @foreach($brands as $brand)
+                        @php
+                        $checked = [];
+                        if(isset($_GET['brand'])) {
+                            $checked = $_GET['brand'];
+                        }
+                        @endphp
+                        <x-products.product-option
+                            type="checkbox"
+                            name="brand['{{ $brand->name }}']"
+                            value="{{ $brand->id }}"
+                            label="{{ $brand->name }}"
+                            onchange="this.form.submit()" 
+                            checked="$in_array($brand->id, $checked)"
+                        />
+                        @endforeach
                     </div>
                 </section>
 
@@ -57,7 +70,7 @@
                         <input type="text" id="price_to" class="w-10 h-6 text-sm sm:text-base sm:w-14 sm:h-6 border rounded-lg">
                     </div>
                 </section>
-            </div>
+            </form>
         </aside>
         <div class="flex flex-col items-center">
             <div class="grid grid-cols-1 gap-4 text-sm sm:text-base md:grid-cols-3 pt-2">
