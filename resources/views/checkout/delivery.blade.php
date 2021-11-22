@@ -19,7 +19,7 @@
 @endsection
 
 @section('formContent')
-<section>
+<form action="{{ route('checkout.delivery') }}" method="POST">
     <h2 class="font-bold text-2xl">Dodacie údaje</h2>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-4">
         <x-forms.input-field name="name" type="text" label="Meno" />
@@ -42,8 +42,8 @@
     </div>
 
     <div class="grid mt-12 grid-cols-1 md:grid-cols-2 gap-8 text-center">
-        <a href="{{ route('checkout.summary') }}" class="p-3 md:order-2 bg-black border-2 text-white uppercase font-bold transition duration-300 hover:bg-gray-700">Súhrn</a>
+        <button class="p-3 md:order-2 bg-black border-2 text-white uppercase font-bold transition duration-300 hover:bg-gray-700" type="submit">Súhrn</button>
         <a href="{{ route('checkout.shipping') }}" class="p-3 uppercase border-2 border-black font-bold transition duration-300 hover:text-white hover:bg-gray-700">Späť</a>
     </div>
-</section>
+</form>
 @endsection

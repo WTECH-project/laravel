@@ -43,7 +43,7 @@
     </section>
     <section>
         <div class="grid mt-12 grid-cols-1 md:grid-cols-2 gap-8 text-center">
-            <button href="{{ route('checkout.delivery') }}" class="p-3 md:order-2 bg-black border-2 text-white uppercase font-bold transition duration-300 hover:bg-gray-700">Dodacie údaje</button>
+            <button class="p-3 md:order-2 bg-black border-2 text-white uppercase font-bold transition duration-300 hover:bg-gray-700" type="submit">Dodacie údaje</button>
             <a href="{{ route('checkout.cart') }}" class="p-3 uppercase border-2 border-black font-bold transition duration-300 hover:text-white hover:bg-gray-700">Späť</a>
         </div>
     </section>

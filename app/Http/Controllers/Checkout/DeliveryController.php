@@ -35,7 +35,8 @@ class DeliveryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return redirect('/checkout/summary');
+        // return redirect('/checkout/summary');
     }
 
     /**
