@@ -1,7 +1,8 @@
 @props([
     'name' => $name,
     'type' => $type,
-    'label' => $label
+    'label' => $label,
+    'value' => old($name)
 ])
 
 <div {{ $attributes->merge(['class' => 'flex flex-col']) }}>
@@ -19,7 +20,7 @@
         @error($name)
         border-red-500
         @enderror"
-    value="{{ old($name) }}"
+    value="{{ $value }}"
     type="{{ $type }}" 
     id="{{ $name }}" 
     name="{{ $name }}">

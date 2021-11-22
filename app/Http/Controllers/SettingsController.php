@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Address;
+use Auth;
 
 class SettingsController extends Controller
 {
@@ -20,7 +21,7 @@ class SettingsController extends Controller
      */
     public function index()
     {
-        return view('settings');
+        return view('settings.settings');
     }
 
     /**
@@ -39,17 +40,32 @@ class SettingsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    function store(Request $request)
     {
-        $this->validate($request, [
-            'name' => 'required',
-            'surname' => 'required',
-            'phoneNumber' => 'required',
-            'country' => 'required',
-            'city' => 'required',
-            'street' => 'required',
-            'psc' => 'required'
+        $validatedData = $request->validate([
+            'name' => ['required', 'max:255', 'regex:/^[a-zA-Z]+$/'],
+            'surname' => ['required', 'max:255', 'regex:/^[a-zA-Z]+$/'],
+            'phone_number' => ['required', 'digits:10'],
+            'country' => ['required'],
+            'city' => ['required', 'max:255', 'regex:/^[a-zA-Z]+$/'],
+            'street' => ['required', 'max:255', 'regex:/^[A-Za-z0-9]*$/'],
+            'postcode' => ['required', 'digits:5'],
         ]);
+
+        $user = Auth::user();
+
+        $user->name = $validatedData['name'];
+        $user->surname = $validatedData['surname'];
+        $user->phone_number = $validatedData['phone_number'];
+        $user->country = $validatedData['country'];
+        $user->city = $validatedData['city'];
+        $user->street = $validatedData['street'];
+        $user->postcode = $validatedData['postcode'];
+
+        $user->save();
+        error_log($user);
+
+        return redirect('account');
     }
 
     /**
@@ -70,18 +86,6 @@ class SettingsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
     {
         //
     }

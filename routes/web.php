@@ -18,6 +18,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+/*
+Route::get('/', function () {
+    return view('index.index');
+})->name('home');
+*/
+
 Route::get('/', function () {
     return view('index.index');
 })->name('home');
@@ -31,15 +37,12 @@ Route::post('/account', [SettingsController::class, 'store']);
 Route::get('/products', [ProductController::class, 'index'])->name('products');
 Route::get('/products/{product}', [ProductController::class, 'show'])->name('products.show');
 
+
 Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout');
 Route::post('/checkout', [CheckoutController::class, 'store']);
 
 Route::get('/cart', [CartController::class, 'index'])->name('cart');
 Route::post('/cart', [CartController::class, 'store']);
 Route::delete('/cart', [CartController::class, 'destroy']);
-
-Route::get('/product', function () {
-    return view('products.show');
-})->name('product');
 
 require __DIR__.'/auth.php';
