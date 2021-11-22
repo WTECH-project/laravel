@@ -110,6 +110,10 @@ class SummaryController extends Controller
         }
 
         // clear session data
+        session()->forget('cart');
+        session()->forget('delivery_data');
+        session()->forget('payment');
+        session()->forget('shipping');
 
         return redirect('/checkout/thankyou');
     }
