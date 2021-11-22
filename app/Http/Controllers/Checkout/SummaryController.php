@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Checkout;
 
-use App\Models\Product;
-use App\Models\Size;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class CheckoutController extends Controller
+class SummaryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,29 +14,7 @@ class CheckoutController extends Controller
      */
     public function index()
     {
-        $cart = session()->get('cart');
-        if (!$cart) {
-            $cart = array();
-            session()->put('cart', $cart);
-        }
-
-        $products = [];
-
-        foreach ($cart as $product_id => $size_data) {
-            $product = Product::findOrFail($product_id);
-
-            foreach ($size_data as $size_id => $count) {
-                $size = Size::findOrFail($size_id);
-
-                $products[] = [
-                    'product' => $product,
-                    'size' => $size,
-                    'quantity' => $count['quantity']
-                ];
-            }
-        }
-
-        return view('checkout.index')->with('cart_products', $products);
+        return view('checkout.summary');
     }
 
     /**
