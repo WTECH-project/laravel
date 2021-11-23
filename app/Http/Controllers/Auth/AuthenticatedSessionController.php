@@ -8,6 +8,8 @@ use App\Providers\RouteServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+use App\Models\CartItem;
+
 class AuthenticatedSessionController extends Controller
 {
     /**
@@ -31,6 +33,21 @@ class AuthenticatedSessionController extends Controller
         $request->authenticate();
 
         $request->session()->regenerate();
+
+        // load cart items into session
+        $cartItems = auth()->user()->cartItems()->get();
+
+        $cart = [];
+
+        foreach($cartItems as $cartItem) {
+            if (isset($cart[$cartItem->product_id]) && isset($cart[$cartItem->product_id][$cartItem->size_id])) {
+                $cart[$cartItem->product_id][$cartItem->size_id]['quantity'] += intval($cartItem->quantity);
+            } else {
+                $cart[$cartItem->product_id][$cartItem->size_id]['quantity'] = intval($cartItem->quantity);
+            }
+        }
+
+        session()->put('cart', $cart);
 
         return redirect()->intended(RouteServiceProvider::HOME);
     }

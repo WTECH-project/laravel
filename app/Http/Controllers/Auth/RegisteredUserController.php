@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\Product;
+use App\Models\CartItem;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
@@ -46,6 +48,22 @@ class RegisteredUserController extends Controller
         event(new Registered($user));
 
         Auth::login($user);
+
+        // save cart into database
+        $cart = session()->get('cart');
+
+        foreach ($cart as $product_id => $size_data) {
+            $product = Product::findOrFail($product_id);
+
+            foreach ($size_data as $size_id => $count) {
+                auth()->user()->cartItems()->create([
+                    'size_id' => $size_id,
+                    'product_id' => $product_id,
+                    'quantity' => $count['quantity'],
+                    'price' => $product->price
+                ]);
+            }
+        }
 
         return redirect(RouteServiceProvider::HOME);
     }
