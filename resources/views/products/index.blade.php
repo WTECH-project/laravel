@@ -2,9 +2,9 @@
 
 @section('content')
 <div class="w-full flex-grow max-w-xl mx-auto pt-8 px-4 my-18 md:pt-12 sm:max-w-2xl md:max-w-3xl lg:flex-row lg:max-w-5xl lg:space-x-4 xl:max-w-7xl">
-    <form class="flex flex-row focus:ring-black border-b-2 p-2 drop-shadow-lg lg:ml-4 mb-5" type="get" action="{{ route('search') }}">
+    <form class="flex flex-row focus:ring-black border-b-2 p-2 drop-shadow-lg lg:ml-4 mb-5" type="get" action="{{ route('products', $sex_category) }}">
         <button class="p-2 rounded-sm uppercase transition duration-300 hover:bg-gray-300" type="submit">Vyhladať</button>
-        <input class="border-none w-full focus:ring-0" name="query" type="text" placeHolder="Názov produktu">
+        <input class="border-none w-full focus:ring-0" name="search" type="text" placeHolder="Názov produktu">
     </form>
     <div class="flex flex-row justify-between lg:ml-4">
         <h3 class="font-semibold text-xl lg:text-2xl xl:text-2xl">Ženy</h3>
@@ -18,7 +18,7 @@
                 </svg>
             </div>
 
-            <form id="filter_options" route="{{ route('products') }}" method="GET" class="hidden lg:block text-base bg-gray-100 border rounded-lg pb-1 lg:text-lg xl:text-lg pb-2 w-3/5 lg:w-full">
+            <form id="filter_options" route="{{ route('products', $sex_category) }}" method="GET" class="hidden lg:block text-base bg-gray-100 border rounded-lg pb-1 lg:text-lg xl:text-lg pb-2 w-3/5 lg:w-full">
                 <section>
                     <h2 class="ml-2 font-semibold">Kategória</h2>
                     <div class="flex flex-col text-sm ml-3 lg:text-base xl:text-base">
@@ -103,10 +103,10 @@
         <div class="flex flex-col items-center">
             <div class="grid grid-cols-1 gap-4 text-sm sm:text-base md:grid-cols-3 pt-2">
                 @foreach($products as $product)
-                <x-products.product link="{{ route('products.show', $product->id) }}" name="{{ $product->name }}" price="{{ $product->price }}" img="{{ $product->images->first()->image_path }}" />
+                <x-products.product link="{{ route('products.show', ['sex_category' => $sex_category, 'product' => $product->id]) }}" name="{{ $product->name }}" price="{{ $product->price }}" img="{{ $product->images->first()->image_path }}" />
                 @endforeach
             </div>
-            <div class="flex items-center space-x-3 text-lg col-span-2 md:col-span-3 place-self-center mt-4">
+            <!-- <div class="flex items-center space-x-3 text-lg col-span-2 md:col-span-3 place-self-center mt-4">
                 <a href="#" class="">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
@@ -120,7 +120,9 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                     </svg>
                 </a>
-            </div>
+            </div> -->
+            <span class="mt-4">
+                {{ $products->links('pagination::semantic-ui') }}</span>
         </div>
     </div>
 </div>

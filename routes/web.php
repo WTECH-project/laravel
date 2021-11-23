@@ -7,6 +7,7 @@ use App\Http\Controllers\Checkout\ShippingPaymentController;
 use App\Http\Controllers\Checkout\DeliveryController;
 use App\Http\Controllers\Checkout\SummaryController;
 use App\Http\Controllers\Checkout\ThankyouController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SettingsController;
 use Illuminate\Support\Facades\Route;
@@ -22,9 +23,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('index.index');
-})->name('home');
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::get('/register', [RegisteredUserController::class, 'create'])->name('register');
 Route::post('/register', [RegisteredUserController::class, 'store']);

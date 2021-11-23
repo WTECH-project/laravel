@@ -15,7 +15,6 @@ class CartController extends Controller
      */
     public function index()
     {
-        
     }
 
     /**
@@ -44,27 +43,26 @@ class CartController extends Controller
 
         $cart = session()->get('cart');
 
-        if(!$cart) {
+        if (!$cart) {
             $cart = array();
             session()->put('cart', $cart);
         }
 
-        if(isset($cart[$request->product_id]) && isset($cart[$request->product_id][$request->size_id])) {
+        if (isset($cart[$request->product_id]) && isset($cart[$request->product_id][$request->size_id])) {
             $cart[$request->product_id][$request->size_id]['quantity'] += intval($request->quantity);
 
             // update cart item if autheticanted
-            if(auth()->user()) {
+            if (auth()->user()) {
                 $cartItem = auth()->user()->cartItems()->where('product_id', '=', $request->product_id)->where('size_id', '=', $request->size_id)->first();
                 $cartItem->quantity += intval($request->quantity);
 
                 $cartItem->save();
             }
-        }
-        else {
+        } else {
             $cart[$request->product_id][$request->size_id]['quantity'] = intval($request->quantity);
 
             // create cart item if authenticated
-            if(auth()->user()) {
+            if (auth()->user()) {
                 $product = Product::findOrFail($request->product_id);
 
                 auth()->user()->cartItems()->create([
@@ -139,11 +137,16 @@ class CartController extends Controller
             unset($cart[$request->product_id][$request->size_id]);
 
             // delete cart item if authenticated
-            auth()->user()->cartItems()->where('product_id', '=',
-                $request->product_id
-            )->where('size_id', '=', $request->size_id)->first()->delete();
+            if (auth()->user()) {
+                auth()->user()->cartItems()->where(
+                    'product_id',
+                    '=',
+                    $request->product_id
+                )->where('size_id', '=', $request->size_id)->first()->delete();
+            }
 
-            $cart = array_filter($cart, function($x) {
+
+            $cart = array_filter($cart, function ($x) {
                 return array_filter($x) != array();
             });
 
