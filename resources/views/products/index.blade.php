@@ -2,6 +2,10 @@
 
 @section('content')
 <div class="w-full flex-grow max-w-xl mx-auto pt-8 px-4 my-18 md:pt-12 sm:max-w-2xl md:max-w-3xl lg:flex-row lg:max-w-5xl lg:space-x-4 xl:max-w-7xl">
+    <form class="flex flex-row focus:ring-black border-b-2 p-2 drop-shadow-lg lg:ml-4 mb-5" type="get" action="{{ route('search') }}">
+        <button class="p-2 rounded-sm uppercase transition duration-300 hover:bg-gray-300" type="submit">Vyhladať</button>
+        <input class="border-none w-full focus:ring-0" name="query" type="text" placeHolder="Názov produktu">
+    </form>
     <div class="flex flex-row justify-between lg:ml-4">
         <h3 class="font-semibold text-xl lg:text-2xl xl:text-2xl">Ženy</h3>
     </div>

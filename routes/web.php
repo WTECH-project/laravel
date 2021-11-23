@@ -24,9 +24,7 @@ Route::get('/', function () {
 })->name('home');
 */
 
-Route::get('/', function () {
-    return view('index.index');
-})->name('home');
+Route::get('/', [ProductController::class, 'index_index'])->name('home');
 
 Route::get('/register', [RegisteredUserController::class, 'create'])->name('register');
 Route::post('/register', [RegisteredUserController::class, 'store']);
@@ -34,9 +32,10 @@ Route::post('/register', [RegisteredUserController::class, 'store']);
 Route::get('/account', [SettingsController::class, 'index'])->name('settings');
 Route::post('/account', [SettingsController::class, 'store']);
 
-Route::get('/products', [ProductController::class, 'index'])->name('products');
-Route::get('/products/{product}', [ProductController::class, 'show'])->name('products.show');
+Route::get('/{sex_category}/products', [ProductController::class, 'index'])->name('products');
+Route::get('/{sex_category}/products/{product}', [ProductController::class, 'show'])->name('products.show');
 
+Route::get('/search', [ProductController::class, 'search'])->name('search');
 
 Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout');
 Route::post('/checkout', [CheckoutController::class, 'store']);

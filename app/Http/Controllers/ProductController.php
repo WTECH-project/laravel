@@ -19,6 +19,11 @@ class ProductController extends Controller
     {
         $products = Product::query();
 
+        // parse sex category filters
+        if($request->get('sex_category')) {
+            $products = $products->whereIn('sex_category_id', $request->get('sex_category'));
+        }
+
         // parse brand filters
         if($request->get('brand')) {
             $products = $products->whereIn('brand_id', $request->get('brand'));
@@ -136,5 +141,41 @@ class ProductController extends Controller
     {
         //
 
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function search(Request $request)
+    {
+        $search_text = $_GET['query'];
+        $products = Product::where('name', 'LIKE', '%'.$search_text.'%')->get();
+
+        $brands = Brand::get();
+        $colors = Color::get();
+        $categories = Category::get();
+
+        return view('products.index')
+            ->with('products', $products)
+            ->with('brands', $brands)
+            ->with('colors', $colors)
+            ->with('categories', $categories);
+
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index_index(Request $request)
+    {
+        $products = Product::all()->take(3);
+        error_log($products);
+
+        return view('index.index')
+            ->with('products', $products);
     }
 }
