@@ -88,7 +88,7 @@
 <section>
     <h2 class="font-bold text-2xl text-center">Nákupný košík je prázdny</h2>
     <div class="flex flex-col md:items-center mt-8 text-center">
-        <a href="{{ route('products') }}" class="p-3 bg-black text-white uppercase font-bold transition duration-300 hover:bg-gray-700 md:w-3/6">Pokračovať v nákupe</a>
+        <a href="{{ route('home') }}" class="p-3 bg-black text-white uppercase font-bold transition duration-300 hover:bg-gray-700 md:w-3/6">Pokračovať v nákupe</a>
     </div>
 </section>
 @endif

@@ -7,6 +7,7 @@ use App\Models\Product;
 use App\Models\Brand;
 use App\Models\Color;
 use App\Models\Category;
+use App\Models\SexCategory;
 
 class ProductController extends Controller
 {
@@ -15,14 +16,16 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index(Request $request, SexCategory $sex_category)
     {
         $products = Product::query();
 
         // parse sex category filters
-        if($request->get('sex_category')) {
-            $products = $products->whereIn('sex_category_id', $request->get('sex_category'));
-        }
+        $products = $products->where('sex_category_id', $sex_category->id);
+
+        // parse search filter
+        $search_text = $request->get('search');
+        $products = $products->where('name', 'ILIKE', '%' . $search_text . '%');
 
         // parse brand filters
         if($request->get('brand')) {
@@ -73,7 +76,8 @@ class ProductController extends Controller
             ->with('products', $products)
             ->with('brands', $brands)
             ->with('colors', $colors)
-            ->with('categories', $categories);
+            ->with('categories', $categories)
+            ->with('sex_category', $sex_category);
     }
 
     /**
@@ -103,9 +107,11 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Product $product)
+    public function show(SexCategory $sex_category, Product $product)
     {
-        return view('products.show')->with('product', $product);
+        return view('products.show')
+            ->with('sex_category', $sex_category)
+            ->with('product', $product);
     }
 
     /**
@@ -148,34 +154,8 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function search(Request $request)
+    public function search(Request $request, SexCategory $sex_category)
     {
-        $search_text = $_GET['query'];
-        $products = Product::where('name', 'LIKE', '%'.$search_text.'%')->get();
 
-        $brands = Brand::get();
-        $colors = Color::get();
-        $categories = Category::get();
-
-        return view('products.index')
-            ->with('products', $products)
-            ->with('brands', $brands)
-            ->with('colors', $colors)
-            ->with('categories', $categories);
-
-    }
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index_index(Request $request)
-    {
-        $products = Product::all()->take(3);
-        error_log($products);
-
-        return view('index.index')
-            ->with('products', $products);
     }
 }
