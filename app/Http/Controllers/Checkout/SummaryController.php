@@ -20,7 +20,7 @@ class SummaryController extends Controller
      */
     public function index()
     {
-        $cart = session()->get('cart');
+        $cart = session()->get('cart', []);
         $payment_id = session()->get('payment');
         $shipping_id = session()->get('shipping');
 
@@ -67,10 +67,10 @@ class SummaryController extends Controller
      */
     public function store(Request $request)
     {
-        $cart = session()->get('cart');
-        $delivery_data = session()->get('delivery_data');
-        $payment_id = session()->get('payment');
-        $shipment_id = session()->get('shipping');
+        $cart = session()->get('cart', []);
+        $delivery_data = session()->get('delivery_data', []);
+        $payment_id = session()->get('payment', -1);
+        $shipment_id = session()->get('shipping', -1);
 
         $user_id = null;
 

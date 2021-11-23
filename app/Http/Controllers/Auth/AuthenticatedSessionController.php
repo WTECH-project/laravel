@@ -7,8 +7,9 @@ use App\Http\Requests\Auth\LoginRequest;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
-use App\Models\CartItem;
+use App\Models\Product;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -32,6 +33,30 @@ class AuthenticatedSessionController extends Controller
     {
         $request->authenticate();
 
+        // store cart items to database
+        $cart = session()->get('cart', []);
+
+        foreach ($cart as $product_id => $size_data) {
+            $product = Product::findOrFail($product_id);
+
+            foreach ($size_data as $size_id => $count) {
+                $cartItem = auth()->user()->cartItems()->where('product_id', '=', $product_id)->where('size_id', '=', $size_id)->first();
+
+                if ($cartItem) {
+                    $cartItem->quantity += intval($count['quantity']);
+
+                    $cartItem->save();
+                } else {
+                    auth()->user()->cartItems()->create([
+                        'size_id' => $size_id,
+                        'product_id' => $product_id,
+                        'quantity' => $count['quantity'],
+                        'price' => $product->price
+                    ]);
+                }
+            }
+        }
+
         $request->session()->regenerate();
 
         // load cart items into session
@@ -39,7 +64,7 @@ class AuthenticatedSessionController extends Controller
 
         $cart = [];
 
-        foreach($cartItems as $cartItem) {
+        foreach ($cartItems as $cartItem) {
             if (isset($cart[$cartItem->product_id]) && isset($cart[$cartItem->product_id][$cartItem->size_id])) {
                 $cart[$cartItem->product_id][$cartItem->size_id]['quantity'] += intval($cartItem->quantity);
             } else {

@@ -24,7 +24,7 @@
                         @if(session()->has('cart') && count(session()->get('cart')) > 0)
 
                         @php
-                        $cart = session()->get('cart');
+                        $cart = session()->get('cart', []);
 
                         $product_count = 0;
 

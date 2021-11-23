@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Product;
-use App\Models\CartItem;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
@@ -50,7 +49,7 @@ class RegisteredUserController extends Controller
         Auth::login($user);
 
         // save cart into database
-        $cart = session()->get('cart');
+        $cart = session()->get('cart', []);
 
         foreach ($cart as $product_id => $size_data) {
             $product = Product::findOrFail($product_id);
