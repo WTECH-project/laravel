@@ -106,7 +106,7 @@
                 <x-products.product link="{{ route('products.show', ['sex_category' => $sex_category, 'product' => $product->id]) }}" name="{{ $product->name }}" price="{{ $product->price }}" img="{{ $product->images->first()->image_path }}" />
                 @endforeach
             </div>
-            <div class="flex items-center space-x-3 text-lg col-span-2 md:col-span-3 place-self-center mt-4">
+            <!-- <div class="flex items-center space-x-3 text-lg col-span-2 md:col-span-3 place-self-center mt-4">
                 <a href="#" class="">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
@@ -120,7 +120,9 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                     </svg>
                 </a>
-            </div>
+            </div> -->
+            <span class="mt-4">
+                {{ $products->links('pagination::semantic-ui') }}</span>
         </div>
     </div>
 </div>

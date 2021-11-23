@@ -5,10 +5,10 @@
             <nav>
                 <ul class="flex items-center space-x-8">
                     <li>
-                        <a class="hover:underline text-gray-300" href="#">Ženy</a>
+                        <a class="hover:underline text-gray-300" href="{{ route('products', 2) }}">Ženy</a>
                     </li>
                     <li>
-                        <a class="hover:underline text-gray-300" href="#">Muži</a>
+                        <a class="hover:underline text-gray-300" href="{{ route('products', 1) }}">Muži</a>
                     </li>
                 </ul>
             </nav>
