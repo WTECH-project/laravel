@@ -14,8 +14,8 @@ class PaymentSeeder extends Seeder
      */
     public function run()
     {
-        Payment::create(['type' => 'Credit card']);
-        Payment::create(['type' => 'Paypal']);
-        Payment::create(['type' => 'Cash on delivery']);
+        Payment::create(['type' => 'Credit card', 'price' => 0]);
+        Payment::create(['type' => 'Paypal', 'price' => 0]);
+        Payment::create(['type' => 'Cash on delivery', 'price' => 1]);
     }
 }

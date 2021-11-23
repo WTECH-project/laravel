@@ -6,12 +6,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Order;
 
-class Payment extends Model
+class Delivery extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'type',
+        'name',
         'price'
     ];
 

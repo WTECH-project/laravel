@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\CartItem;
+use App\Models\Product;
 
 class CartController extends Controller
 {
@@ -49,9 +51,29 @@ class CartController extends Controller
 
         if(isset($cart[$request->product_id]) && isset($cart[$request->product_id][$request->size_id])) {
             $cart[$request->product_id][$request->size_id]['quantity'] += intval($request->quantity);
+
+            // update cart item if autheticanted
+            if(auth()->user()) {
+                $cartItem = auth()->user()->cartItems()->where('product_id', '=', $request->product_id)->where('size_id', '=', $request->size_id)->first();
+                $cartItem->quantity += intval($request->quantity);
+
+                $cartItem->save();
+            }
         }
         else {
             $cart[$request->product_id][$request->size_id]['quantity'] = intval($request->quantity);
+
+            // create cart item if authenticated
+            if(auth()->user()) {
+                $product = Product::findOrFail($request->product_id);
+
+                auth()->user()->cartItems()->create([
+                    'size_id' => $request->size_id,
+                    'product_id' => $request->product_id,
+                    'quantity' => $request->quantity,
+                    'price' => $product->price
+                ]);
+            }
         }
 
         session()->put('cart', $cart);
@@ -115,6 +137,11 @@ class CartController extends Controller
 
         if (isset($cart[$request->product_id]) && isset($cart[$request->product_id][$request->size_id])) {
             unset($cart[$request->product_id][$request->size_id]);
+
+            // delete cart item if authenticated
+            auth()->user()->cartItems()->where('product_id', '=',
+                $request->product_id
+            )->where('size_id', '=', $request->size_id)->first()->delete();
 
             $cart = array_filter($cart, function($x) {
                 return array_filter($x) != array();

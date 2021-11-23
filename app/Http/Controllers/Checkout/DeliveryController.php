@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Checkout;
 
-use App\Models\Product;
-use App\Models\Size;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class CheckoutController extends Controller
+class DeliveryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,29 +14,7 @@ class CheckoutController extends Controller
      */
     public function index()
     {
-        $cart = session()->get('cart');
-        if (!$cart) {
-            $cart = array();
-            session()->put('cart', $cart);
-        }
-
-        $products = [];
-
-        foreach ($cart as $product_id => $size_data) {
-            $product = Product::findOrFail($product_id);
-
-            foreach ($size_data as $size_id => $count) {
-                $size = Size::findOrFail($size_id);
-
-                $products[] = [
-                    'product' => $product,
-                    'size' => $size,
-                    'quantity' => $count['quantity']
-                ];
-            }
-        }
-
-        return view('checkout.index')->with('cart_products', $products);
+        return view('checkout.delivery');
     }
 
     /**
@@ -58,7 +35,31 @@ class CheckoutController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'name' => ['required', 'max:255', 'regex:/^[a-zA-Z]+$/'],
+            'surname' => ['required', 'max:255', 'regex:/^[a-zA-Z]+$/'],
+            'email' => ['required', 'email', 'max:255'],
+            'phoneNumber' => ['required', 'digits:10'],
+            'country' => ['required'],
+            'city' => ['required', 'max:255', 'regex:/^[a-zA-Z]+$/'],
+            'street' => ['required', 'max:255', 'regex:/^[A-Z][a-z]*[ ][0-9]+$/'],
+            'psc' => ['required', 'digits:5'],
+        ]);
+
+        $delivery_data = [
+            'name' => $request->name,
+            'surname' => $request->surname,
+            'email' => $request->email,
+            'phoneNumber' => $request->phoneNumber,
+            'country' => $request->country,
+            'city' => $request->city,
+            'street' => $request->street,
+            'psc' => $request->psc
+        ];
+
+        session()->put('delivery_data', $delivery_data);
+
+        return redirect('/checkout/summary');
     }
 
     /**
