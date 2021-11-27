@@ -4,12 +4,11 @@
             <a class="uppercase text-white font-bold text-xl" href="{{ route('home') }}">Logo</a>
             <nav>
                 <ul class="flex items-center space-x-8">
+                    @foreach($sex_categories as $sex_category)
                     <li>
-                        <a class="hover:underline text-gray-300" href="{{ route('products', 2) }}">Ženy</a>
+                        <a class="hover:underline text-gray-300" href="{{ route('products', $sex_category->id) }}">{{ $sex_category->name }}</a>
                     </li>
-                    <li>
-                        <a class="hover:underline text-gray-300" href="{{ route('products', 1) }}">Muži</a>
-                    </li>
+                    @endforeach
                 </ul>
             </nav>
         </div>
