@@ -122,7 +122,7 @@
                 </a>
             </div> -->
             <span class="mt-4">
-                {{ $products->links('pagination::semantic-ui') }}</span>
+                {{ $products->appends($_GET)->links('pagination::semantic-ui') }}</span>
         </div>
     </div>
 </div>
