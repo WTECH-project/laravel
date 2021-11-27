@@ -15,7 +15,7 @@ class ColorSeeder extends Seeder
     public function run()
     {
         Color::create(['color' => 'Biela']);
-        Color::create(['color' => 'Cierna']);
-        Color::create(['color' => 'Hneda']);
+        Color::create(['color' => 'Čierna']);
+        Color::create(['color' => 'Hnedá']);
     }
 }

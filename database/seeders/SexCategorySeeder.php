@@ -14,7 +14,7 @@ class SexCategorySeeder extends Seeder
      */
     public function run()
     {
-        SexCategory::create(['name' => 'male']);
-        SexCategory::create(['name' => 'female']);
+        SexCategory::create(['name' => 'Muži']);
+        SexCategory::create(['name' => 'Ženy']);
     }
 }
