@@ -29,9 +29,9 @@
                         $product_count = 0;
 
                         foreach($cart as $product_id => $size_data) {
-                            foreach($size_data as $size_id => $count) {
-                                $product_count += 1;
-                            }
+                        foreach($size_data as $size_id => $count) {
+                        $product_count += 1;
+                        }
                         }
                         @endphp
 
@@ -62,26 +62,20 @@
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
                                 </svg>
-                                <p class="text-white">Odhlásiť sa</p>
+                                <p class="text-white">Odhlásiť</p>
                             </div>
                         </button>
                     </form>
                 </div>
             </div>
-            <!-- Hamburger -->
-            <div class="md:hidden">
-                <svg id="hamburger" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-300 cursor-pointer" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                </svg>
-            </div>
             @endauth
 
             @guest
-            <div class="flex items-center">
+            <div id="profile" class="md:flex items-center hidden">
                 <nav>
                     <ul class="flex items-center space-x-4">
                         <li>
-                            <a class="hover:underline text-gray-300" href="{{ route('login') }}">Prihlásiť sa</a>
+                            <a class="hover:underline text-gray-300" href="{{ route('login') }}">Prihlásiť</a>
                         </li>
                         <li>
                             <a class="hover:underline text-gray-300" href="{{ route('register') }}">Registrovať</a>
@@ -90,10 +84,17 @@
                 </nav>
             </div>
             @endguest
+
+            <!-- Hamburger -->
+            <div class="md:hidden">
+                <svg id="hamburger" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-300 cursor-pointer" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+            </div>
         </div>
     </div>
-    <!-- Responsive menu -->
-    @if(auth()->user())
+    <!-- Responsive auth menu -->
+    @auth
     <div id="menu" class="hidden md:hidden">
         <div class="w-full flex flex-col md:flex-row md:items-center mt-4">
             <a href="{{ route('settings') }}" class="flex items-center gap-2 px-8 py-4 border-2 border-gray-300 md:m-0 md:p-0 md:border-0">
@@ -111,11 +112,32 @@
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
                         </svg>
-                        <p class="text-white hover:underline">Odhlásiť sa</p>
+                        <p class="text-white hover:underline">Odhlásiť</p>
                     </div>
                 </button>
             </form>
         </div>
     </div>
-    @endif
+    @endauth
+
+    <!-- Responsive guest menu -->
+    @guest
+    <div id="menu" class="hidden md:hidden">
+        <div class="w-full flex flex-col md:flex-row md:items-center mt-4">
+            <a href="{{ route('login') }}" class="flex items-center gap-2 px-8 py-4 border-2 border-gray-300 md:m-0 md:p-0 md:border-0">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
+                </svg>
+                <p class="text-white hover:underline md:hidden">Prihlásiť</p>
+            </a>
+
+            <a href="{{ route('register') }}" class="flex items-center gap-2 px-8 py-4 border-2 border-gray-300 md:m-0 md:p-0 md:border-0 mt-4">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                </svg>
+                <p class="text-white hover:underline md:hidden">Registrovať</p>
+            </a>
+        </div>
+    </div>
+    @endguest
 </header>
