@@ -42,7 +42,7 @@
             </div>
             <!-- Profile menu -->
             @auth
-            <div id="profile" class="hidden md:block flex relative cursor-pointer px-8 py-4 border-2 border-gray-300 md:m-0 md:p-0 md:border-0">
+            <div id="profile" class="hidden sm:block flex relative cursor-pointer px-8 py-4 border-2 border-gray-300 md:m-0 md:p-0 md:border-0">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                 </svg>
@@ -71,7 +71,7 @@
             @endauth
 
             @guest
-            <div id="profile" class="md:flex items-center hidden">
+            <div id="profile" class="sm:flex items-center hidden">
                 <nav>
                     <ul class="flex items-center space-x-4">
                         <li>
@@ -86,7 +86,7 @@
             @endguest
 
             <!-- Hamburger -->
-            <div class="md:hidden">
+            <div class="sm:hidden">
                 <svg id="hamburger" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-300 cursor-pointer" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                 </svg>
@@ -95,7 +95,7 @@
     </div>
     <!-- Responsive auth menu -->
     @auth
-    <div id="menu" class="hidden md:hidden">
+    <div id="menu" class="hidden sm:hidden">
         <div class="w-full flex flex-col md:flex-row md:items-center mt-4">
             <a href="{{ route('settings') }}" class="flex items-center gap-2 px-8 py-4 border-2 border-gray-300 md:m-0 md:p-0 md:border-0">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -122,7 +122,7 @@
 
     <!-- Responsive guest menu -->
     @guest
-    <div id="menu" class="hidden md:hidden">
+    <div id="menu" class="hidden sm:hidden">
         <div class="w-full flex flex-col md:flex-row md:items-center mt-4">
             <a href="{{ route('login') }}" class="flex items-center gap-2 px-8 py-4 border-2 border-gray-300 md:m-0 md:p-0 md:border-0">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
