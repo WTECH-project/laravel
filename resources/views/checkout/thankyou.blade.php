@@ -21,9 +21,9 @@
 @section('formContent')
 <section>
     <div class="flex flex-col items-center text-center">
-        <h1 class="text-4xl text-bold mb-4">Ďakujeme za Vašu objednávku</h1>
-        <h2 class="text-2xl text-bold mb-10">Číslo objednávky</h2>
-        <p class="text-xl text-bold">Súhrn Vašej objednávky sme Vám poslali na e-mail</p>
+        <h1 class="text-4xl font-bold mb-4">Ďakujeme za Vašu objednávku</h1>
+        <h2 class="text-2xl font-bold mb-10">Číslo objednávky</h2>
+        <p class="text-xl font-bold">Súhrn Vašej objednávky sme Vám poslali na e-mail</p>
     </div>
     <div class="grid mt-12 grid-cols-1 md:grid-cols-2 gap-8 text-center">
         <a href="{{ route('register') }}" class="p-3 md:order-2 bg-black border-2 text-white uppercase font-bold transition duration-300 hover:bg-gray-700">Chcete si založiť účet?</a>

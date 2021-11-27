@@ -32,7 +32,7 @@
                 <img src="{{ $cart_product['product']->images->first()->image_path }}" alt="Topanka">
             </div>
             <div class="flex flex-col md:justify-between p-4">
-                <span class="text-bold text-2xl">{{ $cart_product['product']->name }}</span>
+                <span class="font-bold text-2xl">{{ $cart_product['product']->name }}</span>
                 <div class="flex flex-row py-2">
                     <span class="text-gray-500">{{ $cart_product['size']->size }}</span>
                     <span class="text-gray-500 ml-4">{{ $cart_product['product']->price }}€</span>
@@ -60,7 +60,7 @@
         <div class="flex items-center justify-between p-4 md:flex-grow">
             <div>
                 <!-- price -->
-                <span class="text-bold text-xl">{{ $cart_product['product']->price * $cart_product['quantity'] }}€</span>
+                <span class="font-bold text-xl">{{ $cart_product['product']->price * $cart_product['quantity'] }}€</span>
             </div>
             <!-- delete icon -->
             <form action="{{ route('cart') }}" method="POST">

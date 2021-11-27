@@ -38,7 +38,7 @@ class ImageSeeder extends Seeder
             )
             );
 
-        for($id = 1; $id <= 25; $id ++) {
+        for($id = 1; $id <= 100; $id ++) {
             $product = Product::find($id);
 
             $image_set = $image_groups[rand(0, count($image_groups) - 1)];
