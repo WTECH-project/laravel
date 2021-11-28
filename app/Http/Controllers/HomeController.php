@@ -16,13 +16,9 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $female_category = SexCategory::where('name', '=', 'female')->first();
-        $male_category = SexCategory::where('name', '=', 'male')->first();
         $products = Product::inRandomOrder()->take(3)->get();
 
         return view('home.index')
-            ->with('female_category', $female_category)
-            ->with('male_category', $male_category)
             ->with('products', $products);
     }
 

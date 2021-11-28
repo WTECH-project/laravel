@@ -2,26 +2,26 @@
 
 @section('content')
 <div class="w-full flex-grow max-w-xl mx-auto pt-8 px-4 my-18 md:pt-12 sm:max-w-2xl md:max-w-3xl lg:flex-row lg:max-w-5xl lg:space-x-4 xl:max-w-7xl">
-    <form class="flex flex-row focus:ring-black border-b-2 p-2 drop-shadow-lg lg:ml-4 mb-5" type="get" action="{{ route('products', $sex_category) }}">
-        <button class="p-2 rounded-sm uppercase transition duration-300 hover:bg-gray-300" type="submit">Vyhladať</button>
+    <form class="flex flex-row focus:ring-black border-b-2 p-2 drop-shadow-lg lg:ml-4 mb-5" method="get" action="{{ route('products', $sex_category) }}">
+        <button class="p-2 rounded-sm uppercase transition duration-300 hover:bg-black hover:text-white" type="submit">Vyhladať</button>
         <input class="border-none w-full focus:ring-0" name="search" type="text" placeHolder="Názov produktu">
     </form>
-    <div class="flex flex-row justify-between lg:ml-4">
-        <h3 class="font-semibold text-xl lg:text-2xl xl:text-2xl">Ženy</h3>
+    <div class="flex flex-row justify-between">
+        <h2 class="font-semibold text-3xl">{{ $sex_category->name }}</h2>
     </div>
-    <div class="lg:flex flex-row justify-between gap-4">
-        <aside class="w-full sm:w-1/2">
-            <div id="filter" class="flex cursor-pointer lg:cursor-default items-center space-x-1 text-lg lg:text-xl xl:text-xl">
-                <span>Filtre</span>
+    <div class="lg:grid grid-cols-12 gap-4 mt-4">
+        <aside class="col-span-3">
+            <div id="filter" class="flex cursor-pointer lg:cursor-default items-center space-x-1 border-b-2">
+                <h2 class="text-2xl mb-2">Filtre</h2>
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 lg:hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                 </svg>
             </div>
 
-            <form id="filter_options" route="{{ route('products', $sex_category) }}" method="GET" class="hidden lg:block text-base bg-gray-100 border rounded-lg pb-1 lg:text-lg xl:text-lg pb-2 w-3/5 lg:w-full">
-                <section>
-                    <h2 class="ml-2 font-semibold">Kategória</h2>
-                    <div class="flex flex-col text-sm ml-3 lg:text-base xl:text-base">
+            <form id="filter_options" route="{{ route('products', $sex_category) }}" method="GET" class="hidden lg:block text-base rounded-lg pb-1 lg:text-lg xl:text-lg pb-2 lg:w-full">
+                <section class="border-b-2 py-4">
+                    <h2 class="text-xl mb-2">Kategória</h2>
+                    <div class="flex flex-col">
                         @php
                         $checked_categories = [];
                         if(isset($_GET['category'])) {
@@ -39,9 +39,9 @@
                     </div>
                 </section>
 
-                <section>
-                    <h2 class="ml-2 font-semibold">Značka</h2>
-                    <div class="flex flex-col text-sm ml-3 lg:text-base xl:text-base">
+                <section class="border-b-2 py-4">
+                    <h2 class="text-xl mb-2">Značka</h2>
+                    <div class="flex flex-col">
                         @php
                         $checked_brand = [];
                         if(isset($_GET['brand'])) {
@@ -59,9 +59,9 @@
                     </div>
                 </section>
 
-                <section>
-                    <h2 class="ml-2 font-semibold">Farba</h2>
-                    <div class="flex flex-col text-sm ml-3 lg:text-base xl:text-base">
+                <section class="border-b-2 py-4">
+                    <h2 class="text-xl mb-2">Farba</h2>
+                    <div class="flex flex-col">
                         @php
                         $checked_colors = [];
                         if(isset($_GET['color'])) {
@@ -78,51 +78,35 @@
                         @endforeach
                     </div>
                 </section>
-                <section>
-                    <h2 class="ml-2 font-semibold">Cena</h2>
-                    <div class="flex flex-row text-sm ml-3 space-x-1 lg:text-base">
-                        <p>Od</p>
-                        <input type="text" name="price_from" id="price_from" min="0" class="w-10 h-6 text-sm sm:text-base sm:w-14 sm:h-6 border rounded-lg" onkeyup="controlPriceFields()" @if(isset($_GET['price_from']) && ! empty($_GET['price_from'])) value="{{ $_GET['price_from'] }}" @endif>
-                        <p>Do</p>
-                        <input type="text" name="price_to" id="price_to" min="0" class="w-10 h-6 text-sm sm:text-base sm:w-14 sm:h-6 border rounded-lg" onkeyup="controlPriceFields()" @if(isset($_GET['price_to']) && ! empty($_GET['price_to'])) value="{{ $_GET['price_to'] }}" @endif>
+                <section class="border-b-2 py-4">
+                    <h2 class="text-xl mb-2">Cena</h2>
+                    <div class="grid grid-cols-2 gap-4">
+                        <input type="number" placeholder="Od" name="price_from" id="price_from" min="0" class="border-2 border-gray-300" onkeyup="controlPriceFields()" @if(isset($_GET['price_from']) && ! empty($_GET['price_from'])) value="{{ $_GET['price_from'] }}" @endif />
+                        <input type="number" placeholder="Do" name="price_to" id="price_to" min="0" class="border-2 border-gray-300" onkeyup="controlPriceFields()" @if(isset($_GET['price_to']) && ! empty($_GET['price_to'])) value="{{ $_GET['price_to'] }}" @endif />
                     </div>
                 </section>
-                <section>
-                    <select class="border-2 rounded-md" id="sort" name="sort">
+                <section class="border-b-2 py-4">
+                    <h2 class="text-xl mb-2">Usporiadanie</h2>
+                    <select class="border-2 border-gray-300 w-full px-4 py-2" id="sort" name="sort">
                         <option disabled hidden value="0" @if(isset($_GET['sort']) && !empty($_GET['sort'])) selected @endif>Preusporiadanie</option>
                         <option value="asc" @if(isset($_GET['sort']) && $_GET['sort']==='asc' ) selected @endif>Cena (vzostupne)</option>
                         <option value="desc" @if(isset($_GET['sort']) && $_GET['sort']==='desc' ) selected @endif>Cena (zostupne)</option>
                         <option value="alphabet" @if(isset($_GET['sort']) && $_GET['sort']==='alphabet' ) selected @endif>Abecedne</option>
                     </select>
                 </section>
-                <button type="submit">
-                    Filtrovať
-                </button>
+                <div class="py-4">
+                    <x-forms.button text="Filtrovať" type="submit" />
+                </div>
             </form>
         </aside>
-        <div class="flex flex-col items-center">
+        <div class="flex col-span-9 flex-col flex-grow items-center">
             <div class="grid grid-cols-1 gap-4 text-sm sm:text-base md:grid-cols-3 pt-2">
                 @foreach($products as $product)
                 <x-products.product link="{{ route('products.show', ['sex_category' => $sex_category, 'product' => $product->id]) }}" name="{{ $product->name }}" price="{{ $product->price }}" img="{{ $product->images->first()->image_path }}" />
                 @endforeach
             </div>
-            <!-- <div class="flex items-center space-x-3 text-lg col-span-2 md:col-span-3 place-self-center mt-4">
-                <a href="#" class="">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-                    </svg>
-                </a>
-                <a href="#">1</a>
-                <a href="#">2</a>
-                <a href="#">3</a>
-                <a href="#">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                    </svg>
-                </a>
-            </div> -->
-            <span class="mt-4">
-                {{ $products->links('pagination::semantic-ui') }}</span>
+            <div class="mt-4 text-lg">
+                {{ $products->appends($_GET)->links('components.products.pagination') }}</div>
         </div>
     </div>
 </div>
@@ -153,5 +137,16 @@
         lastPriceFromValue = parseInt(priceFromInput.value)
         lastPriceToValue = parseInt(priceToInput.value)
     }
+
+    const filter = document.getElementById('filter');
+    const filter_options = document.getElementById('filter_options');
+
+    filter.addEventListener('click', () => {
+        if (filter_options.classList.contains('hidden')) {
+            filter_options.classList.remove('hidden');
+        } else {
+            filter_options.classList.add('hidden');
+        }
+    });
 </script>
 @endpush

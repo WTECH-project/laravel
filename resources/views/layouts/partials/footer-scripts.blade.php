@@ -1,4 +1,3 @@
-@auth
 <script>
     const hamburgerIcon = document.getElementById('hamburger');
     const menu = document.getElementById('menu');
@@ -22,4 +21,3 @@
         }
     });
 </script>
-@endauth

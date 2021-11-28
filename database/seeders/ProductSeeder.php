@@ -15,11 +15,11 @@ class ProductSeeder extends Seeder
      */
     public function run()
     {
-        for($index = 0; $index < 25; $index ++) {
+        for($index = 0; $index < 100; $index ++) {
             Product::create([
-                'name' => 'Pojebana topanka ' . $index,
-                'description' => 'Skurviacka spicena topanka, kde budes mat nohy',
-                'price' => 99.99,
+                'name' => 'Topanka ' . $index,
+                'description' => 'Popis topanky',
+                'price' => rand(99, 120),
                 'brand_id' => rand(1, 3),
                 'color_id' => rand(1, 3),
                 'sex_category_id' => rand(1, 2),

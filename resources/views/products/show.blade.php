@@ -12,7 +12,6 @@
                 @endforeach
             </div>
 
-
             <div class="flex flex-row items-center justify-between absolute top-0 left-0 w-full h-full px-8">
                 <button class="rounded-full bg-white h-12 w-12 shadow-md" onclick="nextSlide(-1)">&#10094;</button>
                 <button class="rounded-full bg-white h-12 w-12 shadow-md" onclick="nextSlide(1)">&#10095;</button>
@@ -21,7 +20,7 @@
 
         <section class="w-64 flex flex-col">
             <div class="text-xl font-bold">
-                {{ $product->name }}
+                {{ $product->brand->name }} {{ $product->name }}
             </div>
             <div>
                 {{ $product->sexCategory->name }}, {{ $product->category->name }}

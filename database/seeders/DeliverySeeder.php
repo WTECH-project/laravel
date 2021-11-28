@@ -25,12 +25,12 @@ class DeliverySeeder extends Seeder
         ]);
 
         Delivery::create([
-            'name' => 'Personal collection',
+            'name' => 'Osobný odber',
             'price' => 1
         ]);
 
         Delivery::create([
-            'name' => 'Mail package',
+            'name' => 'Poštový balík',
             'price' => 3.50
         ]);
     }
