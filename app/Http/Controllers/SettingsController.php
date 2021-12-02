@@ -42,12 +42,12 @@ class SettingsController extends Controller
     function store(Request $request)
     {
         $validatedData = $request->validate([
-            'name' => ['required', 'max:255', 'regex:/^[A-Z]+[a-z]*$/'],
-            'surname' => ['required', 'max:255', 'regex:/^[A-Z]+[a-z]*$/'],
+            'name' => ['required', 'max:255', 'regex:/^[A-Z][a-z]*$/'],
+            'surname' => ['required', 'max:255', 'regex:/^[A-Z][a-z]*$/'],
             'phone_number' => ['required', 'digits:10'],
             'country' => ['required'],
             'city' => ['required', 'max:255', 'regex:/^[A-Z][a-z]+$/'],
-            'street' => ['required', 'max:255', 'regex:/^[A-Z][a-z]*[ ][A-Za-z0-9/]+$/'],
+            'street' => ['required', 'max:255', 'regex:/^[A-Z][a-z]* [A-Za-z0-9\/]+$/'],
             'postcode' => ['required', 'digits:5'],
         ]);
 

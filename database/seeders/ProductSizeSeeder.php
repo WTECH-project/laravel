@@ -41,9 +41,9 @@ class ProductSizeSeeder extends Seeder
             )
         );
 
-        for ($id = 1; $id <= 25; $id++) {
-            $product = Product::find($id);
+        $products = Product::get();
 
+        foreach($products as $product) {
             $size_set = $size_groups[rand(0, count($size_groups) - 1)];
 
             foreach ($size_set as $size) {
