@@ -64,7 +64,7 @@
         <div class="flex mt-4 flex-col items-center justify-center mx-auto">
             <h2 class="font-bold text-xl">{{ array_reduce($cart_products, function($carry, $item) {
                     return $carry + $item['product']->price * $item['quantity'];
-                }) }}€</h2>
+                }) + $shippment->price + $payment->price }}€</h2>
         </div>
         <div class="grid mt-12 grid-cols-1 md:grid-cols-2 gap-8 text-center">
             <button class="p-3 md:order-2 bg-black border-2 text-white uppercase font-bold transition duration-300 hover:bg-gray-700" type="submit">Objednať</button>

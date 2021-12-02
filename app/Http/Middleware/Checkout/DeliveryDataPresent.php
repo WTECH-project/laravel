@@ -18,7 +18,16 @@ class DeliveryDataPresent
     {
         $delivery_data = session()->get('delivery_data', []);
 
-        if(empty($delivery_data)) {
+        if(
+            empty($delivery_data) ||
+            empty($delivery_data['name']) ||
+            empty($delivery_data['surname']) ||
+            empty($delivery_data['street']) ||
+            empty($delivery_data['psc']) || 
+            empty($delivery_data['city']) ||
+            empty($delivery_data['country']) ||
+            empty($delivery_data['phoneNumber'])
+        ) {
             return redirect()->route('checkout.delivery');
         }
 

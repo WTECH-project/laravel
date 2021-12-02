@@ -48,10 +48,11 @@ class SummaryController extends Controller
         $payment = Payment::find($payment_id);
         $shippment = Delivery::find($shipping_id);
 
-        return view('checkout.summary')
+        return response(view('checkout.summary')
             ->with('cart_products', $products)
             ->with('payment', $payment)
-            ->with('shippment', $shippment);
+            ->with('shippment', $shippment))
+            ->header('Cache-Control', 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0');
     }
 
     /**

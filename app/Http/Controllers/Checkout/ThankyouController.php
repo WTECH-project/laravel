@@ -7,11 +7,6 @@ use Illuminate\Http\Request;
 
 class ThankyouController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware(['cart.data', 'shippingPayment.data', 'delivery.data']);
-    }
-    
     /**
      * Display a listing of the resource.
      *

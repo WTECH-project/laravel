@@ -38,7 +38,8 @@ class CheckoutController extends Controller
             }
         }
 
-        return view('checkout.cart')->with('cart_products', $products);
+        return response(view('checkout.cart')->with('cart_products', $products))
+            ->header('Cache-Control', 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0');;
     }
 
     /**
