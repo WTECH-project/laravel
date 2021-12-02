@@ -13,6 +13,11 @@ use App\Models\Order;
 
 class SummaryController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware(['cart.data', 'shippingPayment.data', 'delivery.data']);
+    }
     /**
      * Display a listing of the resource.
      *

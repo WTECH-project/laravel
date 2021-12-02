@@ -10,6 +10,11 @@ use App\Models\Payment;
 
 class ShippingPaymentController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware(['cart.data']);
+    }
     /**
      * Display a listing of the resource.
      *

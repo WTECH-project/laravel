@@ -63,5 +63,9 @@ class Kernel extends HttpKernel
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+
+        'cart.data' => \App\Http\Middleware\Checkout\CartDataPresent::class,
+        'shippingPayment.data' => \App\Http\Middleware\Checkout\ShippingPaymentDataPresent::class,
+        'delivery.data' => \App\Http\Middleware\Checkout\DeliveryDataPresent::class,
     ];
 }
