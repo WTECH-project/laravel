@@ -77,7 +77,7 @@
             @endauth
 
             @guest
-            <div class="flex items-center">
+            <div class="flex items-center hidden md:block">
                 <nav>
                     <ul class="flex items-center space-x-4">
                         <li>
