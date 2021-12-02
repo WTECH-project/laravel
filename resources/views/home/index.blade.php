@@ -36,7 +36,7 @@
         <img class="w-full h-full object-cover" src="https://images.unsplash.com/photo-1549298916-b41d501d3772?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1112&q=80" alt="Topánky">
     </a>
     <div class="col-span-2">
-        <h2 class="text-4xl font-medium mb-4">Náš výber topánok</h2>
+        <h2 class="text-2xl sm:text-4xl font-medium mb-4">Náš výber topánok</h2>
         <div class="grid grid-cols-1 sm:col-span-2 lg:grid-cols-3 justify-items-center gap-4">
             @foreach($products as $product)
             <a class="relative shadow-md" href="{{ route('products.show', ['sex_category' => $product->sexCategory->id, 'id' => $product->id]) }}">
