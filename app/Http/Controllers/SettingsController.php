@@ -62,7 +62,6 @@ class SettingsController extends Controller
         $user->postcode = $validatedData['postcode'];
 
         $user->save();
-        error_log($user);
 
         return redirect('account');
     }

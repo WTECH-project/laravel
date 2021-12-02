@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
+
 use App\Models\Product;
 use App\Models\Brand;
 use App\Models\Color;
@@ -68,9 +70,15 @@ class ProductController extends Controller
 
         $products = $products->orderBy('created_at', 'desc')->paginate(12);
 
-        $brands = Brand::get();
-        $colors = Color::get();
-        $categories = Category::get();
+        $brands = Cache::rememberForever('brands', function () {
+            return Brand::get();
+        });
+        $colors = Cache::rememberForever('colors', function () {
+            return Color::get();
+        });
+        $categories = Cache::rememberForever('categories', function () {
+            return Category::get();
+        });
 
         return view('products.index')
             ->with('products', $products)
@@ -107,10 +115,16 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(SexCategory $sex_category, Product $product)
+    public function show(SexCategory $sex_category, $id)
     {
+        $product = Cache::remember('product-' . $id, 60,
+            function () use($id) {
+                return Product::findOrFail($id);
+            }
+        );
+
         return view('products.show')
-            ->with('sex_category', $sex_category)
+        ->with('sex_category', $sex_category)
             ->with('product', $product);
     }
 

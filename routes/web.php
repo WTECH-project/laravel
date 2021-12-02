@@ -33,7 +33,7 @@ Route::get('/account', [SettingsController::class, 'index'])->name('settings');
 Route::post('/account', [SettingsController::class, 'store']);
 
 Route::get('/{sex_category}/products', [ProductController::class, 'index'])->name('products');
-Route::get('/{sex_category}/products/{product}', [ProductController::class, 'show'])->name('products.show');
+Route::get('/{sex_category}/products/{id}', [ProductController::class, 'show'])->name('products.show');
 
 Route::get('/search', [ProductController::class, 'search'])->name('search');
 

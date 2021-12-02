@@ -39,7 +39,7 @@
         <h2 class="text-4xl font-medium mb-4">Náš výber topánok</h2>
         <div class="grid grid-cols-1 sm:col-span-2 lg:grid-cols-3 justify-items-center gap-4">
             @foreach($products as $product)
-            <a class="relative shadow-md" href="{{ route('products.show', ['sex_category' => $product->sexCategory->id, 'product' => $product->id]) }}">
+            <a class="relative shadow-md" href="{{ route('products.show', ['sex_category' => $product->sexCategory->id, 'id' => $product->id]) }}">
                 <div class="w-full h-full top-0 left-0 absolute bg-black opacity-50"></div>
                 <div class="w-full h-full absolute flex flex-col top-0 left-0 justify-center items-center">
                     <div class="font-bold text-xl sm:text-2xl md:text-3xl lg:text-5xl text-white text-center">{{ $product->brand->name }} {{ $product->name }}</div>
