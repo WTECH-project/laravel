@@ -43,6 +43,7 @@
                         name="country"
                         placeholder="Krajina"
                         :options=$country_options
+                        selected="{{ auth()->user()->country }}"
                     />
 
                     <x-forms.input-field
