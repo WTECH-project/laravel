@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\Product;
+use App\Models\Size;
 
 class ProductSizeSeeder extends Seeder
 {
@@ -46,9 +47,8 @@ class ProductSizeSeeder extends Seeder
             $size_set = $size_groups[rand(0, count($size_groups) - 1)];
 
             foreach ($size_set as $size) {
-                $product->sizes()->create([
-                    'size' => $size
-                ]);
+                $size_object = Size::where('size', $size)->first();
+                $product->sizes()->attach($size_object);
             }
         }
     }
