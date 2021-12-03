@@ -55,11 +55,13 @@ Route::get('/cart', [CartController::class, 'index'])->name('cart');
 Route::post('/cart', [CartController::class, 'store']);
 Route::delete('/cart', [CartController::class, 'destroy']);
 
-Route::get('/admin', [AdminController::class, 'index'])->name('admin');
-Route::get('/admin/create', [AdminController::class, 'showCreate'])->name('admin.showCreate');
-Route::get('/admin/{product}', [AdminController::class, 'show'])->name('admin.show');
-Route::delete('/admin/{product}', [AdminController::class, 'destroy'])->name('admin.delete');
-Route::post('/admin/create', [AdminController::class, 'store'])->name('admin.store');
-Route::post('/admin/{product}', [AdminController::class, 'update'])->name('admin.update');
+Route::middleware(['auth', 'can:isAdmin,App\Model\Product'])->group(function () {
+    Route::get('/admin', [AdminController::class, 'index'])->name('admin');
+    Route::get('/admin/new', [AdminController::class, 'showCreate'])->name('admin.showCreate');
+    Route::get('/admin/{product}', [AdminController::class, 'show'])->name('admin.show');
+    Route::delete('/admin/{product}', [AdminController::class, 'destroy'])->name('admin.delete');
+    Route::post('/admin/new', [AdminController::class, 'store'])->name('admin.store');
+    Route::post('/admin/{product}', [AdminController::class, 'update'])->name('admin.update');
+});
 
 require __DIR__.'/auth.php';

@@ -11,6 +11,9 @@ use App\Models\Delivery;
 use App\Models\OrderItem;
 use App\Models\Order;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Throwable;
 
 class SummaryController extends Controller
 {
@@ -33,14 +36,17 @@ class SummaryController extends Controller
         $products = [];
 
         foreach ($cart as $product_id => $size_data) {
-            $product = Cache::remember('product-' . $product_id, 60, 
+            $product = Cache::remember(
+                'product-' . $product_id,
+                60,
                 function () use ($product_id) {
                     return Product::findOrFail($product_id);
                 }
             );
 
             foreach ($size_data as $size_id => $count) {
-                $size = Cache::remember('size-' . $size_id, 3600,
+                $size = Cache::rememberForever(
+                    'size-' . $size_id,
                     function () use ($size_id) {
                         return Size::findOrFail($size_id);
                     }
@@ -89,44 +95,65 @@ class SummaryController extends Controller
 
         $user_id = null;
 
-        if(auth()->user()) {
+        if (auth()->user()) {
             $user_id = auth()->user()->id;
         }
 
-        // create order
-        $order_data = Order::create([
-            'user_id' => $user_id,
-            'payment_id' => $payment_id,
-            'delivery_id' => $shipment_id,
-            'ordered_at' => now(),
-            'name' => $delivery_data['name'],
-            'surname' => $delivery_data['surname'],
-            'email' => $delivery_data['email'],
-            'phone_number' => $delivery_data['phoneNumber'],
-            'country' => $delivery_data['country'],
-            'city' => $delivery_data['city'],
-            'street' => $delivery_data['street'],
-            'postcode' => $delivery_data['psc']
-        ]);
+        try {
+            DB::beginTransaction();
+            
+            // create order
+            $order_data = Order::create([
+                'user_id' => $user_id,
+                'payment_id' => $payment_id,
+                'delivery_id' => $shipment_id,
+                'ordered_at' => now(),
+                'name' => $delivery_data['name'],
+                'surname' => $delivery_data['surname'],
+                'email' => $delivery_data['email'],
+                'phone_number' => $delivery_data['phoneNumber'],
+                'country' => $delivery_data['country'],
+                'city' => $delivery_data['city'],
+                'street' => $delivery_data['street'],
+                'postcode' => $delivery_data['psc']
+            ]);
 
-        // create order items
-        foreach ($cart as $product_id => $size_data) {
-            $product = Cache::remember('product-' . $product_id, 60, 
-                function () use ($product_id) {
-                    return Product::findOrFail($product_id);
-                }
-            );;
-
-            foreach ($size_data as $size_id => $count) {
-                OrderItem::create([
-                    'order_id' => $order_data->id,
-                    'product_id' => $product_id,
-                    'size_id' => $size_id,
-                    'price' => $product->price,
-                    'quantity' => $count['quantity']
-                ]);
+            if (!$order_data->exists) {
+                throw new \Illuminate\Database\Eloquent\ModelNotFoundException;
             }
+
+            // create order items
+            foreach ($cart as $product_id => $size_data) {
+                $product = Cache::remember(
+                    'product-' . $product_id,
+                    60,
+                    function () use ($product_id) {
+                        return Product::findOrFail($product_id);
+                    }
+                );;
+
+                foreach ($size_data as $size_id => $count) {
+                    $orderItem = OrderItem::create([
+                        'order_id' => $order_data->id,
+                        'product_id' => $product_id,
+                        'size_id' => $size_id,
+                        'price' => $product->price,
+                        'quantity' => $count['quantity']
+                    ]);
+
+                    if (!$orderItem->exists) {
+                        throw new \Illuminate\Database\Eloquent\ModelNotFoundException;
+                    }
+                }
+            }
+
+            DB::commit();
+        } catch (Throwable $e) {
+            Log::error('Nastala chyba pri vytvarani novej objednavky', ['error' => $e]);
+            DB::rollBack();
         }
+
+        Log::info('Pouzivatel vytvoril objednavku', ['order' => $order_data]);
 
         // clear session data
         session()->forget('cart');

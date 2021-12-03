@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class SettingsController extends Controller
 {
@@ -52,6 +53,7 @@ class SettingsController extends Controller
         ]);
 
         $user = Auth::user();
+        $oldUser = $user->replicate();
 
         $user->name = $validatedData['name'];
         $user->surname = $validatedData['surname'];
@@ -61,7 +63,12 @@ class SettingsController extends Controller
         $user->street = $validatedData['street'];
         $user->postcode = $validatedData['postcode'];
 
-        $user->save();
+        if ($user->save()) {
+            Log::info('Pouzivatel si zmenil osobne udaje', ['old' => $oldUser, 'new' => $user]);
+        } else {
+            Log::error('Pouzivatelovi sa nepodarilo zmenit osobne udaje', ['old' => $oldUser, 'new' => $user]);
+            throw new \Illuminate\Database\Eloquent\ModelNotFoundException;
+        }
 
         return redirect('account');
     }

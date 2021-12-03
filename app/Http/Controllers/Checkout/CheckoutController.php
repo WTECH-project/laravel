@@ -32,7 +32,7 @@ class CheckoutController extends Controller
             );
 
             foreach ($size_data as $size_id => $count) {
-                $size = Cache::remember('size-' . $size_id, 3600,
+                $size = Cache::rememberForever('size-' . $size_id, 
                     function () use ($size_id) {
                         return Size::findOrFail($size_id);
                     }
