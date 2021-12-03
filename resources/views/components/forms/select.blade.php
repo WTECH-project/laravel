@@ -2,7 +2,8 @@
 'label' => $label,
 'name' => $name,
 'placeholder' => $placeholder,
-'options' => []
+'options' => [],
+'selected' => null
 ])
 
 <div class="flex flex-col">
@@ -22,10 +23,10 @@
             @enderror" 
             id="{{ $name }}" 
             name="{{ $name }}">
-        <option selected disabled hidden value="0">{{ $placeholder }}</option>
+        <option disabled hidden value="0" {{ !$selected ? ' selected' : '' }} >{{ $placeholder }}</option>
 
         @foreach($options as $key => $value)
-        <option value={{ $key }}>{{ $value }}</option>
+        <option value={{ $key }} {{ $selected == $key ? ' selected' : '' }}>{{ $value }}</option>
         @endforeach
     </select>
 

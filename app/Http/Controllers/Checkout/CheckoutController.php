@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Models\Size;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Cache;
 class CheckoutController extends Controller
 {
     /**
@@ -25,10 +25,18 @@ class CheckoutController extends Controller
         $products = [];
 
         foreach ($cart as $product_id => $size_data) {
-            $product = Product::findOrFail($product_id);
+            $product = Cache::remember('product-' . $product_id, 60, 
+                function () use ($product_id) {
+                    return Product::findOrFail($product_id);
+                }
+            );
 
             foreach ($size_data as $size_id => $count) {
-                $size = Size::findOrFail($size_id);
+                $size = Cache::remember('size-' . $size_id, 3600,
+                    function () use ($size_id) {
+                        return Size::findOrFail($size_id);
+                    }
+                );
 
                 $products[] = [
                     'product' => $product,
@@ -38,7 +46,8 @@ class CheckoutController extends Controller
             }
         }
 
-        return view('checkout.cart')->with('cart_products', $products);
+        return response(view('checkout.cart')->with('cart_products', $products))
+            ->header('Cache-Control', 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0');;
     }
 
     /**

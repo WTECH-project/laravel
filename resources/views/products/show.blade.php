@@ -1,13 +1,13 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="max-w-4xl mx-auto w-full flex-grow pt-6 px-8 md:pt-12 my-18">
-    <article class="grid grid-cols-1 gap-4 place-items-center sm:grid-cols-2 md:gap-0 lg:grid-cols-2">
+<div class="max-w-4xl mx-auto w-full flex-grow pt-6 px-2 md:px-8 md:pt-12">
+    <article class="grid grid-cols-1 gap-4 place-items-center md:grid-cols-2 md:gap-0">
         <section class="max-w-lg relative mx-auto">
             <div id="slides">
                 @foreach($product->images as $image)
                 <div class="hidden">
-                    <img class="w-full h-max-lg h-80" src="{{ $image->image_path }}" alt="Topánka">
+                    <img class="w-full h-max-lg" src="{{ $image->image_path }}" alt="Topánka">
                 </div>
                 @endforeach
             </div>
@@ -18,7 +18,7 @@
             </div>
         </section>
 
-        <section class="w-64 flex flex-col">
+        <section class="flex flex-col w-full max-w-lg md:w-64">
             <div class="text-xl font-bold">
                 {{ $product->brand->name }} {{ $product->name }}
             </div>
@@ -43,7 +43,7 @@
                 $product_sizes = [];
 
                 foreach($product->sizes as $size) {
-                    $product_sizes[strval($size->id)] = $size->size;
+                $product_sizes[strval($size->id)] = $size->size;
                 }
                 @endphp
 
@@ -58,7 +58,9 @@
         </section>
     </article>
 </div>
+@endsection
 
+@push('scripts')
 <script>
     var slideIndex = 0;
 
@@ -85,4 +87,4 @@
         showSlides(slideIndex += n)
     }
 </script>
-@endsection
+@endpush

@@ -7,6 +7,11 @@ use Illuminate\Http\Request;
 
 class DeliveryController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware(['cart.data', 'shippingPayment.data']);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -14,6 +19,23 @@ class DeliveryController extends Controller
      */
     public function index()
     {
+        // check if user is logged in and if so, fill session with his delivery data
+        $user = auth()->user();
+        $delivery_data = session()->get('delivery_data', []);
+
+        if($user && empty($delivery_data)) {
+            session()->put('delivery_data', [
+                'name' => $user->name,
+                'surname' => $user->surname,
+                'street' => $user->street,
+                'psc' => $user->psc,
+                'city' => $user->city,
+                'country' => $user->country,
+                'phoneNumber' => $user->phoneNumber,
+                'email' => $user->email
+            ]);
+        }
+
         return view('checkout.delivery');
     }
 

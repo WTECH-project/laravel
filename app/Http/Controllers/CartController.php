@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\CartItem;
 use App\Models\Product;
+use Illuminate\Support\Facades\Cache;
 
 class CartController extends Controller
 {
@@ -63,7 +63,11 @@ class CartController extends Controller
 
             // create cart item if authenticated
             if (auth()->user()) {
-                $product = Product::findOrFail($request->product_id);
+                $product = Cache::remember('product-' . $request->product_id, 60,
+                    function ($request) {
+                        return Product::findOrFail($request->product_id);
+                    }
+                );
 
                 auth()->user()->cartItems()->create([
                     'size_id' => $request->size_id,

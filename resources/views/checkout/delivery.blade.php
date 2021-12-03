@@ -35,11 +35,11 @@
         ]
         @endphp
 
-        <x-forms.select label="Krajina" name="country" placeholder="Krajina" :options=$country_options />
+        <x-forms.select label="Krajina" name="country" placeholder="Krajina" :options=$country_options selected="{{ isset(session()->get('delivery_data', [])['country']) ? session()->get('delivery_data')['country'] : old('country') }}" />
 
         <x-forms.input-field name="city" type="text" label="Mesto / obec" value="{{ isset(session()->get('delivery_data', [])['city']) ? session()->get('delivery_data')['city'] : old('city') }}" />
         <x-forms.input-field name="street" type="text" label="Ulica a číslo domu" value="{{ isset(session()->get('delivery_data', [])['street']) ? session()->get('delivery_data')['street'] : old('street') }}" />
-        <x-forms.input-field name="psc" type="text" label="Číslo popisné" value="{{ isset(session()->get('delivery_data', [])['psc']) ? session()->get('delivery_data')['psc'] : old('psc') }}"  />
+        <x-forms.input-field name="psc" type="text" label="Číslo popisné" value="{{ isset(session()->get('delivery_data', [])['psc']) ? session()->get('delivery_data')['psc'] : old('psc') }}" />
     </div>
 
     <div class="grid mt-12 grid-cols-1 md:grid-cols-2 gap-8 text-center">
