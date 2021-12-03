@@ -47,15 +47,27 @@ class AdminController extends Controller
      */
     public function store(Request $request)
     {   
+        $validatedData = $request->validate([
+            'brand_id' => ['required'],
+            'color_id' => ['required'],
+            'sex_category_id' => ['required'],
+            'category_id' => ['required'],
+            'name' => ['required', 'max:255'],
+            'description' => ['required', 'max:255'],
+            'price' => ['required', 'regex:/^\d+(.\d{1,2})?$/'],
+            'ids' => ['required'],
+            'images' => ['required'],
+        ]);
+        
         // Creating new Product
         $product = Product::create([
             'brand_id' => (int)$_POST['brand_id'],
             'color_id' => (int)$_POST['color_id'],
             'sex_category_id' => (int)$_POST['sex_category_id'],
             'category_id' => (int)$_POST['category_id'],
-            'name' => $_POST['name'],
-            'description' => $_POST['description'],
-            'price' => (double)$_POST['price']
+            'name' => $validatedData['name'],
+            'description' => $validatedData['description'],
+            'price' => (double)$validatedData['price']
         ]);
         
         // Storing images of new Product
@@ -173,15 +185,26 @@ class AdminController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $validatedData = $request->validate([
+            'brand_id' => ['required'],
+            'color_id' => ['required'],
+            'sex_category_id' => ['required'],
+            'category_id' => ['required'],
+            'name' => ['required', 'max:255'],
+            'description' => ['required', 'max:255'],
+            'price' => ['required', 'regex:/^\d+(.\d{1,2})?$/'],
+            'ids' => ['required'],
+        ]);
+        
         $product = Product::find($id);
 
         $product->brand_id = (int)$_POST['brand_id'];
         $product->color_id = (int)$_POST['color_id'];
         $product->sex_category_id = (int)$_POST['sex_category_id'];
         $product->category_id = (int)$_POST['category_id'];
-        $product->name = $_POST['name'];
-        $product->description = $_POST['description'];
-        $product->price = (double)$_POST['price'];
+        $product->name = $validatedData['name'];
+        $product->description = $validatedData['description'];
+        $product->price = (double)$validatedData['price'];
 
         $product->save();
 
