@@ -3,8 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Cache;
 use App\Models\Product;
 use App\Models\Brand;
 use App\Models\Color;
@@ -85,7 +84,6 @@ class AdminController extends Controller
 
         // Storing names of images to database
         foreach($images as $image) {
-            error_log('Som tu');
             Image::create([
                 'product_id' => (int)$product->id,
                 'image_path' => $image
@@ -104,11 +102,31 @@ class AdminController extends Controller
 
         $newProduct = "Nový produkt bol pridaný";
 
-        $brands = Brand::get();
-        $colors = Color::get();
-        $categories = Category::get();
-        $sexCategories = SexCategory::get();
-        $sizes = Size::get();
+        $brands = Cache::rememberForever('brands', 
+            function () {
+                return Brand::get();
+            }
+        );
+        $colors = Cache::rememberForever('colors',
+            function () {
+                return Color::get();
+            }
+        );
+        $categories = Cache::rememberForever('categories',
+            function () {
+                return Category::get();
+            }
+        );
+        $sexCategories = Cache::rememberForever('sex_categories', 
+            function () {
+                return SexCategory::get();
+            }
+        );
+        $sizes = Cache::rememberForever('sizes',
+            function () {
+                return Size::get();
+            }
+        );
 
         return view('admin.create')
             ->with('brands', $brands)
@@ -129,11 +147,36 @@ class AdminController extends Controller
     public function show(Product $product)
     {
 
-        $brands = Brand::get();
-        $colors = Color::get();
-        $categories = Category::get();
-        $sexCategories = SexCategory::get();
-        $sizes = Size::get();
+        $brands = Cache::rememberForever(
+            'brands',
+            function () {
+                return Brand::get();
+            }
+        );
+        $colors = Cache::rememberForever(
+            'colors',
+            function () {
+                return Color::get();
+            }
+        );
+        $categories = Cache::rememberForever(
+            'categories',
+            function () {
+                return Category::get();
+            }
+        );
+        $sexCategories = Cache::rememberForever(
+            'sex_categories',
+            function () {
+                return SexCategory::get();
+            }
+        );
+        $sizes = Cache::rememberForever(
+            'sizes',
+            function () {
+                return Size::get();
+            }
+        );
 
         return view('admin.edit')
             ->with('brands', $brands)
@@ -151,11 +194,36 @@ class AdminController extends Controller
      */
     public function showCreate()
     {
-        $brands = Brand::get();
-        $colors = Color::get();
-        $categories = Category::get();
-        $sexCategories = SexCategory::get();
-        $sizes = Size::get();
+        $brands = Cache::rememberForever(
+            'brands',
+            function () {
+                return Brand::get();
+            }
+        );
+        $colors = Cache::rememberForever(
+            'colors',
+            function () {
+                return Color::get();
+            }
+        );
+        $categories = Cache::rememberForever(
+            'categories',
+            function () {
+                return Category::get();
+            }
+        );
+        $sexCategories = Cache::rememberForever(
+            'sex_categories',
+            function () {
+                return SexCategory::get();
+            }
+        );
+        $sizes = Cache::rememberForever(
+            'sizes',
+            function () {
+                return Size::get();
+            }
+        );
 
         return view('admin.create')
             ->with('brands', $brands)
@@ -208,6 +276,8 @@ class AdminController extends Controller
 
         $product->save();
 
+        Cache::forget('product-' . $product->id);
+
         $images = Image::where('product_id', $id)->get();
         
         foreach($images as $image) {
@@ -250,11 +320,36 @@ class AdminController extends Controller
             ]);
         }
 
-        $brands = Brand::get();
-        $colors = Color::get();
-        $categories = Category::get();
-        $sexCategories = SexCategory::get();
-        $sizes = Size::get();
+        $brands = Cache::rememberForever(
+            'brands',
+            function () {
+                return Brand::get();
+            }
+        );
+        $colors = Cache::rememberForever(
+            'colors',
+            function () {
+                return Color::get();
+            }
+        );
+        $categories = Cache::rememberForever(
+            'categories',
+            function () {
+                return Category::get();
+            }
+        );
+        $sexCategories = Cache::rememberForever(
+            'sex_categories',
+            function () {
+                return SexCategory::get();
+            }
+        );
+        $sizes = Cache::rememberForever(
+            'sizes',
+            function () {
+                return Size::get();
+            }
+        );
         
         $editedProduct = "Produkt bol upravený";
         $product = Product::find($id);        
@@ -284,6 +379,8 @@ class AdminController extends Controller
         }
 
         Product::destroy($id);
+
+        Cache::forget('product-' . $id);
 
         $products = Product::query()->get();
         
