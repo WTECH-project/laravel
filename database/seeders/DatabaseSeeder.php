@@ -34,7 +34,8 @@ class DatabaseSeeder extends Seeder
             ProductSeeder::class,
             ImageSeeder::class,
             ProductSizeSeeder::class,
-            RoleSeeder::class
+            RoleSeeder::class,
+            AdminSeeder::class
         ]);
     }
 }

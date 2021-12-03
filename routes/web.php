@@ -55,7 +55,7 @@ Route::get('/cart', [CartController::class, 'index'])->name('cart');
 Route::post('/cart', [CartController::class, 'store']);
 Route::delete('/cart', [CartController::class, 'destroy']);
 
-Route::middleware(['can:isAdmin'])->group(function () {
+Route::middleware(['auth', 'can:isAdmin,App\Model\Product'])->group(function () {
     Route::get('/admin', [AdminController::class, 'index'])->name('admin');
     Route::get('/admin/new', [AdminController::class, 'showCreate'])->name('admin.showCreate');
     Route::get('/admin/{product}', [AdminController::class, 'show'])->name('admin.show');

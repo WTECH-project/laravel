@@ -62,9 +62,13 @@ class User extends Authenticatable
     }
 
     public function hasRole($role) {
-        if($this->roles()->where('name', $role)->firstOrFail()) {
+        if($this->roles()->where('name', $role)->first()) {
             return true;
         }
         return false;
+    }
+
+    public function isAdmin() {
+        return $this->hasRole("ADMIN");
     }
 }

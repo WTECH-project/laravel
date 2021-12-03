@@ -19,7 +19,7 @@ class ProductPolicy
         //
     }
 
-    public function isAmin(User $user) {
+    public function isAdmin(User $user) {
         return $user->hasRole("ADMIN");
     }
 }
