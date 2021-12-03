@@ -102,7 +102,7 @@
         <div class="flex col-span-9 flex-col flex-grow items-center">
             <div class="grid grid-cols-1 gap-4 text-sm sm:text-base md:grid-cols-3 pt-2">
                 @foreach($products as $product)
-                <x-products.product link="{{ route('products.show', ['sex_category' => $sex_category, 'product' => $product->id]) }}" name="{{ $product->name }}" price="{{ $product->price }}" img="{{ $product->images->first()->image_path }}" />
+                <x-products.product link="{{ route('products.show', ['sex_category' => $sex_category, 'id' => $product->id]) }}" brand="{{ $product->brand->name }}" name="{{ $product->name }}" price="{{ $product->price }}" img="{{ $product->images->first()->image_path }}" />
                 @endforeach
             </div>
             <div class="mt-4 text-lg">

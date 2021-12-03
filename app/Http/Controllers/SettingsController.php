@@ -42,12 +42,12 @@ class SettingsController extends Controller
     function store(Request $request)
     {
         $validatedData = $request->validate([
-            'name' => ['required', 'max:255', 'regex:/^[a-zA-Z]+$/'],
-            'surname' => ['required', 'max:255', 'regex:/^[a-zA-Z]+$/'],
+            'name' => ['required', 'max:255', 'regex:/^[A-Z][a-z]*$/'],
+            'surname' => ['required', 'max:255', 'regex:/^[A-Z][a-z]*$/'],
             'phone_number' => ['required', 'digits:10'],
             'country' => ['required'],
-            'city' => ['required', 'max:255', 'regex:/^[a-zA-Z]+$/'],
-            'street' => ['required', 'max:255', 'regex:/^[A-Za-z0-9]*$/'],
+            'city' => ['required', 'max:255', 'regex:/^[A-Z][a-z]+$/'],
+            'street' => ['required', 'max:255', 'regex:/^[A-Z][a-z]* [A-Za-z0-9\/]+$/'],
             'postcode' => ['required', 'digits:5'],
         ]);
 
@@ -62,7 +62,6 @@ class SettingsController extends Controller
         $user->postcode = $validatedData['postcode'];
 
         $user->save();
-        error_log($user);
 
         return redirect('account');
     }

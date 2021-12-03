@@ -4,12 +4,18 @@ namespace App\Http\Controllers\Checkout;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 use App\Models\Delivery;
 use App\Models\Payment;
 
 class ShippingPaymentController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware(['cart.data']);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -17,8 +23,12 @@ class ShippingPaymentController extends Controller
      */
     public function index()
     {
-        $payments = Payment::get();
-        $deliveries = Delivery::get();
+        $payments = Cache::rememberForever('payments', function () {
+            return Payment::get();
+        });
+        $deliveries = Cache::rememberForever('deliveries', function () {
+            return Delivery::get();
+        });
 
         $shipping_id = session()->get('shipping');
         $payment_id = session()->get('payment');

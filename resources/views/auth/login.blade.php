@@ -9,8 +9,8 @@
             />
             <form method="POST" action="{{ route('login') }}" class="mt-8">
                 @csrf
-                <x-forms.input-field name="email" type="email" label="E-mail" value="" />
-                <x-forms.input-field name="password" type="password" label="Heslo" class="mt-4" value=""/>
+                <x-forms.input-field name="email" type="email" label="E-mail" />
+                <x-forms.input-field name="password" type="password" label="Heslo" class="mt-4"/>
 
                 <x-forms.button text="Prihlásiť" type="submit" class="my-4" />
             </form>

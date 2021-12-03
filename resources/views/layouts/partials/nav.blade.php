@@ -41,11 +41,11 @@
             </div>
             <!-- Profile menu -->
             @auth
-            <div id="profile" class="hidden sm:block flex relative cursor-pointer px-8 py-4 border-2 border-gray-300 md:m-0 md:p-0 md:border-0">
+            <div id="profile" class="hidden sm:flex relative cursor-pointer px-8 py-4 border-2 border-gray-300 sm:m-0 sm:p-0 sm:border-0">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                 </svg>
-                <p class="text-white hover:underline md:hidden">Profil</p>
+                <p class="text-white hover:underline sm:hidden">Profil</p>
                 <div id="profileMenu" class="hidden absolute w-48 right-2 top-8 text-white text-xs z-10">
                     <a href="{{ route('settings') }}" class="flex cursor-pointer w-full px-8 py-2 border-2 border-gray-300 bg-gray-800 gap-2 items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -95,8 +95,8 @@
     <!-- Responsive auth menu -->
     @auth
     <div id="menu" class="hidden sm:hidden">
-        <div class="w-full flex flex-col md:flex-row md:items-center mt-4">
-            <a href="{{ route('settings') }}" class="flex items-center gap-2 px-8 py-4 border-2 border-gray-300 md:m-0 md:p-0 md:border-0">
+        <div class="w-full flex flex-col sm:flex-row sm:items-center mt-4">
+            <a href="{{ route('settings') }}" class="flex items-center gap-2 px-8 py-4 border-2 border-gray-300 sm:m-0 sm:p-0 md:border-0">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                 </svg>

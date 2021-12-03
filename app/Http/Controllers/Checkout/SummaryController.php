@@ -10,9 +10,15 @@ use App\Models\Payment;
 use App\Models\Delivery;
 use App\Models\OrderItem;
 use App\Models\Order;
+use Illuminate\Support\Facades\Cache;
 
 class SummaryController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware(['cart.data', 'shippingPayment.data', 'delivery.data']);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -27,10 +33,18 @@ class SummaryController extends Controller
         $products = [];
 
         foreach ($cart as $product_id => $size_data) {
-            $product = Product::findOrFail($product_id);
+            $product = Cache::remember('product-' . $product_id, 60, 
+                function () use ($product_id) {
+                    return Product::findOrFail($product_id);
+                }
+            );
 
             foreach ($size_data as $size_id => $count) {
-                $size = Size::findOrFail($size_id);
+                $size = Cache::remember('size-' . $size_id, 3600,
+                    function () use ($size_id) {
+                        return Size::findOrFail($size_id);
+                    }
+                );
 
                 $products[] = [
                     'product' => $product,
@@ -40,13 +54,14 @@ class SummaryController extends Controller
             }
         }
 
-        $payment = Payment::find($payment_id);
-        $shippment = Delivery::find($shipping_id);
+        $payment = Payment::findOrFail($payment_id);
+        $shippment = Delivery::findOrFail($shipping_id);
 
-        return view('checkout.summary')
+        return response(view('checkout.summary')
             ->with('cart_products', $products)
             ->with('payment', $payment)
-            ->with('shippment', $shippment);
+            ->with('shippment', $shippment))
+            ->header('Cache-Control', 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0');
     }
 
     /**
@@ -96,7 +111,11 @@ class SummaryController extends Controller
 
         // create order items
         foreach ($cart as $product_id => $size_data) {
-            $product = Product::findOrFail($product_id);
+            $product = Cache::remember('product-' . $product_id, 60, 
+                function () use ($product_id) {
+                    return Product::findOrFail($product_id);
+                }
+            );;
 
             foreach ($size_data as $size_id => $count) {
                 OrderItem::create([
