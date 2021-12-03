@@ -8,6 +8,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\CartItem;
 use App\Models\Order;
+use App\Models\Role;
 
 class User extends Authenticatable
 {
@@ -54,5 +55,16 @@ class User extends Authenticatable
 
     public function orders() {
         return $this->hasMany(Order::class);
+    }
+
+    public function roles() {
+        return $this->belongsToMany(Role::class)->withTimestamps();
+    }
+
+    public function hasRole($role) {
+        if($this->roles()->where('name', $role)->firstOrFail()) {
+            return true;
+        }
+        return false;
     }
 }

@@ -33,7 +33,8 @@ class DatabaseSeeder extends Seeder
             DeliverySeeder::class,
             ProductSeeder::class,
             ImageSeeder::class,
-            ProductSizeSeeder::class
+            ProductSizeSeeder::class,
+            RoleSeeder::class
         ]);
     }
 }
