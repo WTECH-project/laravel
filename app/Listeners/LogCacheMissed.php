@@ -25,6 +25,6 @@ class LogCacheMissed
      */
     public function handle(CacheMissed $event)
     {
-        Log::info('Data neboli najdene v cache', ['key' => $event->key]);
+        Log::debug('Data neboli najdene v cache', ['key' => $event->key]);
     }
 }

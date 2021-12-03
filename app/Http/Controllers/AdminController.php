@@ -12,6 +12,7 @@ use App\Models\SexCategory;
 use App\Models\Image;
 use App\Models\Size;
 use App\Models\ProductSize;
+use Illuminate\Support\Facades\Log;
 
 class AdminController extends Controller
 {
@@ -127,6 +128,8 @@ class AdminController extends Controller
                 return Size::get();
             }
         );
+
+        Log::log('Administrator vytvoril novy produkt', ['product' => $product]);
 
         return view('admin.create')
             ->with('brands', $brands)
@@ -265,6 +268,7 @@ class AdminController extends Controller
         ]);
         
         $product = Product::find($id);
+        $oldProduct = $product->replicate();
 
         $product->brand_id = (int)$_POST['brand_id'];
         $product->color_id = (int)$_POST['color_id'];
@@ -352,7 +356,9 @@ class AdminController extends Controller
         );
         
         $editedProduct = "Produkt bol upravený";
-        $product = Product::find($id);        
+        $product = Product::find($id);
+
+        Log::info('Administrator editoval produkt', ['old' => $oldProduct, 'new' => $product]);
 
         return view('admin.edit')
             ->with('brands', $brands)
@@ -381,6 +387,8 @@ class AdminController extends Controller
         Product::destroy($id);
 
         Cache::forget('product-' . $id);
+
+        Log::info('Administrator vymazal produkt', ['product_id' => $id]);
 
         $products = Product::query()->get();
         

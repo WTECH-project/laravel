@@ -25,6 +25,6 @@ class LogKeyWritten
      */
     public function handle(KeyWritten $event)
     {
-        Log::info('Data boli zapisane do cache', ['key' => $event->key]);
+        Log::debug('Data boli zapisane do cache', ['key' => $event->key]);
     }
 }

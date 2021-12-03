@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 
 class CartController extends Controller
 {
@@ -54,9 +55,13 @@ class CartController extends Controller
             // update cart item if autheticanted
             if (auth()->user()) {
                 $cartItem = auth()->user()->cartItems()->where('product_id', '=', $request->product_id)->where('size_id', '=', $request->size_id)->first();
+                $oldItem = $cartItem->replicate();
+
                 $cartItem->quantity += intval($request->quantity);
 
                 $cartItem->save();
+
+                Log::info('Pouzivatel aktualizoval stav produktov v kosiku', ['old' => $oldItem, 'new' => $cartItem]);
             }
         } else {
             $cart[$request->product_id][$request->size_id]['quantity'] = intval($request->quantity);
@@ -69,11 +74,15 @@ class CartController extends Controller
                     }
                 );
 
-                auth()->user()->cartItems()->create([
+                $cartItem = auth()->user()->cartItems()->create([
                     'size_id' => $request->size_id,
                     'product_id' => $request->product_id,
                     'quantity' => $request->quantity,
                     'price' => $product->price
+                ]);
+
+                Log::info('Novy produkt bol vlozeny do kosika pouzivatela', [
+                    'cart_item' => $cartItem
                 ]);
             }
         }
@@ -142,11 +151,18 @@ class CartController extends Controller
 
             // delete cart item if authenticated
             if (auth()->user()) {
-                auth()->user()->cartItems()->where(
+                $cartItem = auth()->user()->cartItems()->where(
                     'product_id',
                     '=',
                     $request->product_id
-                )->where('size_id', '=', $request->size_id)->first()->delete();
+                )->where('size_id', '=', $request->size_id)->first();
+
+                if($cartItem->delete()) {
+                    Log::info('Pouzivatel odstranil produkt z kosika', ['product' => $cartItem]);
+                }
+                else {
+                    Log::error('Nastala chyba pri odstranovani produktu z kosika', ['product' => $cartItem]);
+                }
             }
 
 

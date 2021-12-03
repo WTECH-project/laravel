@@ -25,6 +25,6 @@ class LogKeyForgotten
      */
     public function handle(KeyForgotten $event)
     {
-        Log::info('Data boli vymazane z cache', ['key' => $event->key]);
+        Log::debug('Data boli vymazane z cache', ['key' => $event->key]);
     }
 }

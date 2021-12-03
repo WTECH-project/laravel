@@ -25,6 +25,6 @@ class LogCacheHit
      */
     public function handle(CacheHit $event)
     {
-        Log::info('Data boli najdene v cache', ['key' => $event->key]);
+        Log::debug('Data boli najdene v cache', ['key' => $event->key]);
     }
 }

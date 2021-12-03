@@ -11,6 +11,7 @@ use App\Models\Delivery;
 use App\Models\OrderItem;
 use App\Models\Order;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 
 class SummaryController extends Controller
 {
@@ -40,7 +41,7 @@ class SummaryController extends Controller
             );
 
             foreach ($size_data as $size_id => $count) {
-                $size = Cache::remember('size-' . $size_id, 3600,
+                $size = Cache::rememberForever('size-' . $size_id,
                     function () use ($size_id) {
                         return Size::findOrFail($size_id);
                     }
@@ -127,6 +128,8 @@ class SummaryController extends Controller
                 ]);
             }
         }
+
+        Log::info('Pouzivatel vytvoril objednavku', ['order' => $order_data]);
 
         // clear session data
         session()->forget('cart');
