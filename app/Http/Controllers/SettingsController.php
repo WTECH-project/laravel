@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class SettingsController extends Controller
 {
@@ -52,6 +53,7 @@ class SettingsController extends Controller
         ]);
 
         $user = Auth::user();
+        $oldUser = $user->replicate();
 
         $user->name = $validatedData['name'];
         $user->surname = $validatedData['surname'];
@@ -62,6 +64,17 @@ class SettingsController extends Controller
         $user->postcode = $validatedData['postcode'];
 
         $user->save();
+
+        Log::info('Pouzivatel si zmenil osobne udaje', [
+            'id' => $user->id,
+            'name' => [$oldUser->name => $user->name],
+            'surname' => [$oldUser->surname => $user->surname],
+            'phone_number' => [$oldUser->phone_number => $user->phone_number],
+            'country' => [$oldUser->country => $user->country],
+            'city' => [$oldUser->city => $user->city],
+            'street' => [$oldUser->street => $user->street],
+            'postcode' => [$oldUser->postcode => $user->postcode]
+        ]);
 
         return redirect('account');
     }
