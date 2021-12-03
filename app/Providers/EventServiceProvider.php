@@ -28,7 +28,22 @@ class EventServiceProvider extends ServiceProvider
         ],
         Logout::class => [
             LogSuccessfulLogout::class,
-        ]
+        ],
+        'Illuminate\Cache\Events\CacheHit' => [
+            'App\Listeners\LogCacheHit',
+        ],
+
+        'Illuminate\Cache\Events\CacheMissed' => [
+            'App\Listeners\LogCacheMissed',
+        ],
+
+        'Illuminate\Cache\Events\KeyForgotten' => [
+            'App\Listeners\LogKeyForgotten',
+        ],
+
+        'Illuminate\Cache\Events\KeyWritten' => [
+            'App\Listeners\LogKeyWritten',
+        ],
     ];
 
     /**
