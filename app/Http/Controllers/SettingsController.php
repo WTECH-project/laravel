@@ -63,18 +63,12 @@ class SettingsController extends Controller
         $user->street = $validatedData['street'];
         $user->postcode = $validatedData['postcode'];
 
-        $user->save();
-
-        Log::info('Pouzivatel si zmenil osobne udaje', [
-            'id' => $user->id,
-            'name' => [$oldUser->name => $user->name],
-            'surname' => [$oldUser->surname => $user->surname],
-            'phone_number' => [$oldUser->phone_number => $user->phone_number],
-            'country' => [$oldUser->country => $user->country],
-            'city' => [$oldUser->city => $user->city],
-            'street' => [$oldUser->street => $user->street],
-            'postcode' => [$oldUser->postcode => $user->postcode]
-        ]);
+        if ($user->save()) {
+            Log::info('Pouzivatel si zmenil osobne udaje', ['old' => $oldUser, 'new' => $user]);
+        } else {
+            Log::error('Pouzivatelovi sa nepodarilo zmenit osobne udaje', ['old' => $oldUser, 'new' => $user]);
+            throw new \Illuminate\Database\Eloquent\ModelNotFoundException;
+        }
 
         return redirect('account');
     }

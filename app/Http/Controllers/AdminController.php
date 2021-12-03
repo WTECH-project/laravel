@@ -13,6 +13,8 @@ use App\Models\Image;
 use App\Models\Size;
 use App\Models\ProductSize;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
+use Throwable;
 
 class AdminController extends Controller
 {
@@ -24,7 +26,7 @@ class AdminController extends Controller
     public function index()
     {
         $products = Product::query()->get();
-        
+
         return view('admin.index')
             ->with('products', $products);
     }
@@ -46,7 +48,7 @@ class AdminController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {   
+    {
         $validatedData = $request->validate([
             'brand_id' => ['required'],
             'color_id' => ['required'],
@@ -58,72 +60,97 @@ class AdminController extends Controller
             'ids' => ['required'],
             'images' => ['required'],
         ]);
-        
-        // Creating new Product
-        $product = Product::create([
-            'brand_id' => (int)$_POST['brand_id'],
-            'color_id' => (int)$_POST['color_id'],
-            'sex_category_id' => (int)$_POST['sex_category_id'],
-            'category_id' => (int)$_POST['category_id'],
-            'name' => $validatedData['name'],
-            'description' => $validatedData['description'],
-            'price' => (double)$validatedData['price']
-        ]);
-        
-        // Storing images of new Product
-        $files = $request->file('images');
 
-        $images = array();
+        try {
+            DB::beginTransaction();
 
-        if($request->hasFile('images'))
-        {
-            foreach($files as $file) {
-                $path = explode('/', $file->store('public'));
-                array_push($images, end($path));
+            // Creating new Product
+            $product = Product::create([
+                'brand_id' => (int)$_POST['brand_id'],
+                'color_id' => (int)$_POST['color_id'],
+                'sex_category_id' => (int)$_POST['sex_category_id'],
+                'category_id' => (int)$_POST['category_id'],
+                'name' => $validatedData['name'],
+                'description' => $validatedData['description'],
+                'price' => (float)$validatedData['price']
+            ]);
+
+            if (!$product->exists) {
+                throw new \Illuminate\Database\Eloquent\ModelNotFoundException;
             }
-        }
 
-        // Storing names of images to database
-        foreach($images as $image) {
-            Image::create([
-                'product_id' => (int)$product->id,
-                'image_path' => $image
-            ]);
-        }
+            // Storing images of new Product
+            $files = $request->file('images');
 
-        // Storing sizes of new Product to database
-        $ids = $_POST['ids'];
+            $images = array();
 
-        foreach($ids as &$value) {
-            ProductSize::create([
-                'product_id' => (int)$product->id,
-                'size_id' => (int)$value
-            ]);
+            if ($request->hasFile('images')) {
+                foreach ($files as $file) {
+                    $path = explode('/', $file->store('public'));
+                    array_push($images, end($path));
+                }
+            }
+
+            // Storing names of images to database
+            foreach ($images as $image) {
+                $createdImage = Image::create([
+                    'product_id' => (int)$product->id,
+                    'image_path' => $image
+                ]);
+
+                if (!$createdImage->exists) {
+                    throw new \Illuminate\Database\Eloquent\ModelNotFoundException;
+                }
+            }
+
+            // Storing sizes of new Product to database
+            $ids = $_POST['ids'];
+
+            foreach ($ids as &$value) {
+                $productSize = ProductSize::create([
+                    'product_id' => (int)$product->id,
+                    'size_id' => (int)$value
+                ]);
+
+                if (!$productSize) {
+                    throw new \Illuminate\Database\Eloquent\ModelNotFoundException;
+                }
+            }
+
+            DB::commit();
+        } catch (Throwable $e) {
+            Log::error('Nastala chyba pri vytvarani noveho produktu', ['error' => $e]);
+            DB::rollBack();
         }
 
         $newProduct = "Nový produkt bol pridaný";
 
-        $brands = Cache::rememberForever('brands', 
+        $brands = Cache::rememberForever(
+            'brands',
             function () {
                 return Brand::get();
             }
         );
-        $colors = Cache::rememberForever('colors',
+        $colors = Cache::rememberForever(
+            'colors',
             function () {
                 return Color::get();
             }
         );
-        $categories = Cache::rememberForever('categories',
+        $categories = Cache::rememberForever(
+            'categories',
             function () {
                 return Category::get();
             }
         );
-        $sexCategories = Cache::rememberForever('sex_categories', 
+        $sexCategories = Cache::rememberForever(
+            'sex_categories',
             function () {
                 return SexCategory::get();
             }
         );
-        $sizes = Cache::rememberForever('sizes',
+        $sizes = Cache::rememberForever(
+            'sizes',
             function () {
                 return Size::get();
             }
@@ -138,7 +165,6 @@ class AdminController extends Controller
             ->with('sexCategories', $sexCategories)
             ->with('sizes', $sizes)
             ->with('newProduct', $newProduct);
-        
     }
 
     /**
@@ -244,7 +270,6 @@ class AdminController extends Controller
      */
     public function edit($id)
     {
-        
     }
 
     /**
@@ -266,62 +291,87 @@ class AdminController extends Controller
             'price' => ['required', 'regex:/^\d+(.\d{1,2})?$/'],
             'ids' => ['required'],
         ]);
-        
-        $product = Product::find($id);
-        $oldProduct = $product->replicate();
 
-        $product->brand_id = (int)$_POST['brand_id'];
-        $product->color_id = (int)$_POST['color_id'];
-        $product->sex_category_id = (int)$_POST['sex_category_id'];
-        $product->category_id = (int)$_POST['category_id'];
-        $product->name = $validatedData['name'];
-        $product->description = $validatedData['description'];
-        $product->price = (double)$validatedData['price'];
+        try {
+            DB::beginTransaction();
 
-        $product->save();
+            $product = Product::findOrFail($id);
+            $oldProduct = $product->replicate();
 
-        Cache::forget('product-' . $product->id);
+            $product->brand_id = (int)$_POST['brand_id'];
+            $product->color_id = (int)$_POST['color_id'];
+            $product->sex_category_id = (int)$_POST['sex_category_id'];
+            $product->category_id = (int)$_POST['category_id'];
+            $product->name = $validatedData['name'];
+            $product->description = $validatedData['description'];
+            $product->price = (float)$validatedData['price'];
 
-        $images = Image::where('product_id', $id)->get();
-        
-        foreach($images as $image) {
-            unlink(storage_path('\app\public\\' . $image->image_path));
-        }
-
-        $deletedImages = Image::where('product_id', $id)->delete();
-
-        $deletedSizes = ProductSize::where('product_id', $id)->delete();
-
-        // Storing images of new Product
-        $files = $request->file('images');
-
-        $images = array();
-
-        if($request->hasFile('images'))
-        {
-            foreach($files as $file) {
-                $path = explode('/', $file->store('public'));
-                array_push($images, end($path));
+            if(!$product->save()) {
+                Log::error('Nepodarilo sa ulozit editovany produkt', ['product' => $product]);
+                throw new \Illuminate\Database\Eloquent\ModelNotFoundException;
             }
-        }
-        
-        // Storing names of images to database
-        foreach($images as $image) {
-            error_log('Som tu');
-            Image::create([
-                'product_id' => (int)$product->id,
-                'image_path' => $image
-            ]);
-        }
 
-        // Storing sizes of new Product to database
-        $ids = $_POST['ids'];
+            Cache::forget('product-' . $product->id);
 
-        foreach($ids as &$value) {
-            ProductSize::create([
-                'product_id' => (int)$product->id,
-                'size_id' => (int)$value
-            ]);
+            $images = Image::where('product_id', $id)->get();
+
+            foreach ($images as $image) {
+                unlink(storage_path('\app\public\\' . $image->image_path));
+            }
+
+            if(!Image::where('product_id', $id)->delete()) {
+                Log::error('Nepodarilo sa vymazat obrazky produktu', ['product_id' => $id]);
+                throw new \Illuminate\Database\Eloquent\ModelNotFoundException;
+            }
+
+            if(!ProductSize::where('product_id', $id)->delete()) {
+                Log::error('Nepodarilo sa vymazat velkosti topanok produktu', ['product_id' => $id]);
+                throw new \Illuminate\Database\Eloquent\ModelNotFoundException;
+            }
+
+            // Storing images of new Product
+            $files = $request->file('images');
+
+            $images = array();
+
+            if ($request->hasFile('images')) {
+                foreach ($files as $file) {
+                    $path = explode('/', $file->store('public'));
+                    array_push($images, end($path));
+                }
+            }
+
+            // Storing names of images to database
+            foreach ($images as $image) {
+                $createdImage = Image::create([
+                    'product_id' => (int)$product->id,
+                    'image_path' => $image
+                ]);
+
+                if(!$createdImage->exists) {
+                    Log::error('Nastala chyba pri vytvarani noveho obrazku produktu', ['product_id' => $product->id]);
+                    throw new \Illuminate\Database\Eloquent\ModelNotFoundException;
+                }
+            }
+
+            // Storing sizes of new Product to database
+            $ids = $_POST['ids'];
+
+            foreach ($ids as &$value) {
+                $productSize = ProductSize::create([
+                    'product_id' => (int)$product->id,
+                    'size_id' => (int)$value
+                ]);
+
+                if(!$productSize->exists) {
+                    Log::error('Nastala chyba pri vytvarani velkosti topanok produktu', ['product_id' => $product->id]);
+                    throw new \Illuminate\Database\Eloquent\ModelNotFoundException;
+                }
+            }
+            DB::commit();
+        } catch (Throwable $e) {
+            Log::error('Nepodarilo sa editovat produkt', ['error' => $e]);
+            DB::rollBack();
         }
 
         $brands = Cache::rememberForever(
@@ -354,9 +404,9 @@ class AdminController extends Controller
                 return Size::get();
             }
         );
-        
+
         $editedProduct = "Produkt bol upravený";
-        $product = Product::find($id);
+        $product = Product::findOrFail($id);
 
         Log::info('Administrator editoval produkt', ['old' => $oldProduct, 'new' => $product]);
 
@@ -379,19 +429,22 @@ class AdminController extends Controller
     public function destroy($id)
     {
         $images = Image::where('product_id', $id)->get();
-        
-        foreach($images as $image) {
+
+        foreach ($images as $image) {
             unlink(storage_path('\app\public\\' . $image->image_path));
         }
 
-        Product::destroy($id);
+        if(!Product::destroy($id)) {
+            Log::error('Nastala chyba pri mazani produktu', ['product_id' => $id]);
+            throw new \Illuminate\Database\Eloquent\ModelNotFoundException;
+        }
 
         Cache::forget('product-' . $id);
 
         Log::info('Administrator vymazal produkt', ['product_id' => $id]);
 
         $products = Product::query()->get();
-        
+
         return view('admin.index')
             ->with('products', $products);
     }

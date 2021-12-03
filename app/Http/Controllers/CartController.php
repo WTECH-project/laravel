@@ -54,21 +54,26 @@ class CartController extends Controller
 
             // update cart item if autheticanted
             if (auth()->user()) {
-                $cartItem = auth()->user()->cartItems()->where('product_id', '=', $request->product_id)->where('size_id', '=', $request->size_id)->first();
+                $cartItem = auth()->user()->cartItems()->where('product_id', '=', $request->product_id)->where('size_id', '=', $request->size_id)->firstOrFail();
                 $oldItem = $cartItem->replicate();
 
                 $cartItem->quantity += intval($request->quantity);
 
-                $cartItem->save();
-
-                Log::info('Pouzivatel aktualizoval stav produktov v kosiku', ['old' => $oldItem, 'new' => $cartItem]);
+                if ($cartItem->save()) {
+                    Log::info('Pouzivatel aktualizoval stav produktov v kosiku', ['old' => $oldItem, 'new' => $cartItem]);
+                } else {
+                    Log::error('Pouzivatelovi sa nepodarilo aktualizovat stav produktov v kosiku', ['old' => $oldItem, 'new' => $cartItem]);
+                    throw new \Illuminate\Database\Eloquent\ModelNotFoundException;
+                }
             }
         } else {
             $cart[$request->product_id][$request->size_id]['quantity'] = intval($request->quantity);
 
             // create cart item if authenticated
             if (auth()->user()) {
-                $product = Cache::remember('product-' . $request->product_id, 60,
+                $product = Cache::remember(
+                    'product-' . $request->product_id,
+                    60,
                     function ($request) {
                         return Product::findOrFail($request->product_id);
                     }
@@ -81,9 +86,15 @@ class CartController extends Controller
                     'price' => $product->price
                 ]);
 
-                Log::info('Novy produkt bol vlozeny do kosika pouzivatela', [
-                    'cart_item' => $cartItem
-                ]);
+                if ($cartItem->exists) {
+                    Log::info('Novy produkt bol vlozeny do kosika pouzivatela', [
+                        'cart_item' => $cartItem
+                    ]);
+                }
+                else {
+                    Log::error('Nepodarilo sa vlozit novy produkt do kosika pouzivatela', ['cart_item' => $cartItem]);
+                    throw new \Illuminate\Database\Eloquent\ModelNotFoundException;
+                }
             }
         }
 
@@ -157,11 +168,11 @@ class CartController extends Controller
                     $request->product_id
                 )->where('size_id', '=', $request->size_id)->first();
 
-                if($cartItem->delete()) {
+                if ($cartItem->delete()) {
                     Log::info('Pouzivatel odstranil produkt z kosika', ['product' => $cartItem]);
-                }
-                else {
+                } else {
                     Log::error('Nastala chyba pri odstranovani produktu z kosika', ['product' => $cartItem]);
+                    throw new \Illuminate\Database\Eloquent\ModelNotFoundException;
                 }
             }
 
