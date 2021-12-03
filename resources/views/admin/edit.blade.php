@@ -66,17 +66,20 @@ use Illuminate\Support\Facades\Storage;
             @if(isset($editedProduct)) 
                 <div class="bg-green-400 p-2 border-2 border-green-500 text-center text-lg">{{$editedProduct}}</div>
             @endif
+            
             @csrf
             <h3 class="font-semibold text-xl lg:text-2xl xl:text-2xl mb-5">Úpravy produktu</h3>
+            
             <x-forms.input-field
                 label="Názov"
                 name="name"
                 type="text"
                 value="{{ $product->name }}"
             />
+
             <div class="flex flex-col">
                 <label class="text-gray-500">Značka</label>
-                <select class="bg-white border-2 border-gray-600 focus:outline-none transition duration-300 focus:border-black px-4 py-3 mt-2" name="brand_id">
+                <select class="bg-white border-2 border-gray-600 focus:outline-none transition duration-300 focus:border-black px-4 py-3 mt-2 @error('brand_id') border-red-500 @enderror" name="brand_id">
                     <option selected disabled hidden value="0">Značka</option>
                     @foreach($brands as $brand)
                         <?php if($product->brand_id == $brand->id) {
@@ -87,20 +90,33 @@ use Illuminate\Support\Facades\Storage;
                         ?>
                     @endforeach
                 </select>
+                @error('brand_id')
+                    <div class='text-red-500 text-sm'>
+                        {{ $message }}
+                    </div>
+                @enderror
             </div>
+
             <x-forms.input-field
                 label="Cena (€)"
                 name="price"
                 type="text"
                 value="{{ $product->price }}"
             />
+
             <div class="flex flex-col">
                 <label class="text-gray-500">Popis</label>
                 <textarea class="bg-white border-2 border-gray-600 focus:outline-none transition duration-300 focus:border-black px-4 py-3 mt-2" id="description" name="description" rows="4" cols="50">{{ $product->description }}</textarea>
             </div>
+            @error('description')
+                <div class='text-red-500 text-sm'>
+                    {{ $message }}
+                </div>
+            @enderror
+
             <div class="flex flex-col">
                 <label class="text-gray-500">Kategória pohlavia</label>
-                <select class="bg-white border-2 border-gray-600 focus:outline-none transition duration-300 focus:border-black px-4 py-3 mt-2" name="sex_category_id">
+                <select class="bg-white border-2 border-gray-600 focus:outline-none transition duration-300 focus:border-black px-4 py-3 mt-2 @error('sex_category_id') border-red-500 @enderror" name="sex_category_id">
                     <option selected disabled hidden value="0">Kategória pohlavia</option>
                     @foreach($sexCategories as $sexCategory)
                         <?php if($product->sex_category_id == $sexCategory->id) {
@@ -111,10 +127,16 @@ use Illuminate\Support\Facades\Storage;
                         ?>
                     @endforeach
                 </select>
+                @error('sex_category_id')
+                    <div class='text-red-500 text-sm'>
+                        {{ $message }}
+                    </div>
+                @enderror
             </div>
+
             <div class="flex flex-col">
                 <label class="text-gray-500">Kategória</label>
-                <select class="bg-white border-2 border-gray-600 focus:outline-none transition duration-300 focus:border-black px-4 py-3 mt-2"  name="category_id">
+                <select class="bg-white border-2 border-gray-600 focus:outline-none transition duration-300 focus:border-black px-4 py-3 mt-2 @error('category_id') border-red-500 @enderror"  name="category_id">
                     <option selected disabled hidden value="0">Kategória</option>
                     @foreach($categories as $category)
                         <?php if($product->category_id == $category->id) {
@@ -125,10 +147,16 @@ use Illuminate\Support\Facades\Storage;
                         ?>
                     @endforeach
                 </select>
+                @error('category_id')
+                    <div class='text-red-500 text-sm'>
+                        {{ $message }}
+                    </div>
+                @enderror
             </div>
+
             <div class="flex flex-col">
                 <label class="text-gray-500">Farba</label>
-                <select class="bg-white border-2 border-gray-600 focus:outline-none transition duration-300 focus:border-black px-4 py-3 mt-2" name="color_id">
+                <select class="bg-white border-2 border-gray-600 focus:outline-none transition duration-300 focus:border-black px-4 py-3 mt-2 @error('color_id') border-red-500 @enderror" name="color_id">
                     <option selected disabled hidden value="0">Farba</option>
                     @foreach($colors as $color)
                         <?php if($product->color_id == $color->id) {
@@ -139,7 +167,13 @@ use Illuminate\Support\Facades\Storage;
                         ?>
                     @endforeach
                 </select>
+                @error('color_id')
+                    <div class='text-red-500 text-sm'>
+                        {{ $message }}
+                    </div>
+                @enderror
             </div>
+
             <label class="text-gray-500">Veľkosti</label>
             <div class="grid grid-cols-7">
                 <?php
@@ -164,12 +198,18 @@ use Illuminate\Support\Facades\Storage;
                     ?>
                 @endforeach
             </div>
+            @error('ids')
+                <div class='text-red-500 text-sm'>
+                    {{ $message }}
+                </div>
+            @enderror
+
             <?php
                 $num = 1;
             ?>
             @foreach($product->images as $image)
                 <x-forms.input-field
-                    label="URL obrázku {{$num}}"
+                    label="Názov obrázku {{$num}}"
                     name="image{{$num}}"
                     type="text"
                     value="{{$image->image_path}}"
@@ -180,6 +220,11 @@ use Illuminate\Support\Facades\Storage;
             @endforeach
             Vyberte nové obrázky:
             <input type="file" name="images[]" multiple >
+            @error('images')
+                <div class='text-red-500 text-sm'>
+                    {{ $message }}
+                </div>
+            @enderror
             <button class="border border-black p-1 bg-black text-white" type="submit"> Uložiť úpravy </button> 
         </form>
     </div>
