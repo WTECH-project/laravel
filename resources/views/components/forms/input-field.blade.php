@@ -17,6 +17,7 @@
         px-4 
         py-3
         mt-2
+        w-full
         @error($name)
         border-red-500
         @enderror"

@@ -2,7 +2,7 @@
 
 @section('content')
     <x-auth-card>
-        <section>
+        <section> 
             <x-forms.header 
                 title="Prihlásenie" 
                 description="Už máš účet v našom vybombenom obchode? Tak sa prihlás."

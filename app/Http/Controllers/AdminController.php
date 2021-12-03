@@ -85,7 +85,6 @@ class AdminController extends Controller
 
         // Storing names of images to database
         foreach($images as $image) {
-            error_log('Som tu');
             Image::create([
                 'product_id' => (int)$product->id,
                 'image_path' => $image

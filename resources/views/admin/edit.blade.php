@@ -5,15 +5,15 @@
 use Illuminate\Support\Facades\Storage;
 ?>
 
-<div class="flex flex-row w-10/12">
+<div class="flex flex-col sm:flex-row">
     <form action="{{ route('admin')}}" method="get">
         @csrf
         <input class="border border-black p-1 mr-3 bg-white cursor-pointer" type="submit" value="< Naspäť" />
     </form>
-    <div class="max-w-2xl mx-auto w-full flex-grow px-8 my-18">
+    <div class="flex flex-col gap-4 w-full sm:w-1/2 md:w-10/12 lg:w-10/12 xl:w-8/12 mt-8 md:px-8">
         <h3 class="font-semibold text-xl lg:text-2xl xl:text-2xl mb-5">Aktuálny produkt</h3>
-        <article class="grid grid-cols-1 gap-4 place-items-center sm:grid-cols-2 md:gap-0 lg:grid-cols-2">
-            <section class="max-w-lg relative mx-auto">
+        <article class="grid grid-cols-1 place-items-center lg:grid-cols-3">
+            <section class="max-w-lg col-span-2 relative mx-auto">
                 <div id="slides">
                     @foreach($product->images as $image)
                     <div class="hidden">
@@ -27,7 +27,7 @@ use Illuminate\Support\Facades\Storage;
                 </div>
             </section>
 
-            <section class="w-64 flex flex-col">
+            <section class="flex flex-col lg:w-1/2 items-center sm:items-start">
                 <div class="text-xl font-bold">
                     {{ $product->name }}
                 </div>
@@ -61,14 +61,14 @@ use Illuminate\Support\Facades\Storage;
             </section>
         </article>
     </div>
-    <div class="flex flex-row gap-8 justify-center"> 
-        <form action="{{ route('admin.update', $product->id) }}" method="POST" enctype="multipart/form-data" class="flex flex-col w-96 gap-4 justify-center">
+    <div class="flex sm:w-1/2 flex-row gap-8 justify-center"> 
+        <form action="{{ route('admin.update', $product->id) }}" method="POST" enctype="multipart/form-data" class="flex flex-col gap-4 w-full sm:w-1/2 md:w-10/12 lg:w-10/12 xl:w-10/12 mt-8 md:px-8">
             @if(isset($editedProduct)) 
                 <div class="bg-green-400 p-2 border-2 border-green-500 text-center text-lg">{{$editedProduct}}</div>
             @endif
             
             @csrf
-            <h3 class="font-semibold text-xl lg:text-2xl xl:text-2xl mb-5">Úpravy produktu</h3>
+            <h3 class="font-semibold text-xl lg:text-2xl xl:text-2xl sm:mb-5">Úpravy produktu</h3>
             
             <x-forms.input-field
                 label="Názov"

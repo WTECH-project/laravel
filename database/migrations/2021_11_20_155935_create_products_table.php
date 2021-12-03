@@ -24,6 +24,9 @@ class CreateProductsTable extends Migration
             $table->double('price', null, null, true);
             $table->timestamps();
         });
+        Schema::table('products', function (Blueprint $table) {
+            $table->softDeletes();
+        });
     }
 
     /**
