@@ -15,7 +15,7 @@ class ImageSeeder extends Seeder
      */
     public function run()
     {
-        $dir = storage_path() . '/public/images';
+        $dir = storage_path(config('app.images_path'));
 
         if(!is_dir($dir)) {
             return;
