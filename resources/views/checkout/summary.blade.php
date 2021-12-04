@@ -19,6 +19,7 @@
 @endsection
 
 @section('formContent')
+@if(count($cart_products) > 0)
 <form action="{{ route('checkout.summary') }}" method="POST">
     @csrf
     <h2 class="font-bold text-2xl">Vaša objednávka</h2>
@@ -71,4 +72,12 @@
             <a href="{{ route('checkout.delivery') }}" class="p-3 uppercase border-2 border-black font-bold transition duration-300 hover:text-white hover:bg-gray-700">Späť</a>
         </div>
 </form>
+@else
+<section>
+    <h2 class="font-bold text-2xl text-center text-red-500">Nastala neočakávaná chyba</h2>
+    <div class="flex flex-col md:items-center mt-8 text-center">
+        <a href="{{ route('home') }}" class="p-3 bg-black text-white uppercase font-bold transition duration-300 hover:bg-gray-700 md:w-3/6">Návrat na domovskú obrazovku</a>
+    </div>
+</section>
+@endif
 @endsection

@@ -311,7 +311,9 @@ class AdminController extends Controller
                 throw new \Illuminate\Database\Eloquent\ModelNotFoundException;
             }
 
-            Cache::forget('product-' . $product->id);
+            if(Cache::has('product-' . $product->id)) {
+                Cache::forget('product-' . $product->id);
+            }
 
             if ($request->hasFile('images')) {
                 $images = Image::where('product_id', $id)->get();
@@ -441,7 +443,9 @@ class AdminController extends Controller
             throw new \Illuminate\Database\Eloquent\ModelNotFoundException;
         }
 
-        Cache::forget('product-' . $id);
+        if(Cache::has('product-' . $id)) {
+            Cache::forget('product-' . $id);
+        }
 
         Log::info('Administrator vymazal produkt', ['product_id' => $id]);
 

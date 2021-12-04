@@ -7,6 +7,8 @@ use App\Models\Product;
 use App\Models\Size;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
+
 class CheckoutController extends Controller
 {
     /**
@@ -27,16 +29,50 @@ class CheckoutController extends Controller
         foreach ($cart as $product_id => $size_data) {
             $product = Cache::remember('product-' . $product_id, 60, 
                 function () use ($product_id) {
-                    return Product::findOrFail($product_id);
+                    return Product::find($product_id);
                 }
             );
+
+            if(!$product) {
+                // handle if product was deleted
+
+                if(auth()->user()) {
+                    // delete all cart items
+                    auth()->user()->deleteCartItems();
+                }
+
+                // delete data in session
+                session()->put('cart', []);
+                session()->flash('error', 'Nastala neočakávaná chyba, Váš košík bol vymazaný.');
+
+                Log::error('Unexpected error, cart of the user must be deleted', ['product_id' => $product_id]);
+
+                return response(view('checkout.cart')->with('cart_products', $products));
+            }
 
             foreach ($size_data as $size_id => $count) {
                 $size = Cache::rememberForever('size-' . $size_id, 
                     function () use ($size_id) {
-                        return Size::findOrFail($size_id);
+                        return Size::find($size_id);
                     }
                 );
+
+                if(!$size) {
+                    // handle if size was deleted
+
+                    if (auth()->user()) {
+                        // delete all cart items
+                        auth()->user()->deleteCartItems();
+                    }
+
+                    // delete data in session
+                    session()->put('cart', []);
+                    session()->flash('error', 'Nastala neočakávaná chyba, Váš košík bol vymazaný.');
+
+                    Log::error('Unexpected error, cart of the user must be deleted', ['size_id' => $size_id]);
+
+                    return response(view('checkout.cart')->with('cart_products', $products));
+                }
 
                 $products[] = [
                     'product' => $product,
@@ -47,7 +83,7 @@ class CheckoutController extends Controller
         }
 
         return response(view('checkout.cart')->with('cart_products', $products))
-            ->header('Cache-Control', 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0');;
+            ->header('Cache-Control', 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0');
     }
 
     /**

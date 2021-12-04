@@ -20,6 +20,12 @@
 
 
 @section('formContent')
+@if(Session::has('error'))
+<div>
+    <h2 class="font-bold text-2xl mb-4 text-red-500 text-center">{{ Session::get('error') }}</h2>
+</div>
+@endif
+
 @if(count($cart_products) > 0)
 <section>
     <h2 class="font-bold text-2xl mb-4">Nákupný košík</h2>
