@@ -29,7 +29,7 @@
         <div class="flex flex-col md:flex-row md:flex-grow">
             <!-- image with text -->
             <div class="w-full md:w-36 md:h-36">
-                <img src="{{ $cart_product['product']->images->first()->image_path }}" alt="Topanka">
+                <img src="{{ asset('storage/' . $cart_product['product']->images->first()->image_path) }}" alt="Topanka">
             </div>
             <div class="flex flex-col md:justify-between p-4">
                 <span class="font-bold text-2xl">{{ $cart_product['product']->name }}</span>
@@ -81,7 +81,7 @@
         <h2 class="font-bold text-xl">{{ array_reduce($cart_products, function($carry, $item) {
                     return $carry + $item['product']->price * $item['quantity'];
                 }) }}€</h2>
-        <a href="{{ route('checkout.shipping') }}" class="p-3 mt-4 md:order-2 bg-black border-2 text-white uppercase font-bold transition duration-300 hover:bg-gray-700">Výber spôsobu dopravy a platby</a>
+        <a href="{{ route('checkout.shipping') }}" class="p-3 mt-4 md:order-2 bg-black border-2 text-white uppercase font-bold transition duration-300 hover:bg-gray-700 text-center">Výber spôsobu dopravy a platby</a>
     </div>
 </section>
 @else

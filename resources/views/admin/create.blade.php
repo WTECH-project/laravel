@@ -6,9 +6,9 @@
     @csrf
     <input class="border border-black p-1 mr-3 bg-white cursor-pointer" type="submit" value="< Naspäť" />
 </form>
-<form action="{{ route('admin.store') }}" method="POST" enctype="multipart/form-data" class="flex justify-center">
-    <div class="flex flex-row gap-8 place-self-center">
-        <div class="flex flex-col gap-4 w-96">
+<form action="{{ route('admin.store') }}" method="POST" enctype="multipart/form-data" class="flex flex-col items-center mt-4">
+    <div class="flex flex-col sm:flex-row gap-8 lg:w-9/12">
+        <div class="flex flex-col gap-4 w-full sm:w-1/2 md:w-10/12 lg:w-8/12 xl:w-7/12 mt-8 md:px-8">
             @if(isset($newProduct)) 
                 <div class="bg-green-400 p-2 border-2 border-green-500 text-center text-lg">{{$newProduct}}</div>
             @endif
@@ -90,11 +90,11 @@
             
         </div>
         
-        <div class="flex flex-col gap-4 w-96 mt-16">
+        <div class="flex flex-col gap-4 w-full sm:w-1/2 md:w-10/12 lg:w-8/12 xl:w-7/12 mt-8 md:px-8">
             <label class="text-gray-500">Veľkosti</label>
-            <div class="grid grid-cols-7">
+            <div class="grid grid-cols-7 gap-4">
                 @foreach($sizes as $size)
-                <div>
+                <div class="flex flex-col">
                     <input type="checkbox" id="{{$size->id}}" name="ids[]" value="{{$size->id}}">
                     <label for="{{$size->id}}">{{$size->size}}</label>
                 </div>

@@ -7,7 +7,7 @@
             <div id="slides">
                 @foreach($product->images as $image)
                 <div class="hidden">
-                    <img class="w-full h-max-lg" src="{{ $image->image_path }}" alt="Topánka">
+                    <img class="w-full h-max-lg" src="{{ asset('storage/' . $image->image_path) }}" alt="Topánka">
                 </div>
                 @endforeach
             </div>
@@ -19,9 +19,9 @@
         </section>
 
         <section class="flex flex-col w-full max-w-lg md:w-64">
-            <div class="text-xl font-bold">
+            <h2 class="text-xl font-bold">
                 {{ $product->brand->name }} {{ $product->name }}
-            </div>
+            </h2>
             <div>
                 {{ $product->sexCategory->name }}, {{ $product->category->name }}
             </div>

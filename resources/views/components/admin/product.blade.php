@@ -7,8 +7,8 @@
     'productId' => $productId
 ])
 
-<div class="flex flex-row w-full gap-4 shadow-md items-center">
-    <img class="w-32 h-28 rounded-md ml-3" src="{{ $img }}" alt="Topánky">
+<div class="flex flex-col sm:flex-row w-full h-96 sm:h-36 justify-center gap-4 shadow-md items-center">
+    <img class="w-32 h-28 rounded-md sm:ml-3" src="{{ $img }}" alt="Topánky">
     <div class="p-6 text-lg xl:text-lg">
         <h4 class="font-semibold">{{ $name }}</h4>
         <div class="text-gray-600">{{ $price }}€</div>

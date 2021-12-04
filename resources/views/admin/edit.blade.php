@@ -5,14 +5,13 @@
 use Illuminate\Support\Facades\Storage;
 ?>
 
-<div class="flex flex-row w-10/12">
-    <form action="{{ route('admin')}}" method="get">
-        @csrf
-        <input class="border border-black p-1 mr-3 bg-white cursor-pointer" type="submit" value="< Naspäť" />
-    </form>
-    <div class="max-w-2xl mx-auto w-full flex-grow px-8 my-18">
+<div class="flex flex-col xl:flex-row">
+    <div class="flex flex-col gap-4 w-full md:w-10/12 lg:w-10/12 xl:w-8/12 mt-8 md:px-8">
+        <a class="border border-black p-1 mr-3 bg-white" href="{{ route('admin')}}">
+            < Naspäť
+        </a>
         <h3 class="font-semibold text-xl lg:text-2xl xl:text-2xl mb-5">Aktuálny produkt</h3>
-        <article class="grid grid-cols-1 gap-4 place-items-center sm:grid-cols-2 md:gap-0 lg:grid-cols-2">
+        <article class="grid grid-cols-1 place-items-center">
             <section class="max-w-lg relative mx-auto">
                 <div id="slides">
                     @foreach($product->images as $image)
@@ -26,49 +25,16 @@ use Illuminate\Support\Facades\Storage;
                     <button class="rounded-full bg-white h-12 w-12 shadow-md" onclick="nextSlide(1)">&#10095;</button>
                 </div>
             </section>
-
-            <section class="w-64 flex flex-col">
-                <div class="text-xl font-bold">
-                    {{ $product->name }}
-                </div>
-                <div>
-                    {{ $product->sexCategory->name }}, {{ $product->category->name }}
-                </div>
-                <div>
-                    {{ $product->color->color }}
-                </div>
-                <div class="text-lg font-semibold pb-2">
-                    {{ $product->price }}€
-                </div>
-                <div class="pb-2">
-                    {{ $product->description }}
-                </div>
-                <form action="{{ route('cart') }}" method="POST">
-                    @csrf
-                    <input type="hidden" name="product_id" value="{{ $product->id }}" />
-                    <input type="hidden" name="quantity" value="1" />
-
-                    @php
-                    $product_sizes = [];
-
-                    foreach($product->sizes as $size) {
-                        $product_sizes[strval($size->id)] = $size->size;
-                    }
-                    @endphp
-
-                    <x-forms.select name="size_id" placeholder="Veľkosti" label="" :options=$product_sizes />
-                </form>
-            </section>
         </article>
     </div>
-    <div class="flex flex-row gap-8 justify-center"> 
-        <form action="{{ route('admin.update', $product->id) }}" method="POST" enctype="multipart/form-data" class="flex flex-col w-96 gap-4 justify-center">
+    <div class="flex flex-row w-full lg:w-8/12 gap-8 justify-center"> 
+        <form action="{{ route('admin.update', $product->id) }}" method="POST" enctype="multipart/form-data" class="flex flex-col gap-4 w-full sm:w-1/2 md:w-10/12 lg:w-10/12 xl:w-10/12 mt-8 md:px-8">
             @if(isset($editedProduct)) 
                 <div class="bg-green-400 p-2 border-2 border-green-500 text-center text-lg">{{$editedProduct}}</div>
             @endif
             
             @csrf
-            <h3 class="font-semibold text-xl lg:text-2xl xl:text-2xl mb-5">Úpravy produktu</h3>
+            <h3 class="font-semibold text-xl lg:text-2xl xl:text-2xl sm:mb-5">Úpravy produktu</h3>
             
             <x-forms.input-field
                 label="Názov"
@@ -185,12 +151,12 @@ use Illuminate\Support\Facades\Storage;
                 @foreach($sizes as $size)
                     <?php
                         if (in_array($size->id, $productSizes)) {
-                            echo "<div>
+                            echo "<div class=\"flex flex-col\">
                                     <input checked type=\"checkbox\" id=\"{$size->id}\" name=\"ids[]\" value=\"{$size->id}\">
                                     <label for=\"{$size->id}\">{$size->size}</label>
                                 </div>";
                         } else {
-                            echo "<div>
+                            echo "<div class=\"flex flex-col\">
                                     <input type=\"checkbox\" id=\"{$size->id}\" name=\"ids[]\" value=\"{$size->id}\">
                                     <label for=\"{$size->id}\">{$size->size}</label>
                                 </div>";
