@@ -7,7 +7,7 @@
             <div id="slides">
                 @foreach($product->images as $image)
                 <div class="hidden">
-                    <img class="w-full h-max-lg" src="{{ asset('storage/' . $image->image_path) }}" alt="Topánka">
+                    <img class="w-full h-max-lg" src="{{ asset('images/' . $image->image_path) }}" alt="Topánka">
                 </div>
                 @endforeach
             </div>
