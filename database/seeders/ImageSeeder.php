@@ -15,18 +15,19 @@ class ImageSeeder extends Seeder
      */
     public function run()
     {
-        $dir = storage_path() . '\app\public';
+        $dir = storage_path() . '/public/images';
+
+        if(!is_dir($dir)) {
+            return;
+        }
 
         $image_groups = scandir($dir);
         unset($image_groups[0]);
         unset($image_groups[1]);
 
-        print_r($image_groups);
+        $products = Product::get();
 
-
-        for ($id = 1; $id <= 100; $id++) {
-            $product = Product::find($id);
-
+        foreach($products as $product) {
             $image_set = array();
             array_push($image_set, $image_groups[rand(2, count($image_groups) - 1)], $image_groups[rand(2, count($image_groups) - 1)]);
 
