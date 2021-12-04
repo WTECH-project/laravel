@@ -13,8 +13,8 @@ class BrandSeeder extends Seeder
      */
     public function run()
     {
-        \App\Models\Brand::factory()->create(['name' => 'Adidas']);
-        \App\Models\Brand::factory()->create(['name' => 'Jordan']);
-        \App\Models\Brand::factory()->create(['name' => 'Nike']);
+        \App\Models\Brand::create(['name' => 'Adidas']);
+        \App\Models\Brand::create(['name' => 'Jordan']);
+        \App\Models\Brand::create(['name' => 'Nike']);
     }
 }
