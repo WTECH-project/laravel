@@ -31,9 +31,9 @@
 
                         @foreach($categories as $category)
                         @if(in_array($category->id, $checked_categories))
-                        <x-products.product-option type="checkbox" name="category[]" value="{{ $category->id }}" label="{{ $category->name }}" checked />
+                        <x-products.product-option type="checkbox" id="{{ 'category-' . $category->id }}" name="category[]" value="{{ $category->id }}" label="{{ $category->name }}" checked />
                         @else
-                        <x-products.product-option type="checkbox" name="category[]" value="{{ $category->id }}" label="{{ $category->name }}" />
+                        <x-products.product-option type="checkbox" id="{{ 'category-' . $category->id }}" name="category[]" value="{{ $category->id }}" label="{{ $category->name }}" />
                         @endif
                         @endforeach
                     </div>
@@ -51,9 +51,9 @@
 
                         @foreach($brands as $brand)
                         @if(in_array($brand->id, $checked_brand))
-                        <x-products.product-option type="checkbox" name="brand[]" value="{{ $brand->id }}" label="{{ $brand->name }}" checked />
+                        <x-products.product-option type="checkbox" id="{{ 'brand-' . $brand->id }}" name="brand[]" value="{{ $brand->id }}" label="{{ $brand->name }}" checked />
                         @else
-                        <x-products.product-option type="checkbox" name="brand[]" value="{{ $brand->id }}" label="{{ $brand->name }}" />
+                        <x-products.product-option type="checkbox" id="{{ 'brand-' . $brand->id }}" name="brand[]" value="{{ $brand->id }}" label="{{ $brand->name }}" />
                         @endif
                         @endforeach
                     </div>
@@ -71,9 +71,9 @@
 
                         @foreach($colors as $color)
                         @if(in_array($color->id, $checked_colors))
-                        <x-products.product-option type="checkbox" name="color[]" value="{{ $color->id }}" label="{{ $color->color }}" checked />
+                        <x-products.product-option type="checkbox" id="{{ 'color-' . $color->id }}" name="color[]" value="{{ $color->id }}" label="{{ $color->color }}" checked />
                         @else
-                        <x-products.product-option type="checkbox" name="color[]" value="{{ $color->id }}" label="{{ $color->color }}" />
+                        <x-products.product-option type="checkbox" id="{{ 'color-' . $color->id }}"  name="color[]" value="{{ $color->id }}" label="{{ $color->color }}" />
                         @endif
                         @endforeach
                     </div>
@@ -106,7 +106,8 @@
                 @endforeach
             </div>
             <div class="mt-4 text-lg">
-                {{ $products->appends($_GET)->links('components.products.pagination') }}</div>
+                {{ $products->appends($_GET)->links('components.products.pagination') }}
+            </div>
         </div>
     </div>
 </div>
