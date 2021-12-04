@@ -44,7 +44,7 @@
                 <div class="w-full h-full absolute flex flex-col top-0 left-0 justify-center items-center">
                     <div class="font-bold text-xl sm:text-2xl md:text-3xl lg:text-5xl text-white text-center">{{ $product->brand->name }} {{ $product->name }}</div>
                 </div>
-                <img class="w-full h-full object-cover" src="{{ $product->images->first()->image_path }}" alt="Topánky">
+                <img class="w-full h-full object-cover" src="{{ asset('storage/' . $product->images->first()->image_path) }}" alt="Topánky">
             </a>
             @endforeach
         </div>

@@ -5,13 +5,13 @@
 use Illuminate\Support\Facades\Storage;
 ?>
 
-<div class="flex flex-col xl:flex-row">
-    <div class="flex flex-col gap-4 w-full md:w-10/12 lg:w-10/12 xl:w-8/12 mt-8 md:px-8">
-        <a class="border border-black p-1 mr-3 bg-white" href="{{ route('admin')}}">
-            < Naspäť
+<div class="flex flex-col xl:flex-row items-center xl:items-start">
+    <div class="flex flex-col gap-4 w-full sm:w-3/4 md:w-10/12 lg:w-10/12 xl:w-10/12 mt-8 md:px-8 justify-center">
+        <a class="border border-black w-min p-1 mr-3 bg-white" href="{{ route('admin')}}">
+            Naspäť
         </a>
         <h3 class="font-semibold text-xl lg:text-2xl xl:text-2xl mb-5">Aktuálny produkt</h3>
-        <article class="grid grid-cols-1 place-items-center">
+        <article>
             <section class="max-w-lg relative mx-auto">
                 <div id="slides">
                     @foreach($product->images as $image)
@@ -27,8 +27,8 @@ use Illuminate\Support\Facades\Storage;
             </section>
         </article>
     </div>
-    <div class="flex flex-row w-full lg:w-8/12 gap-8 justify-center"> 
-        <form action="{{ route('admin.update', $product->id) }}" method="POST" enctype="multipart/form-data" class="flex flex-col gap-4 w-full sm:w-1/2 md:w-10/12 lg:w-10/12 xl:w-10/12 mt-8 md:px-8">
+    <div class="flex flex-row w-full gap-8 justify-center xl:mt-14"> 
+        <form action="{{ route('admin.update', $product->id) }}" method="POST" enctype="multipart/form-data" class="flex flex-col gap-4 w-full sm:w-3/4 mt-8 md:px-8">
             @if(isset($editedProduct)) 
                 <div class="bg-green-400 p-2 border-2 border-green-500 text-center text-lg">{{$editedProduct}}</div>
             @endif
@@ -185,7 +185,7 @@ use Illuminate\Support\Facades\Storage;
                 ?>
             @endforeach
             Vyberte nové obrázky:
-            <input type="file" name="images[]" multiple >
+            <input type="file" name="images[]" multiple accept="image/*">
             @error('images')
                 <div class='text-red-500 text-sm'>
                     {{ $message }}
