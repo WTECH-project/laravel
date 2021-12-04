@@ -36,6 +36,7 @@
         <img class="w-full h-full object-cover" src="https://images.unsplash.com/photo-1549298916-b41d501d3772?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1112&q=80" alt="Topánky">
     </a>
     <div class="col-span-2">
+        @if(count($products) > 0)
         <h2 class="text-2xl sm:text-4xl font-medium mb-4">Náš výber topánok</h2>
         <div class="grid grid-cols-1 sm:col-span-2 lg:grid-cols-3 justify-items-center gap-4">
             @foreach($products as $product)
@@ -44,10 +45,11 @@
                 <div class="w-full h-full absolute flex flex-col top-0 left-0 justify-center items-center">
                     <div class="font-bold text-xl sm:text-2xl md:text-3xl lg:text-5xl text-white text-center">{{ $product->brand->name }} {{ $product->name }}</div>
                 </div>
-                <img class="w-full h-full object-cover" src="{{ $product->images->first()->image_path }}" alt="Topánky">
+                <img class="w-full h-full object-cover" src="{{ 'images/' . $product->images->first()->image_path }}" alt="Topánky">
             </a>
             @endforeach
         </div>
+        @endif
     </div>
 </section>
 @endsection

@@ -29,7 +29,7 @@
         <div class="flex flex-col md:flex-row md:flex-grow">
             <!-- image with text -->
             <div class="w-full md:w-36 md:h-36">
-                <img src="{{ asset('storage/' . $cart_product['product']->images->first()->image_path) }}" alt="Topanka">
+                <img src="{{ asset('images/' . $cart_product['product']->images->first()->image_path) }}" alt="Topanka">
             </div>
             <div class="flex flex-col md:justify-between p-4">
                 <span class="font-bold text-2xl">{{ $cart_product['product']->name }}</span>
