@@ -15,6 +15,8 @@ return [
 
     'name' => env('APP_NAME', 'Laravel'),
 
+    'images.path' => 'public/',
+
     /*
     |--------------------------------------------------------------------------
     | Application Environment

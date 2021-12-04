@@ -20,6 +20,12 @@
 
 
 @section('formContent')
+@if(Session::has('error'))
+<div>
+    <h2 class="font-bold text-2xl mb-4 text-red-500 text-center">{{ Session::get('error') }}</h2>
+</div>
+@endif
+
 @if(count($cart_products) > 0)
 <section>
     <h2 class="font-bold text-2xl mb-4">Nákupný košík</h2>
@@ -29,7 +35,7 @@
         <div class="flex flex-col md:flex-row md:flex-grow">
             <!-- image with text -->
             <div class="w-full md:w-36 md:h-36">
-                <img src="{{ asset('images/' . $cart_product['product']->images->first()->image_path) }}" alt="Topanka">
+                <img src="{{ asset('storage/' . $cart_product['product']->images->first()->image_path) }}" alt="Topanka">
             </div>
             <div class="flex flex-col md:justify-between p-4">
                 <span class="font-bold text-2xl">{{ $cart_product['product']->name }}</span>

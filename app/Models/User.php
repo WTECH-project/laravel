@@ -9,6 +9,7 @@ use Laravel\Sanctum\HasApiTokens;
 use App\Models\CartItem;
 use App\Models\Order;
 use App\Models\Role;
+use Illuminate\Support\Facades\DB;
 
 class User extends Authenticatable
 {
@@ -51,6 +52,12 @@ class User extends Authenticatable
 
     public function cartItems() {
         return $this->hasMany(CartItem::class);
+    }
+
+    public function deleteCartItems() {
+        DB::transaction(function() {
+            $this->cartItems()->delete();
+        });
     }
 
     public function orders() {

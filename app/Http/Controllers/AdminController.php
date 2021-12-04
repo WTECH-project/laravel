@@ -311,13 +311,15 @@ class AdminController extends Controller
                 throw new \Illuminate\Database\Eloquent\ModelNotFoundException;
             }
 
-            Cache::forget('product-' . $product->id);
+            if(Cache::has('product-' . $product->id)) {
+                Cache::forget('product-' . $product->id);
+            }
 
             $images = Image::where('product_id', $id)->get();
 
-            foreach ($images as $image) {
-                unlink(storage_path('\app\public\\' . $image->image_path));
-            }
+            // foreach ($images as $image) {
+            //     unlink('app/public/images/' . $image->image_path);
+            // }
 
             if(!Image::where('product_id', $id)->delete()) {
                 Log::error('Nepodarilo sa vymazat obrazky produktu', ['product_id' => $id]);
@@ -430,16 +432,18 @@ class AdminController extends Controller
     {
         $images = Image::where('product_id', $id)->get();
 
-        foreach ($images as $image) {
-            unlink(storage_path('\app\public\\' . $image->image_path));
-        }
+        // foreach ($images as $image) {
+        //     unlink('app/public/images/' . $image->image_path);
+        // }
 
         if(!Product::destroy($id)) {
             Log::error('Nastala chyba pri mazani produktu', ['product_id' => $id]);
             throw new \Illuminate\Database\Eloquent\ModelNotFoundException;
         }
 
-        Cache::forget('product-' . $id);
+        if(Cache::has('product-' . $id)) {
+            Cache::forget('product-' . $id);
+        }
 
         Log::info('Administrator vymazal produkt', ['product_id' => $id]);
 

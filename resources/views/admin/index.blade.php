@@ -8,7 +8,7 @@
         </a> 
         <div class="gap-8 text-sm sm:text-base pt-2">
             @foreach($products as $product)
-            <x-admin.product link="{{ route('admin.show', $product->id) }}" name="{{ $product->name }}" description="{{ $product->description }}" price="{{ $product->price }}" img="{{ asset('images/' . $product->images->first()->image_path) }}" productId="{{ $product->id }}"/>
+            <x-admin.product link="{{ route('admin.show', $product->id) }}" name="{{ $product->name }}" description="{{ $product->description }}" price="{{ $product->price }}" img="{{ asset('storage/' . $product->images->first()->image_path) }}" productId="{{ $product->id }}"/>
             @endforeach
         </div>
         <span class="mt-4">
