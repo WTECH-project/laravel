@@ -21,9 +21,6 @@ class ImageSeeder extends Seeder
         unset($image_groups[0]);
         unset($image_groups[1]);
         
-        print_r($image_groups);
-        
-        
         for($id = 1; $id <= 100; $id ++) {
             $product = Product::find($id);
 

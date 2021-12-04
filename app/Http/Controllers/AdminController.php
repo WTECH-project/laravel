@@ -313,15 +313,17 @@ class AdminController extends Controller
 
             Cache::forget('product-' . $product->id);
 
-            $images = Image::where('product_id', $id)->get();
+            if ($request->hasFile('images')) {
+                $images = Image::where('product_id', $id)->get();
 
-            foreach ($images as $image) {
-                unlink(storage_path('\app\public\\' . $image->image_path));
-            }
+                foreach ($images as $image) {
+                    unlink(storage_path('\app\public\\' . $image->image_path));
+                }
 
-            if(!Image::where('product_id', $id)->delete()) {
-                Log::error('Nepodarilo sa vymazat obrazky produktu', ['product_id' => $id]);
-                throw new \Illuminate\Database\Eloquent\ModelNotFoundException;
+                if(!Image::where('product_id', $id)->delete()) {
+                    Log::error('Nepodarilo sa vymazat obrazky produktu', ['product_id' => $id]);
+                    throw new \Illuminate\Database\Eloquent\ModelNotFoundException;
+                }
             }
 
             if(!ProductSize::where('product_id', $id)->delete()) {
