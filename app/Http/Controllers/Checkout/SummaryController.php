@@ -128,9 +128,13 @@ class SummaryController extends Controller
                     'product-' . $product_id,
                     60,
                     function () use ($product_id) {
-                        return Product::findOrFail($product_id);
+                        return Product::find($product_id);
                     }
                 );;
+
+                if(!$product) {
+                    return redirect()->route('checkout.cart');
+                }
 
                 foreach ($size_data as $size_id => $count) {
                     $orderItem = OrderItem::create([
@@ -151,6 +155,8 @@ class SummaryController extends Controller
         } catch (Throwable $e) {
             Log::error('Nastala chyba pri vytvarani novej objednavky', ['error' => $e]);
             DB::rollBack();
+
+            return redirect()->route('checkout.cart');
         }
 
         Log::info('Pouzivatel vytvoril objednavku', ['order' => $order_data]);
