@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\Image;
+use Illuminate\Support\Str;
 use App\Models\Product;
 
 class ImageSeeder extends Seeder
@@ -37,6 +37,11 @@ class ImageSeeder extends Seeder
                 $path_parts = pathinfo($image);
 
                 $fileName = $product->id . '-' . md5($path_parts['basename']) . time() . '.' . $path_parts['extension'];
+
+                if(file_exists($dir . $fileName)) {
+                    $fileName = $product->id . '-' . md5($path_parts['basename']) . time() . Str::random(10) . '.' . $path_parts['extension'];
+                }
+
                 $copiedFile = copy($dir . $image, $dir . $fileName);
 
                 if($copiedFile) {
