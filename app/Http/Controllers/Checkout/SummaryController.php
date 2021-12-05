@@ -151,6 +151,10 @@ class SummaryController extends Controller
                 }
             }
 
+            if(auth()->user()) {
+                auth()->user()->deleteCartItems();
+            }
+
             DB::commit();
         } catch (Throwable $e) {
             Log::error('Nastala chyba pri vytvarani novej objednavky', ['error' => $e]);
