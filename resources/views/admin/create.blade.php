@@ -51,7 +51,7 @@
 
                 <x-forms.select label="Značka" name="brand" placeholder="Značka" :options=$brand_options selected="{{ old('brand') }}" />
 
-                <x-forms.input-field label="Cena (€)" name="price" type="number" />
+                <x-forms.input-field label="Cena (€)" name="price" type="number" min="0" />
 
                 <x-forms.text-area label="Popis" name="description" />
 

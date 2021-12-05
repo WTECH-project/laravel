@@ -17,6 +17,8 @@ return [
 
     'images_path' => 'public/',
 
+    'full_images_path' => 'app/public/',
+
     /*
     |--------------------------------------------------------------------------
     | Application Environment
