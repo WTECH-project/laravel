@@ -15,7 +15,9 @@ return [
 
     'name' => env('APP_NAME', 'Laravel'),
 
-    'images.path' => 'public/',
+    'images_path' => 'public/',
+
+    'full_images_path' => 'app/public/',
 
     /*
     |--------------------------------------------------------------------------

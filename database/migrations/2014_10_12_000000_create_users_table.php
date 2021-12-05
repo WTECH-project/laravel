@@ -25,7 +25,7 @@ class CreateUsersTable extends Migration
             $table->string('street')->nullable();
             $table->string('city')->nullable();
             $table->string('postcode')->nullable();
-            $table->string('country')->nullable();
+            $table->enum('country', ['CZ', 'SK'])->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

@@ -26,7 +26,7 @@ class CreateOrdersTable extends Migration
             $table->string('street');
             $table->string('city');
             $table->string('postcode');
-            $table->string('country');
+            $table->enum('country', ['CZ', 'SK']);
             $table->timestamps();
         });
     }

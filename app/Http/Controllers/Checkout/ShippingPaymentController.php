@@ -59,8 +59,8 @@ class ShippingPaymentController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'shipping' => 'required|numeric',
-            'payment' => 'required|numeric'
+            'shipping' => 'required|exists:deliveries,id',
+            'payment' => 'required|exists:payments,id'
         ]);
 
         session()->put('shipping', $request->shipping);

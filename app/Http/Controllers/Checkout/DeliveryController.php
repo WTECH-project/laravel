@@ -58,13 +58,13 @@ class DeliveryController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'name' => ['required', 'max:255', 'regex:/^[a-zA-Z]+$/'],
-            'surname' => ['required', 'max:255', 'regex:/^[a-zA-Z]+$/'],
+            'name' => ['required', 'max:255', 'regex:/^[A-Z][a-z]*$/'],
+            'surname' => ['required', 'max:255', 'regex:/^[A-Z][a-z]*$/'],
             'email' => ['required', 'email', 'max:255'],
             'phoneNumber' => ['required', 'digits:10'],
-            'country' => ['required'],
-            'city' => ['required', 'max:255', 'regex:/^[a-zA-Z]+$/'],
-            'street' => ['required', 'max:255', 'regex:/^[A-Z][a-z]*[ ][0-9]+$/'],
+            'country' => ['required', 'in:CZ,SK'],
+            'city' => ['required', 'max:255', 'regex:/^[A-Z][a-z]+$/'],
+            'street' => ['required', 'max:255', 'regex:/^[A-Z][a-z]* [A-Za-z0-9]+$/'],
             'psc' => ['required', 'digits:5'],
         ]);
 

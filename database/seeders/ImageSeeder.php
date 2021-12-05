@@ -15,7 +15,7 @@ class ImageSeeder extends Seeder
      */
     public function run()
     {
-        $dir = storage_path() . '/public/images';
+        $dir = storage_path('app/' . config('app.images_path'));
 
         if(!is_dir($dir)) {
             return;
@@ -27,14 +27,23 @@ class ImageSeeder extends Seeder
 
         $products = Product::get();
 
+        print_r($image_groups);
+
         foreach($products as $product) {
             $image_set = array();
             array_push($image_set, $image_groups[rand(2, count($image_groups) - 1)], $image_groups[rand(2, count($image_groups) - 1)]);
 
             foreach ($image_set as $image) {
-                $product->images()->create([
-                    'image_path' => $image
-                ]);
+                $path_parts = pathinfo($image);
+
+                $fileName = $product->id . '-' . md5($path_parts['basename']) . time() . '.' . $path_parts['extension'];
+                $copiedFile = copy($dir . $image, $dir . $fileName);
+
+                if($copiedFile) {
+                    $product->images()->create([
+                        'image_path' => $fileName
+                    ]);
+                }
             }
         }
     }
