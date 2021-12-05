@@ -37,9 +37,9 @@ class CartController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'product_id' => 'required|numeric',
+            'product_id' => 'required|exists:products,id',
             'quantity' => 'required|numeric',
-            'size_id' => 'required|numeric',
+            'size_id' => 'required|exists:sizes,id',
         ]);
 
         $cart = session()->get('cart');
@@ -146,8 +146,8 @@ class CartController extends Controller
     public function destroy(Request $request)
     {
         $this->validate($request, [
-            'product_id' => 'required|numeric',
-            'size_id' => 'required|numeric',
+            'product_id' => 'required|exists:products,id',
+            'size_id' => 'required|exists:sizes,id',
         ]);
 
         $cart = session()->get('cart');

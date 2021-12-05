@@ -181,6 +181,8 @@ class AdminController extends Controller
             'ids' => ['required'],
         ]);
 
+        dd($request);
+
         try {
             DB::beginTransaction();
 
