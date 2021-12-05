@@ -62,7 +62,7 @@ class DeliveryController extends Controller
             'surname' => ['required', 'max:255', 'regex:/^[a-zA-Z]+$/'],
             'email' => ['required', 'email', 'max:255'],
             'phoneNumber' => ['required', 'digits:10'],
-            'country' => ['required'],
+            'country' => ['required', 'in:CZ,SK'],
             'city' => ['required', 'max:255', 'regex:/^[a-zA-Z]+$/'],
             'street' => ['required', 'max:255', 'regex:/^[A-Z][a-z]*[ ][0-9]+$/'],
             'psc' => ['required', 'digits:5'],
