@@ -5,7 +5,7 @@
 'value' => old($name)
 ])
 
-<div class="flex flex-col" }}>
+<div class="{{ 'flex flex-col ' . $attributes->get('class')  }}">
     <label class="text-left text-gray-500" for="{{ $name }}">{{ $label }}</label>
     <input class="
         bg-white border-2 
