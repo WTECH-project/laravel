@@ -34,6 +34,7 @@ use Illuminate\Support\Facades\Storage;
             @endif
             
             @csrf
+            @method('PUT')
             <h3 class="font-semibold text-xl lg:text-2xl xl:text-2xl sm:mb-5">Úpravy produktu</h3>
             
             <x-forms.input-field

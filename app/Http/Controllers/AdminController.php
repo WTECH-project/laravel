@@ -53,9 +53,9 @@ class AdminController extends Controller
             'description' => 'required|string|max:255',
             'price' => 'required|numeric|min:0',
             'ids' => 'required|array',
-            //'ids.*' => 'exists:sizes,id',
+            'ids.*' => 'exists:sizes,id',
             'images' => 'required|array',
-            //'images.*' => 'image|mimes:jpg,jpeg,png'
+            'images.*' => 'image|mimes:jpg,jpeg,png'
         ]);
 
         try {
@@ -287,13 +287,21 @@ class AdminController extends Controller
     {
         $images = Image::where('product_id', $id)->get();
 
-        foreach ($images as $image) {
-            unlink(storage_path('\app\public\\' . $image->image_path));
-        }
-
-        if(!Product::destroy($id)) {
+        if (!Product::destroy($id)) {
             Log::error('Nastala chyba pri mazani produktu', ['product_id' => $id]);
             throw new \Illuminate\Database\Eloquent\ModelNotFoundException;
+        }
+
+        foreach ($images as $image) {
+            $filePath = config('app.images_path') . $image->image_path;
+
+            if(!file_exists($filePath)) {
+                Log::error('Obrazok nemozno vymazat, pretoze neexistuje', ['path' => $filePath]);
+                continue;
+            }
+            if (!unlink($filePath)) {
+                Log::error('Nastala chyba pri mazani obrazku produktu', ['product_id' => $id, 'image_path' => $image->image_path]);
+            }
         }
 
         if(Cache::has('product-' . $id)) {
@@ -302,7 +310,7 @@ class AdminController extends Controller
 
         Log::info('Administrator vymazal produkt', ['product_id' => $id]);
 
-        $products = Product::query()->get();
+        $products = Product::get();
 
         return view('admin.index')
             ->with('products', $products);
