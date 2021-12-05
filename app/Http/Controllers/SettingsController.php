@@ -48,7 +48,7 @@ class SettingsController extends Controller
             'phone_number' => ['required', 'digits:10'],
             'country' => ['required', 'in:CZ,SK'],
             'city' => ['required', 'max:255', 'regex:/^[A-Z][a-z]+$/'],
-            'street' => ['required', 'max:255', 'regex:/^[A-Z][a-z]* [A-Za-z0-9\/]+$/'],
+            'street' => ['required', 'max:255', 'regex:/^[A-Z][a-z]* [A-Za-z0-9]+$/'],
             'postcode' => ['required', 'digits:5'],
         ]);
 
