@@ -1,0 +1,25 @@
+version: '3.8'
+services:
+  app:
+    container_name: wtech_app
+    restart: unless-stopped
+    build: .
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgres
+  postgres:
+    image: "postgres:latest"
+    container_name: wtech_postgres
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: wtech
+      PGDATA: /var/lib/postgresql/data
+    volumes:
+      - db-data:/var/lib/postgresql/data
+volumes:
+    db-data:
