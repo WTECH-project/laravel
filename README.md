@@ -45,7 +45,7 @@ Create a web application - eshop, which comprehensively solves the use cases def
 https://github.com/WTECH-project/laravel.git
 ```
 
-2. Configure ./env or rename .env.example to .env
+2. Configure .env or rename .env.example to .env
 
 3. Build docker images:
 ```
